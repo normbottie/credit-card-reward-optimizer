@@ -6,3 +6,18 @@ compatibility_date = "2024-09-23"
 [[kv_namespaces]]
 binding = "REWARDS_KV"
 id = "f5eddd8a2d5d440895621f119f7ca477"
+
+# Weekly benefit check — Mondays at 14:00 UTC.
+[triggers]
+crons = ["0 14 * * 1"]
+
+[vars]
+CARDS_URL = "https://normbottie.github.io/credit-card-reward-optimizer/cards.json"
+APP_URL = "https://normbottie.github.io/credit-card-reward-optimizer/"
+PUBLIC_BASE = "https://rewards-sync.normbottie.workers.dev"
+CLAUDE_MODEL = "claude-sonnet-5"
+BATCH_SIZE = "8"
+
+# Secrets (set with `wrangler secret put <NAME>`, not stored here):
+#   SYNC_SECRET, MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE, ANTHROPIC_API_KEY, APPROVAL_SECRET
+#   FROM_EMAIL (optional — defaults to cards@norm.network)

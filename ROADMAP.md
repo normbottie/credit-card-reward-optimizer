@@ -8,26 +8,31 @@ This file tracks planned features and improvements for the Card Rewards Optimize
 
 ========================
 
-- [ ] Automated benefit change detection & cards.json updates
-  - Sync server runs a weekly cron job (e.g. Sunday night)
-  - Calls Claude API with web_search tool, checking each card for benefit changes
-  - Detected changes written to data/pending_updates.json with source URLs
-  - Two types of emails sent per weekly run:
-      1. Admin email (you): full list of all detected changes across all cards,
-         with Accept/Dismiss controls — you approve what goes into cards.json
-      2. Per-user emails: each non-admin user gets a read-only email showing only
-         changes relevant to cards in their own wallet, no approval controls
-  - If a non-admin user has no relevant changes that week, no email sent to them
-  - Admin always gets the full review email if any changes are detected
-  - Email matches app theme; wallet cards highlighted with teal border + "★ In your wallet" badge
-  - Non-wallet cards included but dimmed in all emails for full context
-  - Each change shows: card name, category, old value → new value, source URL
-  - CTA button in admin email links to app to review and accept/dismiss
-  - Accepted changes written directly to cards.json — no manual editing needed
-  - Every weekly run logged to data/check.log with timestamp and result summary
-  - Requires: ANTHROPIC_API_KEY, SMTP_HOST, SMTP_PORT, SMTP_USER,
-      SMTP_PASS, ADMIN_EMAIL, and per-user email addresses in sync.json
-  - Email template saved as email-template.html for reference
+- [x] Automated benefit change detection & approval  (built on the Cloudflare Worker)
+  - Cloudflare Worker cron runs the check weekly — Mondays 14:00 UTC (`crons` in wrangler.toml)
+  - Worker fetches cards.json + current overrides, calls Claude API (claude-sonnet-5) with the
+    web_search tool in batches, detecting benefit changes per card
+  - Detected changes stored in KV under `pending` with source URLs; runs logged in KV `checklog`
+  - Two email types per run, sent via Mailjet from cards@norm.network:
+      1. Admin email: every user with the admin toggle gets the full list of all detected
+         changes, each with Accept / Dismiss buttons (admins hold approval privileges)
+      2. Per-user emails: each non-admin gets a read-only email of only the changes for cards
+         in their own wallet, no approval controls
+  - No email to a non-admin with no relevant changes that week
+  - Email matches app theme; wallet cards get teal border + "★ In your wallet", others dimmed
+  - Each change shows: card name, category/fee/base, old value → new value, source link
+  - Approval is via HMAC-signed links in the admin email:
+      • GET /review shows a confirmation page (so mail-client prefetch can't auto-apply)
+      • POST /review applies it — Accept writes the change into the KV `overrides` overlay,
+        Dismiss discards it. Tampered/forged tokens are rejected (403).
+  - Accepted changes are NOT written to cards.json directly — they live in the KV overrides
+    overlay, which the app fetches from GET /overrides and merges over cards.json on load.
+    cards.json remains the hand-edited base; overrides are the approved deltas.
+  - Requires secrets: ANTHROPIC_API_KEY, APPROVAL_SECRET, MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE,
+    SYNC_SECRET (existing), and per-user emails + admin flags already in sync state
+  - Manual test trigger: GET /run-check (Bearer SYNC_SECRET). Inspect with GET /pending.
+  - Email template (email-template.html) was the design reference; the Worker generates the
+    live emails dynamically in the same style.
 
 - [x] Amazon Prime subscription toggle
   - Toggle in Settings: "Amazon Prime subscription active"
@@ -88,13 +93,25 @@ docker run -d --name rewards-sync -p 3002:3001 \
   --restart unless-stopped rewards-sync
 ```
 
-When adding the automated benefit detection feature, also pass:
+## Benefit-check Worker (Cloudflare)
+
+The benefit detection + approval feature lives in `worker.js` (deployed with wrangler),
+not the Docker sync server. To deploy / configure:
 
 ```bash
-  -e ANTHROPIC_API_KEY=sk-ant-... \
-  -e SMTP_HOST=mail.example.com \
-  -e SMTP_PORT=587 \
-  -e SMTP_USER=you@example.com \
-  -e SMTP_PASS=yourpassword \
-  -e ADMIN_EMAIL=you@example.com \
+# one-time: set the secrets (values are not stored in wrangler.toml)
+wrangler secret put ANTHROPIC_API_KEY     # Claude API key
+wrangler secret put APPROVAL_SECRET       # any long random string (signs approve links)
+wrangler secret put MJ_APIKEY_PUBLIC      # Mailjet public key
+wrangler secret put MJ_APIKEY_PRIVATE     # Mailjet private key
+# SYNC_SECRET already set; FROM_EMAIL optional (defaults to cards@norm.network)
+
+wrangler deploy
 ```
+
+Then in the Mailjet dashboard, verify **cards@norm.network** as a sender (or its domain),
+or the sends will be rejected.
+
+Cron schedule and non-secret config are in `wrangler.toml` (`[triggers]` + `[vars]`).
+Test without waiting for the cron: `curl -H "Authorization: Bearer <SYNC_SECRET>" \
+https://rewards-sync.normbottie.workers.dev/run-check`

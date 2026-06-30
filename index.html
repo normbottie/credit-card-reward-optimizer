@@ -350,6 +350,21 @@ function showDataError(){
   if(sec2) sec2.style.display='none';
 }
 
+// Merge admin-approved overrides (from the Worker) over the cards.json base.
+function _applyOverrides(ov){
+  if(!ov||typeof ov!=='object') return;
+  var rw=ov.rewards||{}, pk=ov.perks||{};
+  for(var card in rw){
+    R[card]=R[card]||{};
+    for(var cat in rw[card]){ R[card][cat]=rw[card][cat]; }
+  }
+  for(var c2 in pk){
+    PERKS[c2]=PERKS[c2]||{};
+    for(var f in pk[c2]){ PERKS[c2][f]=pk[c2][f]; }
+  }
+  if(ov.lastUpdated) cardsLastUpdated=ov.lastUpdated;
+}
+
 function loadCardsData(callback){
   fetch('cards.json?v='+Date.now())
     .then(function(r){
@@ -361,7 +376,13 @@ function loadCardsData(callback){
       R=data.rewards||{};
       PERKS=data.perks||{};
       cardsLastUpdated=data.lastUpdated||null;
-      if(callback) callback();
+      // Fetch approved overrides and merge before continuing. Non-fatal on failure.
+      var ovUrl=WORKER_URL.replace(/\/sync$/,'/overrides');
+      fetch(ovUrl,{headers:_syncHeaders()})
+        .then(function(r){return r.ok?r.json():null;})
+        .then(function(ov){_applyOverrides(ov);})
+        .catch(function(){})
+        .then(function(){ if(callback) callback(); });
     })
     .catch(function(){
       showDataError();
@@ -1263,7 +1284,7 @@ function getSettingsTabHtml(tab){
           '<span class="sl"></span></div></label></div>'+
       '<div style="margin-bottom:16px">'+
         '<div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:6px">Email</div>'+
-        '<input type="email" id="user-email-input" placeholder="you@example.com" value="'+email+'" autocomplete="off" style="width:100%;padding:9px 12px;font-size:16px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-family:inherit;outline:none;box-sizing:border-box">'+
+        '<input type="email" id="user-email-input" placeholder="you@example.com" value="'+email+'" autocomplete="off" style="width:100%;padding:9px 12px;font-size:13px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-family:inherit;outline:none;box-sizing:border-box">'+
         '<div style="font-size:11px;color:var(--text2);margin-top:4px">Used for benefit change notifications</div>'+
         '<button id="confirm-sub-btn" onclick="confirmSubscription()" style="margin-top:10px;padding:8px 14px;font-size:13px;font-weight:600;border:none;border-radius:8px;background:var(--btn);color:var(--btn-t);cursor:pointer;font-family:inherit">Confirm subscription</button>'+
         '<div id="confirm-sub-status" style="font-size:11px;margin-top:6px;min-height:14px"></div></div>'+
