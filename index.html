@@ -392,7 +392,8 @@ function _deepMerge(target,source){
     if(k==='users'&&typeof source[k]==='object'&&source[k]!==null){
       target.users=target.users||{};
       for(var u in source[k]){
-        target.users[u]=Object.assign({},target.users[u]||{},source[k][u]);
+        if(source[k][u]===null){ delete target.users[u]; }
+        else { target.users[u]=Object.assign({},target.users[u]||{},source[k][u]); }
       }
     } else {
       target[k]=source[k];
@@ -481,7 +482,14 @@ function confirmUserName(){
   document.body.style.overflow='';
   updateUserLabel();
   loadUserData();
-  var _nu={};_nu[activeUser]={cards:[],quarterly:{},prime:null};syncToServer({users:_nu});
+  // Only seed an empty profile if this user doesn't already exist on the server.
+  // Otherwise we'd overwrite their synced cards with empty arrays.
+  var existsOnServer=_syncState.users&&_syncState.users[activeUser];
+  if(!existsOnServer){
+    var _nu={};_nu[activeUser]={cards:[],quarterly:{},prime:null};syncToServer({users:_nu});
+  }
+  // Pull this user's data from the server (adopts cards if the profile exists elsewhere).
+  loadFromServer(function(serverData){applyServerData(serverData);});
 }
 
 function switchUser(name){
@@ -537,7 +545,7 @@ function renameUser(){
   inp.type='text';
   inp.value=oldName;
   inp.maxLength=30;
-  inp.style.cssText='width:100%;border:none;background:transparent;color:inherit;font-size:13px;font-family:inherit;outline:none;padding:0;min-width:60px';
+  inp.style.cssText='width:100%;border:none;background:transparent;color:inherit;font-size:16px;font-family:inherit;outline:none;padding:0;min-width:60px';
   pill.innerHTML='';
   pill.appendChild(inp);
   inp.focus();
@@ -674,6 +682,43 @@ function saveUserEmail(){
   var val=email.value.trim();
   try{localStorage.setItem(getUserKey('email'),val);}catch(e){}
   var _eu={};_eu[activeUser]={email:val};syncToServer({users:_eu});
+}
+
+function confirmSubscription(){
+  var inp=document.getElementById('user-email-input');
+  var btn=document.getElementById('confirm-sub-btn');
+  var status=document.getElementById('confirm-sub-status');
+  if(!inp||!btn) return;
+  var val=inp.value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)){
+    if(status){status.style.color='var(--bad,#d33)';status.textContent='Enter a valid email first.';}
+    return;
+  }
+  saveUserEmail();
+  if(!_isConfigured()){
+    if(status){status.style.color='var(--bad,#d33)';status.textContent='Sync server not configured.';}
+    return;
+  }
+  btn.disabled=true;
+  var oldLabel=btn.textContent;
+  btn.textContent='Sending…';
+  if(status){status.style.color='var(--text2)';status.textContent='';}
+  var url=WORKER_URL.replace(/\/sync\/?$/,'/subscribe');
+  fetch(url,{
+    method:'POST',
+    headers:_syncHeaders(),
+    body:JSON.stringify({email:val,user:activeUser})
+  }).then(function(r){
+    if(!r.ok) throw new Error('http '+r.status);
+    return r.json();
+  }).then(function(){
+    btn.textContent='Confirmation sent ✓';
+    if(status){status.style.color='var(--green,#16a34a)';status.textContent='Check '+val+' for the confirmation email.';}
+    setTimeout(function(){btn.disabled=false;btn.textContent=oldLabel;},4000);
+  }).catch(function(){
+    btn.disabled=false;btn.textContent=oldLabel;
+    if(status){status.style.color='var(--bad,#d33)';status.textContent='Could not send. Try again.';}
+  });
 }
 
 function setPrime(on){
@@ -1219,7 +1264,9 @@ function getSettingsTabHtml(tab){
       '<div style="margin-bottom:16px">'+
         '<div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:6px">Email</div>'+
         '<input type="email" id="user-email-input" placeholder="you@example.com" value="'+email+'" autocomplete="off" style="width:100%;padding:9px 12px;font-size:13px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-family:inherit;outline:none;box-sizing:border-box">'+
-        '<div style="font-size:11px;color:var(--text2);margin-top:4px">Used for benefit change notifications</div></div>'+
+        '<div style="font-size:11px;color:var(--text2);margin-top:4px">Used for benefit change notifications</div>'+
+        '<button id="confirm-sub-btn" onclick="confirmSubscription()" style="margin-top:10px;padding:8px 14px;font-size:13px;font-weight:600;border:none;border-radius:8px;background:var(--btn);color:var(--btn-t);cursor:pointer;font-family:inherit">Confirm subscription</button>'+
+        '<div id="confirm-sub-status" style="font-size:11px;margin-top:6px;min-height:14px"></div></div>'+
       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">'+
         '<div><div style="font-size:13px;color:var(--text)">Admin account</div>'+
         '<div style="font-size:11px;color:var(--text2);margin-top:2px">Receives full review email for all changes</div></div>'+
@@ -1442,7 +1489,11 @@ function applyServerData(serverData){
   if(!serverData) return;
   var changed=false;
   if(serverData.users&&typeof serverData.users==='object'){
-    Object.keys(serverData.users).forEach(function(u){
+    var serverUsers=Object.keys(serverData.users);
+    // Drop locally-cached users the server no longer has (i.e. deleted on another
+    // device), but never drop the currently active user. Then union in any new ones.
+    allUsers=allUsers.filter(function(u){return u===activeUser||serverUsers.indexOf(u)>=0;});
+    serverUsers.forEach(function(u){
       if(allUsers.indexOf(u)<0) allUsers.push(u);
     });
     saveUsers();
