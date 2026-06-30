@@ -1,0 +1,13 @@
+# Wrangler local cache & local secrets
+.wrangler/
+.dev.vars
+.dev.vars.*
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# OS cruft
+.DS_Store
