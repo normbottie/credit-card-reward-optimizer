@@ -1,0 +1,3579 @@
+{
+  "banks": {
+    "Amex": [
+      "Amex Gold Card",
+      "Amex Platinum Card",
+      "Amex Green Card",
+      "Amex Blue Cash Preferred",
+      "Amex Blue Cash Everyday",
+      "Amex Blue Business Plus",
+      "Amex Business Gold Card",
+      "Delta SkyMiles Gold Amex",
+      "Delta SkyMiles Platinum Amex",
+      "Delta SkyMiles Reserve Amex",
+      "Hilton Honors Amex Surpass",
+      "Hilton Honors Amex Aspire",
+      "Marriott Bonvoy Brilliant Amex"
+    ],
+    "Chase": [
+      "Chase Sapphire Preferred",
+      "Chase Sapphire Reserve",
+      "Chase Freedom Unlimited",
+      "Chase Freedom Flex",
+      "Chase Ink Business Preferred",
+      "Chase Ink Business Unlimited",
+      "Chase Ink Business Cash",
+      "Chase United Explorer",
+      "Chase Marriott Bonvoy Boundless",
+      "Chase Southwest Rapid Rewards Plus",
+      "Chase Amazon Prime Rewards Visa",
+      "Chase British Airways Visa"
+    ],
+    "Capital One": [
+      "Capital One Venture X",
+      "Capital One Venture Rewards",
+      "Capital One VentureOne",
+      "Capital One Quicksilver",
+      "Capital One SavorOne",
+      "Capital One Savor",
+      "Capital One Spark Miles",
+      "Capital One Spark Cash Plus"
+    ],
+    "Citi": [
+      "Citi Double Cash",
+      "Citi Premier",
+      "Citi Custom Cash",
+      "Citi Strata Premier",
+      "Citi Rewards+",
+      "Citi Best Buy Card",
+      "Costco Anywhere Visa by Citi"
+    ],
+    "Bank of America": [
+      "BofA Travel Rewards",
+      "BofA Premium Rewards",
+      "BofA Customized Cash Rewards",
+      "BofA Unlimited Cash Rewards",
+      "Alaska Airlines Visa Signature"
+    ],
+    "Wells Fargo": [
+      "Wells Fargo Active Cash",
+      "Wells Fargo Autograph",
+      "Wells Fargo Autograph Journey"
+    ],
+    "Discover": [
+      "Discover it Cash Back",
+      "Discover it Miles",
+      "Discover it Chrome"
+    ],
+    "Other": [
+      "Bilt Mastercard",
+      "Apple Card",
+      "PayPal Cashback Mastercard",
+      "Synchrony Premier Mastercard"
+    ]
+  },
+  "rewards": {
+    "Amex Gold Card": {
+      "Dining": {
+        "r": "4x points",
+        "n": "4x Membership Rewards at restaurants worldwide"
+      },
+      "Travel": {
+        "r": "3x points",
+        "n": "3x on flights booked directly or via Amex Travel"
+      },
+      "Groceries": {
+        "r": "4x points",
+        "n": "4x at US supermarkets (up to $25k/year, then 1x)"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "No gas bonus"
+      },
+      "Streaming": {
+        "r": "1x points",
+        "n": "No streaming bonus"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "1x points",
+        "n": "1x on hotels; use Amex Platinum for hotel bookings"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "No transit bonus"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x points",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Amex Platinum Card": {
+      "Dining": {
+        "r": "1x points",
+        "n": "No dining bonus; pair with Amex Gold for dining"
+      },
+      "Travel": {
+        "r": "5x points",
+        "n": "5x on flights booked directly or via Amex Travel (up to $500k/year)"
+      },
+      "Groceries": {
+        "r": "1x points",
+        "n": "No grocery bonus"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "No gas bonus"
+      },
+      "Streaming": {
+        "r": "1x points",
+        "n": "No streaming bonus"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "5x points",
+        "n": "5x on prepaid hotels booked via Amex Travel"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "No transit bonus"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x points",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Amex Green Card": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x at restaurants worldwide"
+      },
+      "Travel": {
+        "r": "3x points",
+        "n": "3x on travel including flights, hotels, transit, and rideshare"
+      },
+      "Groceries": {
+        "r": "1x points",
+        "n": "No grocery bonus"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "No gas bonus"
+      },
+      "Streaming": {
+        "r": "1x points",
+        "n": "No streaming bonus"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "3x points",
+        "n": "3x on hotels booked directly"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "3x points",
+        "n": "3x on transit including rideshare and taxis"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x points",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Amex Blue Cash Preferred": {
+      "Dining": {
+        "r": "1% cash back",
+        "n": "No dining bonus; use a different card for restaurants"
+      },
+      "Travel": {
+        "r": "1% cash back",
+        "n": "No travel bonus"
+      },
+      "Groceries": {
+        "r": "6% cash back",
+        "n": "6% at US supermarkets (up to $6k/year) \u2014 best-in-class grocery rate"
+      },
+      "Gas": {
+        "r": "3% cash back",
+        "n": "3% at US gas stations"
+      },
+      "Streaming": {
+        "r": "6% cash back",
+        "n": "6% on select US streaming subscriptions"
+      },
+      "Online Shopping": {
+        "r": "1% cash back",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "1% cash back",
+        "n": "No hotel bonus"
+      },
+      "Drugstore": {
+        "r": "1% cash back",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "3% cash back",
+        "n": "3% on transit including rideshare, taxis, and parking"
+      },
+      "Entertainment": {
+        "r": "1% cash back",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1% cash back",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      }
+    },
+    "Amex Blue Cash Everyday": {
+      "Dining": {
+        "r": "1% cash back",
+        "n": "No dining bonus"
+      },
+      "Travel": {
+        "r": "1% cash back",
+        "n": "No travel bonus"
+      },
+      "Groceries": {
+        "r": "3% cash back",
+        "n": "3% at US supermarkets (up to $6k/year)"
+      },
+      "Gas": {
+        "r": "2% cash back",
+        "n": "2% at US gas stations"
+      },
+      "Streaming": {
+        "r": "3% cash back",
+        "n": "3% on select US streaming subscriptions"
+      },
+      "Online Shopping": {
+        "r": "3% cash back",
+        "n": "3% on US online retail purchases (up to $6k/year)"
+      },
+      "Hotels": {
+        "r": "1% cash back",
+        "n": "No hotel bonus"
+      },
+      "Drugstore": {
+        "r": "1% cash back",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "No transit bonus"
+      },
+      "Entertainment": {
+        "r": "1% cash back",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1% cash back",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      }
+    },
+    "Amex Blue Business Plus": {
+      "Dining": {
+        "r": "2x points",
+        "n": "Flat 2x Membership Rewards on all purchases (up to $50k/year)"
+      },
+      "Travel": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases"
+      },
+      "Groceries": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases"
+      },
+      "Gas": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases"
+      },
+      "Streaming": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases"
+      },
+      "Online Shopping": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases"
+      },
+      "Hotels": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases"
+      },
+      "Drugstore": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases"
+      },
+      "Transit": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases"
+      },
+      "Entertainment": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases"
+      },
+      "Rent": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases"
+      },
+      "General": {
+        "r": "2x points",
+        "n": "Flat 2x on all purchases up to $50k/year"
+      }
+    },
+    "Amex Business Gold Card": {
+      "Dining": {
+        "r": "4x points",
+        "n": "4x in your top 2 spend categories each month (dining may qualify)"
+      },
+      "Travel": {
+        "r": "4x points",
+        "n": "4x in top 2 categories; airfare always 3x"
+      },
+      "Groceries": {
+        "r": "4x points",
+        "n": "4x if groceries is a top-2 spend category"
+      },
+      "Gas": {
+        "r": "4x points",
+        "n": "4x if gas is a top-2 spend category"
+      },
+      "Streaming": {
+        "r": "4x points",
+        "n": "4x if streaming is a top-2 spend category"
+      },
+      "Online Shopping": {
+        "r": "4x points",
+        "n": "4x if online shopping is a top-2 spend category"
+      },
+      "Hotels": {
+        "r": "1x points",
+        "n": "1x on hotels unless in top-2 category"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "1x unless in top-2 category"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "1x unless in top-2 category"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "1x unless in top-2 category"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "1x on rent"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Delta SkyMiles Gold Amex": {
+      "Dining": {
+        "r": "2x miles",
+        "n": "2x Delta SkyMiles at restaurants worldwide"
+      },
+      "Travel": {
+        "r": "2x miles",
+        "n": "2x on Delta purchases; 1x on other travel"
+      },
+      "Groceries": {
+        "r": "2x miles",
+        "n": "2x at US supermarkets"
+      },
+      "Gas": {
+        "r": "1x miles",
+        "n": "No gas bonus"
+      },
+      "Streaming": {
+        "r": "1x miles",
+        "n": "No streaming bonus"
+      },
+      "Online Shopping": {
+        "r": "1x miles",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "1x miles",
+        "n": "1x on hotels"
+      },
+      "Drugstore": {
+        "r": "1x miles",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "1x miles",
+        "n": "No transit bonus"
+      },
+      "Entertainment": {
+        "r": "1x miles",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x miles",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x miles",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x miles",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Delta SkyMiles Platinum Amex": {
+      "Dining": {
+        "r": "3x miles",
+        "n": "3x Delta SkyMiles at restaurants worldwide"
+      },
+      "Travel": {
+        "r": "3x miles",
+        "n": "3x on Delta purchases; 1x on other travel"
+      },
+      "Groceries": {
+        "r": "1x miles",
+        "n": "No grocery bonus"
+      },
+      "Gas": {
+        "r": "1x miles",
+        "n": "No gas bonus"
+      },
+      "Streaming": {
+        "r": "1x miles",
+        "n": "No streaming bonus"
+      },
+      "Online Shopping": {
+        "r": "1x miles",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "1x miles",
+        "n": "1x on hotels"
+      },
+      "Drugstore": {
+        "r": "1x miles",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "1x miles",
+        "n": "No transit bonus"
+      },
+      "Entertainment": {
+        "r": "1x miles",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x miles",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x miles",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x miles",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Delta SkyMiles Reserve Amex": {
+      "Dining": {
+        "r": "3x miles",
+        "n": "3x at restaurants; includes Amex Centurion Lounge access"
+      },
+      "Travel": {
+        "r": "3x miles",
+        "n": "3x on Delta purchases; access to Delta Sky Club"
+      },
+      "Groceries": {
+        "r": "1x miles",
+        "n": "No grocery bonus"
+      },
+      "Gas": {
+        "r": "1x miles",
+        "n": "No gas bonus"
+      },
+      "Streaming": {
+        "r": "1x miles",
+        "n": "No streaming bonus"
+      },
+      "Online Shopping": {
+        "r": "1x miles",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "1x miles",
+        "n": "1x on hotels"
+      },
+      "Drugstore": {
+        "r": "1x miles",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "1x miles",
+        "n": "No transit bonus"
+      },
+      "Entertainment": {
+        "r": "1x miles",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x miles",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x miles",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x miles",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Hilton Honors Amex Surpass": {
+      "Dining": {
+        "r": "6x points",
+        "n": "6x Hilton Honors points at US restaurants"
+      },
+      "Travel": {
+        "r": "3x points",
+        "n": "3x on all other eligible purchases"
+      },
+      "Groceries": {
+        "r": "6x points",
+        "n": "6x at US supermarkets"
+      },
+      "Gas": {
+        "r": "6x points",
+        "n": "6x at US gas stations"
+      },
+      "Streaming": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Online Shopping": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Hotels": {
+        "r": "12x points",
+        "n": "12x at Hilton properties worldwide"
+      },
+      "Drugstore": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Transit": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Entertainment": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Rent": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "General": {
+        "r": "3x points",
+        "n": "3x on all other eligible purchases"
+      }
+    },
+    "Hilton Honors Amex Aspire": {
+      "Dining": {
+        "r": "7x points",
+        "n": "7x Hilton Honors points at US restaurants"
+      },
+      "Travel": {
+        "r": "7x points",
+        "n": "7x on flights booked directly with airlines"
+      },
+      "Groceries": {
+        "r": "3x points",
+        "n": "3x on all other eligible purchases"
+      },
+      "Gas": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Streaming": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Online Shopping": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Hotels": {
+        "r": "14x points",
+        "n": "14x at Hilton properties worldwide \u2014 top-tier Hilton card"
+      },
+      "Drugstore": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Transit": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Entertainment": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Rent": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "General": {
+        "r": "3x points",
+        "n": "3x on all other eligible purchases"
+      }
+    },
+    "Marriott Bonvoy Brilliant Amex": {
+      "Dining": {
+        "r": "6x points",
+        "n": "6x Marriott Bonvoy points at restaurants worldwide"
+      },
+      "Travel": {
+        "r": "3x points",
+        "n": "3x on all other eligible purchases"
+      },
+      "Groceries": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Gas": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Streaming": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Online Shopping": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Hotels": {
+        "r": "6x points",
+        "n": "6x at Marriott Bonvoy properties worldwide"
+      },
+      "Drugstore": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Transit": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Entertainment": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "Rent": {
+        "r": "3x points",
+        "n": "3x on all other purchases"
+      },
+      "General": {
+        "r": "3x points",
+        "n": "3x on all other eligible purchases"
+      }
+    },
+    "Chase Sapphire Preferred": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x Ultimate Rewards on dining worldwide"
+      },
+      "Travel": {
+        "r": "2x points",
+        "n": "2x on travel; 5x on Chase Travel portal"
+      },
+      "Groceries": {
+        "r": "1x points",
+        "n": "No grocery bonus"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "No gas bonus"
+      },
+      "Streaming": {
+        "r": "3x points",
+        "n": "3x on select streaming services"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "2x points",
+        "n": "2x on travel including hotels"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "2x points",
+        "n": "2x on travel including transit"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x points",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Chase Sapphire Reserve": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x Ultimate Rewards; points worth 1.5c each via Chase Travel"
+      },
+      "Travel": {
+        "r": "5x points",
+        "n": "5x on flights and 10x on hotels/car rentals via Chase Travel; 3x on all other travel after $300 credit"
+      },
+      "Groceries": {
+        "r": "1x points",
+        "n": "No grocery bonus"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "No gas bonus"
+      },
+      "Streaming": {
+        "r": "1x points",
+        "n": "No streaming bonus"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "10x points",
+        "n": "10x on hotels via Chase Travel; 3x on hotels booked directly"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "3x points",
+        "n": "3x on travel including transit"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x points",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Chase Freedom Unlimited": {
+      "Dining": {
+        "r": "3% cash back",
+        "n": "3% on dining; pairs with Sapphire to convert to points"
+      },
+      "Travel": {
+        "r": "5% cash back",
+        "n": "5% on Chase Travel portal; 1.5% on all other travel"
+      },
+      "Groceries": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases including groceries"
+      },
+      "Gas": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Streaming": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Online Shopping": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Hotels": {
+        "r": "1.5% cash back",
+        "n": "1.5% on hotels (5% via Chase Travel)"
+      },
+      "Drugstore": {
+        "r": "3% cash back",
+        "n": "3% at drugstores"
+      },
+      "Transit": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Entertainment": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Rent": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "General": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% unlimited cash back on everything"
+      }
+    },
+    "Chase Freedom Flex": {
+      "Dining": {
+        "r": "3% cash back",
+        "n": "3% on dining; rotating 5% categories may include restaurants"
+      },
+      "Travel": {
+        "r": "5% cash back",
+        "n": "5% on Chase Travel portal; 1% elsewhere"
+      },
+      "Groceries": {
+        "r": "5% cash back",
+        "n": "5% when groceries is a rotating quarterly category"
+      },
+      "Gas": {
+        "r": "5% cash back",
+        "n": "5% when gas is a rotating quarterly category"
+      },
+      "Streaming": {
+        "r": "1% cash back",
+        "n": "1% unless streaming is a rotating quarterly category"
+      },
+      "Online Shopping": {
+        "r": "5% cash back",
+        "n": "5% when online shopping is a quarterly category"
+      },
+      "Hotels": {
+        "r": "1% cash back",
+        "n": "1% on hotels (5% via Chase Travel)"
+      },
+      "Drugstore": {
+        "r": "3% cash back",
+        "n": "3% at drugstores"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "1% on transit"
+      },
+      "Entertainment": {
+        "r": "1% cash back",
+        "n": "1% unless entertainment is a quarterly category"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% on rent"
+      },
+      "Home Improvement": {
+        "r": "3% cash back",
+        "n": "3% if home improvement is your chosen category (Home Depot, Lowes, etc.)"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      }
+    },
+    "Chase Ink Business Preferred": {
+      "Dining": {
+        "r": "1x points",
+        "n": "No dining bonus"
+      },
+      "Travel": {
+        "r": "3x points",
+        "n": "3x on travel (up to $150k combined/year)"
+      },
+      "Groceries": {
+        "r": "1x points",
+        "n": "No grocery bonus"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "No gas bonus"
+      },
+      "Streaming": {
+        "r": "3x points",
+        "n": "3x on streaming services (up to $150k combined)"
+      },
+      "Online Shopping": {
+        "r": "3x points",
+        "n": "3x on online advertising and shipping"
+      },
+      "Hotels": {
+        "r": "3x points",
+        "n": "3x on travel including hotels"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "3x points",
+        "n": "3x on travel including transit"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x points",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Chase Ink Business Unlimited": {
+      "Dining": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Travel": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Groceries": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Gas": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Streaming": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Online Shopping": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Hotels": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Drugstore": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Transit": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Entertainment": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Rent": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "General": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% unlimited cash back"
+      }
+    },
+    "Chase Ink Business Cash": {
+      "Dining": {
+        "r": "2% cash back",
+        "n": "2% at restaurants (up to $25k combined/year)"
+      },
+      "Travel": {
+        "r": "1% cash back",
+        "n": "1% on travel"
+      },
+      "Groceries": {
+        "r": "1% cash back",
+        "n": "1% on groceries"
+      },
+      "Gas": {
+        "r": "2% cash back",
+        "n": "2% at gas stations (up to $25k combined/year)"
+      },
+      "Streaming": {
+        "r": "5% cash back",
+        "n": "5% on internet, cable, and phone services (up to $25k combined)"
+      },
+      "Online Shopping": {
+        "r": "1% cash back",
+        "n": "1% on general online shopping; 5% at office supply stores (up to $25k combined)"
+      },
+      "Hotels": {
+        "r": "1% cash back",
+        "n": "1% on hotels"
+      },
+      "Drugstore": {
+        "r": "1% cash back",
+        "n": "1% on drugstores"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "1% on transit"
+      },
+      "Entertainment": {
+        "r": "1% cash back",
+        "n": "1% on entertainment"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% on rent"
+      },
+      "Home Improvement": {
+        "r": "3% cash back",
+        "n": "3% if home improvement is your chosen category (Home Depot, Lowes, etc.)"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      }
+    },
+    "Chase United Explorer": {
+      "Dining": {
+        "r": "2x miles",
+        "n": "2x United MileagePlus miles at restaurants"
+      },
+      "Travel": {
+        "r": "2x miles",
+        "n": "2x on United purchases and hotel stays"
+      },
+      "Groceries": {
+        "r": "1x miles",
+        "n": "1x on groceries"
+      },
+      "Gas": {
+        "r": "1x miles",
+        "n": "1x on gas"
+      },
+      "Streaming": {
+        "r": "1x miles",
+        "n": "1x on streaming"
+      },
+      "Online Shopping": {
+        "r": "1x miles",
+        "n": "1x on online shopping"
+      },
+      "Hotels": {
+        "r": "2x miles",
+        "n": "2x on hotel stays booked directly"
+      },
+      "Drugstore": {
+        "r": "1x miles",
+        "n": "1x on drugstores"
+      },
+      "Transit": {
+        "r": "1x miles",
+        "n": "1x on transit"
+      },
+      "Entertainment": {
+        "r": "1x miles",
+        "n": "1x on entertainment"
+      },
+      "Rent": {
+        "r": "1x miles",
+        "n": "1x on rent"
+      },
+      "General": {
+        "r": "1x miles",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Chase Marriott Bonvoy Boundless": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x Marriott Bonvoy points at restaurants"
+      },
+      "Travel": {
+        "r": "2x points",
+        "n": "2x on travel; 6x at Marriott properties"
+      },
+      "Groceries": {
+        "r": "2x points",
+        "n": "2x on grocery stores, gas stations, and select streaming"
+      },
+      "Gas": {
+        "r": "2x points",
+        "n": "2x at gas stations"
+      },
+      "Streaming": {
+        "r": "2x points",
+        "n": "2x on select streaming services"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "1x on online shopping"
+      },
+      "Hotels": {
+        "r": "6x points",
+        "n": "6x at Marriott Bonvoy properties worldwide"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "1x on drugstores"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "1x on transit"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "1x on entertainment"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "1x on rent"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Chase Southwest Rapid Rewards Plus": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x Rapid Rewards points on dining"
+      },
+      "Travel": {
+        "r": "2x points",
+        "n": "2x on Southwest purchases and hotel/car partners"
+      },
+      "Groceries": {
+        "r": "2x points",
+        "n": "2x at grocery stores"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "1x on gas"
+      },
+      "Streaming": {
+        "r": "2x points",
+        "n": "2x on select streaming services"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "1x on online shopping"
+      },
+      "Hotels": {
+        "r": "2x points",
+        "n": "2x on hotel and car rental partner purchases"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "1x on drugstores"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "1x on transit"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "1x on entertainment"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "1x on rent"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Chase Amazon Prime Rewards Visa": {
+      "Dining": {
+        "r": "2% cash back",
+        "n": "2% at restaurants"
+      },
+      "Travel": {
+        "r": "1% cash back",
+        "n": "1% on travel"
+      },
+      "Groceries": {
+        "r": "5% cash back",
+        "n": "5% at Whole Foods and Amazon with Prime membership"
+      },
+      "Gas": {
+        "r": "2% cash back",
+        "n": "2% at gas stations"
+      },
+      "Streaming": {
+        "r": "1% cash back",
+        "n": "1% on streaming"
+      },
+      "Online Shopping": {
+        "r": "5% cash back",
+        "n": "5% on Amazon.com with Prime membership"
+      },
+      "Hotels": {
+        "r": "1% cash back",
+        "n": "1% on hotels"
+      },
+      "Drugstore": {
+        "r": "2% cash back",
+        "n": "2% at drugstores"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "1% on transit"
+      },
+      "Entertainment": {
+        "r": "1% cash back",
+        "n": "1% on entertainment"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% on rent"
+      },
+      "Home Improvement": {
+        "r": "3% cash back",
+        "n": "3% if home improvement is your chosen category (Home Depot, Lowes, etc.)"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      }
+    },
+    "Chase British Airways Visa": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x Avios on dining purchases"
+      },
+      "Travel": {
+        "r": "3x points",
+        "n": "3x on British Airways, Iberia, Aer Lingus, and LEVEL purchases"
+      },
+      "Groceries": {
+        "r": "1x points",
+        "n": "1x on groceries"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "1x on gas"
+      },
+      "Streaming": {
+        "r": "1x points",
+        "n": "1x on streaming"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "1x on online shopping"
+      },
+      "Hotels": {
+        "r": "1x points",
+        "n": "1x on hotels"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "1x on drugstores"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "1x on transit"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "1x on entertainment"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "1x on rent"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Capital One Venture X": {
+      "Dining": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases including dining"
+      },
+      "Travel": {
+        "r": "10x miles",
+        "n": "10x on hotels and rental cars; 5x on flights via Capital One Travel"
+      },
+      "Groceries": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Gas": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Streaming": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Online Shopping": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Hotels": {
+        "r": "10x miles",
+        "n": "10x miles on hotels via Capital One Travel"
+      },
+      "Drugstore": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Transit": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Entertainment": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Rent": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "General": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      }
+    },
+    "Capital One Venture Rewards": {
+      "Dining": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Travel": {
+        "r": "5x miles",
+        "n": "5x on hotels and rental cars via Capital One Travel; 2x elsewhere"
+      },
+      "Groceries": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Gas": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Streaming": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Online Shopping": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Hotels": {
+        "r": "5x miles",
+        "n": "5x miles on hotels booked via Capital One Travel"
+      },
+      "Drugstore": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Transit": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Entertainment": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Rent": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "General": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      }
+    },
+    "Capital One VentureOne": {
+      "Dining": {
+        "r": "1.25x miles",
+        "n": "Flat 1.25x miles on all purchases"
+      },
+      "Travel": {
+        "r": "5x miles",
+        "n": "5x on hotels and rental cars via Capital One Travel; 1.25x elsewhere"
+      },
+      "Groceries": {
+        "r": "1.25x miles",
+        "n": "Flat 1.25x miles on all purchases"
+      },
+      "Gas": {
+        "r": "1.25x miles",
+        "n": "Flat 1.25x miles on all purchases"
+      },
+      "Streaming": {
+        "r": "1.25x miles",
+        "n": "Flat 1.25x miles on all purchases"
+      },
+      "Online Shopping": {
+        "r": "1.25x miles",
+        "n": "Flat 1.25x miles on all purchases"
+      },
+      "Hotels": {
+        "r": "5x miles",
+        "n": "5x miles on hotels via Capital One Travel"
+      },
+      "Drugstore": {
+        "r": "1.25x miles",
+        "n": "Flat 1.25x miles on all purchases"
+      },
+      "Transit": {
+        "r": "1.25x miles",
+        "n": "Flat 1.25x miles on all purchases"
+      },
+      "Entertainment": {
+        "r": "1.25x miles",
+        "n": "Flat 1.25x miles on all purchases"
+      },
+      "Rent": {
+        "r": "1.25x miles",
+        "n": "Flat 1.25x miles on all purchases"
+      },
+      "General": {
+        "r": "1.25x miles",
+        "n": "Flat 1.25x miles on all purchases"
+      }
+    },
+    "Capital One Quicksilver": {
+      "Dining": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Travel": {
+        "r": "5% cash back",
+        "n": "5% on hotels and rental cars via Capital One Travel; 1.5% elsewhere"
+      },
+      "Groceries": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Gas": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Streaming": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Online Shopping": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Hotels": {
+        "r": "5% cash back",
+        "n": "5% on hotels via Capital One Travel; 1.5% elsewhere"
+      },
+      "Drugstore": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Transit": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Entertainment": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Rent": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "General": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% unlimited cash back"
+      }
+    },
+    "Capital One SavorOne": {
+      "Dining": {
+        "r": "3% cash back",
+        "n": "3% at restaurants and food delivery"
+      },
+      "Travel": {
+        "r": "5% cash back",
+        "n": "5% on hotels and rental cars via Capital One Travel"
+      },
+      "Groceries": {
+        "r": "3% cash back",
+        "n": "3% at grocery stores (excluding Walmart/Target)"
+      },
+      "Gas": {
+        "r": "1% cash back",
+        "n": "1% on gas"
+      },
+      "Streaming": {
+        "r": "3% cash back",
+        "n": "3% on select streaming services"
+      },
+      "Online Shopping": {
+        "r": "1% cash back",
+        "n": "1% on online shopping"
+      },
+      "Hotels": {
+        "r": "5% cash back",
+        "n": "5% on hotels via Capital One Travel"
+      },
+      "Drugstore": {
+        "r": "1% cash back",
+        "n": "1% on drugstores"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "1% on transit"
+      },
+      "Entertainment": {
+        "r": "3% cash back",
+        "n": "3% on entertainment including concerts, movies, and sporting events"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% on rent"
+      },
+      "Home Improvement": {
+        "r": "3% cash back",
+        "n": "3% if home improvement is your chosen category (Home Depot, Lowes, etc.)"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      }
+    },
+    "Capital One Savor": {
+      "Dining": {
+        "r": "4% cash back",
+        "n": "4% at restaurants and food delivery (note: Savor is discontinued; new applicants are directed to SavorOne)"
+      },
+      "Travel": {
+        "r": "5% cash back",
+        "n": "5% on hotels and rental cars via Capital One Travel"
+      },
+      "Groceries": {
+        "r": "3% cash back",
+        "n": "3% at grocery stores"
+      },
+      "Gas": {
+        "r": "1% cash back",
+        "n": "1% on gas"
+      },
+      "Streaming": {
+        "r": "4% cash back",
+        "n": "4% on popular streaming services"
+      },
+      "Online Shopping": {
+        "r": "1% cash back",
+        "n": "1% on online shopping"
+      },
+      "Hotels": {
+        "r": "5% cash back",
+        "n": "5% on hotels via Capital One Travel"
+      },
+      "Drugstore": {
+        "r": "1% cash back",
+        "n": "1% on drugstores"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "1% on transit"
+      },
+      "Entertainment": {
+        "r": "4% cash back",
+        "n": "4% on entertainment including concerts, movies, sporting events"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% on rent"
+      },
+      "Home Improvement": {
+        "r": "3% cash back",
+        "n": "3% if home improvement is your chosen category (Home Depot, Lowes, etc.)"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      }
+    },
+    "Capital One Spark Miles": {
+      "Dining": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Travel": {
+        "r": "5x miles",
+        "n": "5x on hotels and rental cars via Capital One Travel; 2x elsewhere"
+      },
+      "Groceries": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Gas": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Streaming": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Online Shopping": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Hotels": {
+        "r": "5x miles",
+        "n": "5x on hotels via Capital One Travel"
+      },
+      "Drugstore": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Transit": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Entertainment": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "Rent": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      },
+      "General": {
+        "r": "2x miles",
+        "n": "Flat 2x miles on all purchases"
+      }
+    },
+    "Capital One Spark Cash Plus": {
+      "Dining": {
+        "r": "2% cash back",
+        "n": "Flat 2% cash back on all purchases"
+      },
+      "Travel": {
+        "r": "5% cash back",
+        "n": "5% on hotels and rental cars via Capital One Travel; 2% elsewhere"
+      },
+      "Groceries": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Gas": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Streaming": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Online Shopping": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Hotels": {
+        "r": "5% cash back",
+        "n": "5% on hotels via Capital One Travel"
+      },
+      "Drugstore": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Transit": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Entertainment": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Rent": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "General": {
+        "r": "2% cash back",
+        "n": "Flat 2% unlimited cash back"
+      }
+    },
+    "Citi Double Cash": {
+      "Dining": {
+        "r": "2% cash back",
+        "n": "1% when you buy + 1% when you pay \u2014 simple and consistent"
+      },
+      "Travel": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Groceries": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Gas": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Streaming": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Online Shopping": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Hotels": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Drugstore": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Transit": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Entertainment": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Rent": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "General": {
+        "r": "2% cash back",
+        "n": "Flat 2% unlimited cash back \u2014 no categories to track"
+      }
+    },
+    "Citi Premier": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x ThankYou Points at restaurants (note: Citi Premier has been rebranded as Citi Strata Premier)"
+      },
+      "Travel": {
+        "r": "3x points",
+        "n": "3x on air travel and hotels"
+      },
+      "Groceries": {
+        "r": "3x points",
+        "n": "3x at supermarkets"
+      },
+      "Gas": {
+        "r": "3x points",
+        "n": "3x at gas stations"
+      },
+      "Streaming": {
+        "r": "1x points",
+        "n": "No streaming bonus"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "3x points",
+        "n": "3x on hotels"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "No transit bonus"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x points",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Citi Custom Cash": {
+      "Dining": {
+        "r": "5% cash back",
+        "n": "5% automatically in your top eligible spend category each billing cycle (up to $500)"
+      },
+      "Travel": {
+        "r": "5% cash back",
+        "n": "5% if travel is your top spend category this billing cycle"
+      },
+      "Groceries": {
+        "r": "5% cash back",
+        "n": "5% if groceries is your top spend category"
+      },
+      "Gas": {
+        "r": "5% cash back",
+        "n": "5% if gas is your top spend category"
+      },
+      "Streaming": {
+        "r": "5% cash back",
+        "n": "5% if streaming is your top spend category"
+      },
+      "Online Shopping": {
+        "r": "5% cash back",
+        "n": "5% if online shopping is your top spend category"
+      },
+      "Hotels": {
+        "r": "5% cash back",
+        "n": "5% if hotels is your top spend category"
+      },
+      "Drugstore": {
+        "r": "5% cash back",
+        "n": "5% if drugstores is your top spend category"
+      },
+      "Transit": {
+        "r": "5% cash back",
+        "n": "5% if transit is your top spend category"
+      },
+      "Entertainment": {
+        "r": "5% cash back",
+        "n": "5% if entertainment is your top spend category"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "Rent is not an eligible 5% category; 1% applies"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all non-top-category purchases"
+      }
+    },
+    "Citi Strata Premier": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x ThankYou Points at restaurants"
+      },
+      "Travel": {
+        "r": "3x points",
+        "n": "3x on air travel and travel agencies"
+      },
+      "Groceries": {
+        "r": "3x points",
+        "n": "3x at supermarkets"
+      },
+      "Gas": {
+        "r": "3x points",
+        "n": "3x at gas stations and EV charging"
+      },
+      "Streaming": {
+        "r": "1x points",
+        "n": "No streaming bonus"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "10x points",
+        "n": "10x on hotels and car rentals booked via CitiTravel.com"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "No transit bonus"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x points",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Citi Rewards+": {
+      "Dining": {
+        "r": "2x points",
+        "n": "2x ThankYou Points at restaurants and supermarkets (up to $6k/year combined)"
+      },
+      "Travel": {
+        "r": "1x points",
+        "n": "1x on travel"
+      },
+      "Groceries": {
+        "r": "2x points",
+        "n": "2x at supermarkets (up to $6k/year combined with dining)"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "1x on gas"
+      },
+      "Streaming": {
+        "r": "1x points",
+        "n": "1x on streaming"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "1x on online shopping"
+      },
+      "Hotels": {
+        "r": "1x points",
+        "n": "1x on hotels"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "1x on drugstores"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "1x on transit"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "1x on entertainment"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "1x on rent"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x; points rounded up to nearest 10"
+      }
+    },
+    "Citi Best Buy Card": {
+      "Dining": {
+        "r": "2% cash back",
+        "n": "2% on eligible dining and bar purchases"
+      },
+      "Travel": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      },
+      "Groceries": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      },
+      "Gas": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      },
+      "Streaming": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      },
+      "Online Shopping": {
+        "r": "5% cash back",
+        "n": "5% back in rewards on BestBuy.com and Best Buy store purchases"
+      },
+      "Hotels": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      },
+      "Drugstore": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      },
+      "Entertainment": {
+        "r": "2% cash back",
+        "n": "2% on eligible entertainment purchases"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases; best used for Best Buy purchases"
+      }
+    },
+    "Costco Anywhere Visa by Citi": {
+      "Dining": {
+        "r": "3% cash back",
+        "n": "3% on restaurant and eligible travel purchases"
+      },
+      "Travel": {
+        "r": "3% cash back",
+        "n": "3% on eligible travel purchases worldwide"
+      },
+      "Groceries": {
+        "r": "2% cash back",
+        "n": "2% on all Costco and Costco.com purchases"
+      },
+      "Gas": {
+        "r": "4% cash back",
+        "n": "4% on eligible gas and EV charging (up to $7k/year, then 1%)"
+      },
+      "Streaming": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      },
+      "Online Shopping": {
+        "r": "2% cash back",
+        "n": "2% on Costco.com; 1% elsewhere"
+      },
+      "Hotels": {
+        "r": "3% cash back",
+        "n": "3% on eligible travel"
+      },
+      "Drugstore": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "1% on transit"
+      },
+      "Entertainment": {
+        "r": "1% cash back",
+        "n": "1% on entertainment"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% on rent"
+      },
+      "Home Improvement": {
+        "r": "3% cash back",
+        "n": "3% if home improvement is your chosen category (Home Depot, Lowes, etc.)"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      }
+    },
+    "BofA Travel Rewards": {
+      "Dining": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x; Preferred Rewards members earn up to 2.62x"
+      },
+      "Travel": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases including travel"
+      },
+      "Groceries": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases"
+      },
+      "Gas": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases"
+      },
+      "Streaming": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases"
+      },
+      "Online Shopping": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases"
+      },
+      "Hotels": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases"
+      },
+      "Drugstore": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases"
+      },
+      "Transit": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases"
+      },
+      "Entertainment": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases"
+      },
+      "Rent": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases"
+      },
+      "General": {
+        "r": "1.5x points",
+        "n": "Flat 1.5x on all purchases; no annual fee"
+      }
+    },
+    "BofA Premium Rewards": {
+      "Dining": {
+        "r": "2x points",
+        "n": "2x on dining and travel purchases"
+      },
+      "Travel": {
+        "r": "2x points",
+        "n": "2x on travel purchases"
+      },
+      "Groceries": {
+        "r": "1.5x points",
+        "n": "1.5x on all other purchases"
+      },
+      "Gas": {
+        "r": "1.5x points",
+        "n": "1.5x on all other purchases"
+      },
+      "Streaming": {
+        "r": "1.5x points",
+        "n": "1.5x on all other purchases"
+      },
+      "Online Shopping": {
+        "r": "1.5x points",
+        "n": "1.5x on all other purchases"
+      },
+      "Hotels": {
+        "r": "2x points",
+        "n": "2x on travel including hotels"
+      },
+      "Drugstore": {
+        "r": "1.5x points",
+        "n": "1.5x on all other purchases"
+      },
+      "Transit": {
+        "r": "2x points",
+        "n": "2x on travel including transit"
+      },
+      "Entertainment": {
+        "r": "1.5x points",
+        "n": "1.5x on all other purchases"
+      },
+      "Rent": {
+        "r": "1.5x points",
+        "n": "1.5x on all other purchases"
+      },
+      "General": {
+        "r": "1.5x points",
+        "n": "1.5x on all other purchases"
+      }
+    },
+    "BofA Customized Cash Rewards": {
+      "Dining": {
+        "r": "3% cash back",
+        "n": "3% in your chosen category (dining may be selected); 2% at grocery stores"
+      },
+      "Travel": {
+        "r": "3% cash back",
+        "n": "3% if travel is your chosen category"
+      },
+      "Groceries": {
+        "r": "2% cash back",
+        "n": "2% at grocery stores and wholesale clubs (up to $2,500/quarter combined)"
+      },
+      "Gas": {
+        "r": "3% cash back",
+        "n": "3% if gas and EV charging is your chosen category"
+      },
+      "Streaming": {
+        "r": "3% cash back",
+        "n": "3% if online shopping/streaming is your chosen category"
+      },
+      "Online Shopping": {
+        "r": "3% cash back",
+        "n": "3% if online shopping is your chosen category"
+      },
+      "Hotels": {
+        "r": "3% cash back",
+        "n": "3% if travel is your chosen category"
+      },
+      "Drugstore": {
+        "r": "3% cash back",
+        "n": "3% if drug stores is your chosen category"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "1% on transit"
+      },
+      "Entertainment": {
+        "r": "1% cash back",
+        "n": "1% on entertainment"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% on rent"
+      },
+      "Home Improvement": {
+        "r": "3% cash back",
+        "n": "3% if home improvement is your chosen category (Home Depot, Lowes, etc.)"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      }
+    },
+    "BofA Unlimited Cash Rewards": {
+      "Dining": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5%; Preferred Rewards members earn up to 2.62%"
+      },
+      "Travel": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Groceries": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Gas": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Streaming": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Online Shopping": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Hotels": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Drugstore": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Transit": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Entertainment": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "Rent": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% on all purchases"
+      },
+      "General": {
+        "r": "1.5% cash back",
+        "n": "Flat 1.5% unlimited cash back"
+      }
+    },
+    "Alaska Airlines Visa Signature": {
+      "Dining": {
+        "r": "1x miles",
+        "n": "1x Alaska Mileage Plan miles on dining"
+      },
+      "Travel": {
+        "r": "3x miles",
+        "n": "3x on Alaska Airlines purchases"
+      },
+      "Groceries": {
+        "r": "1x miles",
+        "n": "1x on groceries"
+      },
+      "Gas": {
+        "r": "2x miles",
+        "n": "2x at gas and EV charging stations"
+      },
+      "Streaming": {
+        "r": "1x miles",
+        "n": "1x on streaming"
+      },
+      "Online Shopping": {
+        "r": "1x miles",
+        "n": "1x on online shopping"
+      },
+      "Hotels": {
+        "r": "1x miles",
+        "n": "1x on hotels"
+      },
+      "Drugstore": {
+        "r": "1x miles",
+        "n": "1x on drugstores"
+      },
+      "Transit": {
+        "r": "1x miles",
+        "n": "1x on transit"
+      },
+      "Entertainment": {
+        "r": "1x miles",
+        "n": "1x on entertainment"
+      },
+      "Rent": {
+        "r": "1x miles",
+        "n": "1x on rent"
+      },
+      "General": {
+        "r": "1x miles",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Wells Fargo Active Cash": {
+      "Dining": {
+        "r": "2% cash back",
+        "n": "Flat 2% unlimited cash rewards on all purchases"
+      },
+      "Travel": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Groceries": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Gas": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Streaming": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Online Shopping": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Hotels": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Drugstore": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Transit": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Entertainment": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Rent": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "General": {
+        "r": "2% cash back",
+        "n": "Flat 2% unlimited cash back \u2014 no categories to track"
+      }
+    },
+    "Wells Fargo Autograph": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x on restaurants"
+      },
+      "Travel": {
+        "r": "3x points",
+        "n": "3x on airlines, hotels, car rentals, and cruises"
+      },
+      "Groceries": {
+        "r": "1x points",
+        "n": "No grocery bonus"
+      },
+      "Gas": {
+        "r": "3x points",
+        "n": "3x at gas stations and EV charging"
+      },
+      "Streaming": {
+        "r": "3x points",
+        "n": "3x on popular streaming services"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "3x points",
+        "n": "3x on hotels"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "3x points",
+        "n": "3x on transit and rideshare"
+      },
+      "Entertainment": {
+        "r": "3x points",
+        "n": "3x on entertainment including concerts and sporting events"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x points",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Wells Fargo Autograph Journey": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x on restaurants"
+      },
+      "Travel": {
+        "r": "4x points",
+        "n": "4x on airlines; 3x on other travel"
+      },
+      "Groceries": {
+        "r": "1x points",
+        "n": "No grocery bonus"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "No gas bonus"
+      },
+      "Streaming": {
+        "r": "1x points",
+        "n": "No streaming bonus"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "No online shopping bonus"
+      },
+      "Hotels": {
+        "r": "5x points",
+        "n": "5x on hotels booked directly"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "No drugstore bonus"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "No transit bonus"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "No entertainment bonus"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "No rent bonus"
+      },
+      "Home Improvement": {
+        "r": "1x points",
+        "n": "No home improvement bonus"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Discover it Cash Back": {
+      "Dining": {
+        "r": "5% cash back",
+        "n": "5% when dining is the rotating quarterly category; 1% otherwise"
+      },
+      "Travel": {
+        "r": "1% cash back",
+        "n": "1% unless travel is a quarterly category"
+      },
+      "Groceries": {
+        "r": "5% cash back",
+        "n": "5% when groceries is a rotating quarterly category"
+      },
+      "Gas": {
+        "r": "5% cash back",
+        "n": "5% when gas is a rotating quarterly category"
+      },
+      "Streaming": {
+        "r": "1% cash back",
+        "n": "1% unless streaming is a quarterly category"
+      },
+      "Online Shopping": {
+        "r": "5% cash back",
+        "n": "5% when online shopping is a quarterly category"
+      },
+      "Hotels": {
+        "r": "1% cash back",
+        "n": "1% on hotels"
+      },
+      "Drugstore": {
+        "r": "1% cash back",
+        "n": "1% unless drugstores is a quarterly category"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "1% on transit"
+      },
+      "Entertainment": {
+        "r": "1% cash back",
+        "n": "1% unless entertainment is a quarterly category"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% on rent"
+      },
+      "Home Improvement": {
+        "r": "1% cash back",
+        "n": "Discover does not offer home improvement as a bonus category"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all non-category purchases; first-year cash back matched"
+      }
+    },
+    "Discover it Miles": {
+      "Dining": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases; first-year miles matched"
+      },
+      "Travel": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases"
+      },
+      "Groceries": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases"
+      },
+      "Gas": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases"
+      },
+      "Streaming": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases"
+      },
+      "Online Shopping": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases"
+      },
+      "Hotels": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases"
+      },
+      "Drugstore": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases"
+      },
+      "Transit": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases"
+      },
+      "Entertainment": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases"
+      },
+      "Rent": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases"
+      },
+      "Home Improvement": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles on all purchases including home improvement"
+      },
+      "General": {
+        "r": "1.5x miles",
+        "n": "Flat 1.5x miles; first-year miles doubled"
+      }
+    },
+    "Discover it Chrome": {
+      "Dining": {
+        "r": "2% cash back",
+        "n": "2% at restaurants (up to $1k/quarter combined with gas)"
+      },
+      "Travel": {
+        "r": "1% cash back",
+        "n": "1% on travel"
+      },
+      "Groceries": {
+        "r": "1% cash back",
+        "n": "1% on groceries"
+      },
+      "Gas": {
+        "r": "2% cash back",
+        "n": "2% at gas stations (up to $1k/quarter combined with dining)"
+      },
+      "Streaming": {
+        "r": "1% cash back",
+        "n": "1% on streaming"
+      },
+      "Online Shopping": {
+        "r": "1% cash back",
+        "n": "1% on online shopping"
+      },
+      "Hotels": {
+        "r": "1% cash back",
+        "n": "1% on hotels"
+      },
+      "Drugstore": {
+        "r": "1% cash back",
+        "n": "1% on drugstores"
+      },
+      "Transit": {
+        "r": "1% cash back",
+        "n": "1% on transit"
+      },
+      "Entertainment": {
+        "r": "1% cash back",
+        "n": "1% on entertainment"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% on rent"
+      },
+      "Home Improvement": {
+        "r": "1% cash back",
+        "n": "Discover does not offer home improvement as a bonus category"
+      },
+      "General": {
+        "r": "1% cash back",
+        "n": "1% on all other purchases"
+      }
+    },
+    "Bilt Mastercard": {
+      "Dining": {
+        "r": "3x points",
+        "n": "3x Bilt points on dining (must make 5 transactions per statement period to earn points)"
+      },
+      "Travel": {
+        "r": "2x points",
+        "n": "2x on travel purchases"
+      },
+      "Groceries": {
+        "r": "1x points",
+        "n": "1x on groceries"
+      },
+      "Gas": {
+        "r": "1x points",
+        "n": "1x on gas"
+      },
+      "Streaming": {
+        "r": "1x points",
+        "n": "1x on streaming"
+      },
+      "Online Shopping": {
+        "r": "1x points",
+        "n": "1x on online shopping"
+      },
+      "Hotels": {
+        "r": "2x points",
+        "n": "2x on travel including hotels"
+      },
+      "Drugstore": {
+        "r": "1x points",
+        "n": "1x on drugstores"
+      },
+      "Transit": {
+        "r": "1x points",
+        "n": "1x on transit"
+      },
+      "Entertainment": {
+        "r": "1x points",
+        "n": "1x on entertainment"
+      },
+      "Rent": {
+        "r": "1x points",
+        "n": "1x on rent with no transaction fees \u2014 unique benefit among all cards"
+      },
+      "General": {
+        "r": "1x points",
+        "n": "1x on all other purchases"
+      }
+    },
+    "Apple Card": {
+      "Dining": {
+        "r": "2% cash back",
+        "n": "2% Daily Cash via Apple Pay; 1% with physical titanium card"
+      },
+      "Travel": {
+        "r": "2% cash back",
+        "n": "2% via Apple Pay; 1% with physical card"
+      },
+      "Groceries": {
+        "r": "2% cash back",
+        "n": "2% via Apple Pay; 1% with physical card"
+      },
+      "Gas": {
+        "r": "2% cash back",
+        "n": "2% via Apple Pay; 1% with physical card"
+      },
+      "Streaming": {
+        "r": "3% cash back",
+        "n": "3% on Apple subscriptions (TV+, Arcade, Music, etc.)"
+      },
+      "Online Shopping": {
+        "r": "3% cash back",
+        "n": "3% at Apple Store and select partners like Nike, Uber, Walgreens"
+      },
+      "Hotels": {
+        "r": "2% cash back",
+        "n": "2% via Apple Pay"
+      },
+      "Drugstore": {
+        "r": "3% cash back",
+        "n": "3% at Walgreens and Duane Reade via Apple Pay"
+      },
+      "Transit": {
+        "r": "2% cash back",
+        "n": "2% via Apple Pay"
+      },
+      "Entertainment": {
+        "r": "2% cash back",
+        "n": "2% via Apple Pay"
+      },
+      "Rent": {
+        "r": "1% cash back",
+        "n": "1% if landlord doesn't accept Apple Pay"
+      },
+      "General": {
+        "r": "2% cash back",
+        "n": "2% via Apple Pay on all other purchases"
+      }
+    },
+    "PayPal Cashback Mastercard": {
+      "Dining": {
+        "r": "3% cash back",
+        "n": "3% when paying with PayPal; 1.5% elsewhere"
+      },
+      "Travel": {
+        "r": "3% cash back",
+        "n": "3% when paying with PayPal; 1.5% elsewhere"
+      },
+      "Groceries": {
+        "r": "3% cash back",
+        "n": "3% when paying with PayPal; 1.5% elsewhere"
+      },
+      "Gas": {
+        "r": "3% cash back",
+        "n": "3% when paying with PayPal; 1.5% elsewhere"
+      },
+      "Streaming": {
+        "r": "3% cash back",
+        "n": "3% when paying with PayPal; 1.5% elsewhere"
+      },
+      "Online Shopping": {
+        "r": "3% cash back",
+        "n": "3% when paying with PayPal checkout \u2014 ideal for online purchases"
+      },
+      "Hotels": {
+        "r": "3% cash back",
+        "n": "3% when paying with PayPal; 1.5% elsewhere"
+      },
+      "Drugstore": {
+        "r": "3% cash back",
+        "n": "3% when paying with PayPal; 1.5% elsewhere"
+      },
+      "Transit": {
+        "r": "1.5% cash back",
+        "n": "1.5% on transit"
+      },
+      "Entertainment": {
+        "r": "3% cash back",
+        "n": "3% when paying with PayPal; 1.5% elsewhere"
+      },
+      "Rent": {
+        "r": "1.5% cash back",
+        "n": "1.5% on rent"
+      },
+      "General": {
+        "r": "1.5% cash back",
+        "n": "1.5% on all non-PayPal purchases"
+      }
+    },
+    "Synchrony Premier Mastercard": {
+      "Dining": {
+        "r": "2% cash back",
+        "n": "Flat 2% unlimited cash back on all purchases"
+      },
+      "Travel": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Groceries": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Gas": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Streaming": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Online Shopping": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Hotels": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Drugstore": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Transit": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Entertainment": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "Rent": {
+        "r": "2% cash back",
+        "n": "Flat 2% on all purchases"
+      },
+      "General": {
+        "r": "2% cash back",
+        "n": "Flat 2% unlimited cash back \u2014 no annual fee"
+      }
+    }
+  },
+  "perks": {
+    "Amex Gold Card": {
+      "fee": "$325/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "$120 dining credit ($10/mo at Grubhub, Cheesecake Factory, etc.)",
+        "$120 Uber Cash ($10/mo, Uber Eats or Uber rides)",
+        "$100 Resy credit",
+        "No foreign transaction fees",
+        "Travel and purchase protections"
+      ]
+    },
+    "Amex Platinum Card": {
+      "fee": "$695/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "$200 hotel credit (prepaid Fine Hotels + Resorts or The Hotel Collection)",
+        "$200 airline fee credit",
+        "$240 digital entertainment credit",
+        "$155 Walmart+ credit",
+        "$300 Equinox credit",
+        "$200 Uber Cash",
+        "$189 CLEAR Plus credit",
+        "Global Lounge Collection access (Centurion, Priority Pass, Delta, etc.)",
+        "TSA PreCheck or Global Entry fee credit",
+        "No foreign transaction fees"
+      ]
+    },
+    "Amex Green Card": {
+      "fee": "$150/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "$189 CLEAR Plus credit",
+        "$100 LoungeBuddy credit",
+        "No foreign transaction fees",
+        "Trip delay and cancellation insurance",
+        "Purchase protection"
+      ]
+    },
+    "Amex Blue Cash Preferred": {
+      "fee": "$0 first year, then $95/year",
+      "base": "1% on all other purchases",
+      "perks": [
+        "0% intro APR on purchases for 12 months",
+        "Return protection",
+        "Extended warranty",
+        "Purchase protection",
+        "No welcome bonus on Disney Bundle or Equinox+ credits"
+      ]
+    },
+    "Amex Blue Cash Everyday": {
+      "fee": "$0",
+      "base": "1% on all other purchases",
+      "perks": [
+        "0% intro APR on purchases for 15 months",
+        "Return protection",
+        "Extended warranty",
+        "Purchase protection",
+        "No foreign transaction fees"
+      ]
+    },
+    "Amex Blue Business Plus": {
+      "fee": "$0",
+      "base": "1x after $50k/year (then 1x)",
+      "perks": [
+        "Employee cards at no additional cost",
+        "Extended warranty",
+        "Purchase protection",
+        "No foreign transaction fees",
+        "Points transfer to Amex airline and hotel partners"
+      ]
+    },
+    "Amex Business Gold Card": {
+      "fee": "$375/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "4x in top 2 spend categories each month (auto-adjusts)",
+        "$240 flexible business credit ($20/mo on eligible purchases)",
+        "No foreign transaction fees",
+        "Extended warranty",
+        "Purchase protection",
+        "Employee cards at no additional cost"
+      ]
+    },
+    "Delta SkyMiles Gold Amex": {
+      "fee": "$0 first year, then $150/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "First checked bag free on Delta flights",
+        "20% savings on in-flight purchases",
+        "Priority boarding",
+        "No foreign transaction fees",
+        "$200 Delta flight credit after $10k spend/year"
+      ]
+    },
+    "Delta SkyMiles Platinum Amex": {
+      "fee": "$350/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "First checked bag free on Delta flights",
+        "Companion certificate each year",
+        "15% discount on award redemptions",
+        "Priority boarding",
+        "TSA PreCheck/Global Entry credit",
+        "No foreign transaction fees",
+        "$2,500 MQDs each calendar year"
+      ]
+    },
+    "Delta SkyMiles Reserve Amex": {
+      "fee": "$650/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "Delta Sky Club access (15 visits/year; unlimited with $75k spend)",
+        "Amex Centurion Lounge access",
+        "First checked bag free",
+        "Companion certificate each year",
+        "TSA PreCheck/Global Entry credit",
+        "No foreign transaction fees",
+        "$2,500 MQDs each calendar year"
+      ]
+    },
+    "Hilton Honors Amex Surpass": {
+      "fee": "$150/year",
+      "base": "3x on all other eligible purchases",
+      "perks": [
+        "Hilton Honors Gold status",
+        "10 Priority Pass lounge visits per year",
+        "Free night reward after $15k spend/year",
+        "No foreign transaction fees",
+        "Complimentary 5th night free on award stays of 5+ nights"
+      ]
+    },
+    "Hilton Honors Amex Aspire": {
+      "fee": "$550/year",
+      "base": "3x on all other eligible purchases",
+      "perks": [
+        "Hilton Honors Diamond status (top tier)",
+        "$400 Hilton resort credit",
+        "$200 airline fee credit",
+        "$100 on-property credit at Waldorf Astoria and Conrad",
+        "Priority Pass Select membership",
+        "Free night reward each year",
+        "No foreign transaction fees"
+      ]
+    },
+    "Marriott Bonvoy Brilliant Amex": {
+      "fee": "$650/year",
+      "base": "2x on all other eligible purchases",
+      "perks": [
+        "Marriott Bonvoy Platinum Elite status",
+        "$300 dining credit",
+        "$100 on-property credit at Ritz-Carlton and St. Regis",
+        "Free night award up to 85,000 points each year",
+        "Priority Pass Select membership (unlimited visits)",
+        "Global Entry or TSA PreCheck credit",
+        "No foreign transaction fees"
+      ]
+    },
+    "Chase Sapphire Preferred": {
+      "fee": "$95/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "Points worth 1.25c each via Chase Travel",
+        "Transfer to 14 airline and hotel partners at 1:1",
+        "$50 annual hotel credit via Chase Travel",
+        "Trip cancellation/interruption insurance",
+        "Primary car rental insurance",
+        "No foreign transaction fees",
+        "Extended warranty and purchase protection"
+      ]
+    },
+    "Chase Sapphire Reserve": {
+      "fee": "$550/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "Points worth 1.5c each via Chase Travel",
+        "Transfer to 14 airline and hotel partners at 1:1",
+        "$300 annual travel credit (auto-applied)",
+        "Priority Pass Select lounge access (unlimited)",
+        "Global Entry or TSA PreCheck credit",
+        "Primary car rental insurance",
+        "Trip cancellation/interruption insurance",
+        "No foreign transaction fees"
+      ]
+    },
+    "Chase Freedom Unlimited": {
+      "fee": "$0",
+      "base": "1.5% on all other purchases",
+      "perks": [
+        "0% intro APR for 15 months",
+        "Pairs with Sapphire cards to convert cash back to points",
+        "Trip cancellation insurance",
+        "Extended warranty",
+        "Purchase protection",
+        "No annual fee"
+      ]
+    },
+    "Chase Freedom Flex": {
+      "fee": "$0",
+      "base": "1% on all other purchases",
+      "perks": [
+        "0% intro APR for 15 months",
+        "5% categories rotate quarterly (activate each quarter, up to $1,500)",
+        "Pairs with Sapphire cards to convert cash back to points",
+        "Cell phone protection",
+        "Trip cancellation insurance",
+        "No annual fee"
+      ]
+    },
+    "Chase Ink Business Preferred": {
+      "fee": "$95/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "Points worth 1.25c each via Chase Travel",
+        "Transfer to 14 airline and hotel partners at 1:1",
+        "Cell phone protection (up to $1,000/claim, 3 claims/year)",
+        "Trip cancellation insurance",
+        "No foreign transaction fees",
+        "Employee cards at no additional cost"
+      ]
+    },
+    "Chase Ink Business Unlimited": {
+      "fee": "$0",
+      "base": "1.5% on all other purchases",
+      "perks": [
+        "Pairs with Ink Preferred or Sapphire to convert to points",
+        "0% intro APR for 12 months",
+        "Purchase protection",
+        "Extended warranty",
+        "No foreign transaction fees",
+        "Employee cards at no additional cost"
+      ]
+    },
+    "Chase Ink Business Cash": {
+      "fee": "$0",
+      "base": "1% on all other purchases",
+      "perks": [
+        "Pairs with Ink Preferred or Sapphire to convert to points",
+        "0% intro APR for 12 months",
+        "Purchase protection",
+        "Extended warranty",
+        "No foreign transaction fees",
+        "Employee cards at no additional cost"
+      ]
+    },
+    "Chase United Explorer": {
+      "fee": "$0 first year, then $95/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "First checked bag free (you and one companion)",
+        "2 United Club one-time passes per year",
+        "25% back on United in-flight purchases",
+        "Priority boarding",
+        "Global Entry or TSA PreCheck credit",
+        "No foreign transaction fees"
+      ]
+    },
+    "Chase Marriott Bonvoy Boundless": {
+      "fee": "$95/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "Marriott Bonvoy Silver Elite status",
+        "1 Free Night Award each year (up to 35,000 points)",
+        "15 Elite Night Credits each year",
+        "No foreign transaction fees",
+        "Complimentary 5th night free on award stays of 5+ nights"
+      ]
+    },
+    "Chase Southwest Rapid Rewards Plus": {
+      "fee": "$69/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "2 EarlyBird Check-In credits per year",
+        "3,000 bonus points each cardmember anniversary",
+        "25% back on in-flight purchases",
+        "No foreign transaction fees",
+        "Counts toward Companion Pass qualification"
+      ]
+    },
+    "Chase Amazon Prime Rewards Visa": {
+      "fee": "$0 (requires Prime membership)",
+      "base": "1% on all other purchases",
+      "perks": [
+        "No annual fee (Prime membership required)",
+        "No foreign transaction fees",
+        "Extended warranty",
+        "Travel and emergency assistance",
+        "Baggage delay insurance"
+      ]
+    },
+    "Chase British Airways Visa": {
+      "fee": "$95/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "10% off British Airways flights when booking with Avios",
+        "Travel Together Ticket after $30k spend/year (companion award ticket)",
+        "No foreign transaction fees",
+        "Trip cancellation and interruption insurance",
+        "Lost luggage reimbursement"
+      ]
+    },
+    "Capital One Venture X": {
+      "fee": "$395/year",
+      "base": "2x on all other purchases",
+      "perks": [
+        "$300 annual travel credit via Capital One Travel",
+        "10,000 bonus miles every anniversary",
+        "Priority Pass lounge access (unlimited)",
+        "Capital One Lounge access",
+        "Global Entry or TSA PreCheck credit",
+        "No foreign transaction fees",
+        "Transfer to 15+ airline and hotel partners",
+        "Travel accident and car rental insurance"
+      ]
+    },
+    "Capital One Venture Rewards": {
+      "fee": "$95/year",
+      "base": "2x on all other purchases",
+      "perks": [
+        "Global Entry or TSA PreCheck credit",
+        "Transfer to 15+ airline and hotel partners",
+        "No foreign transaction fees",
+        "Travel accident insurance",
+        "Extended warranty",
+        "Purchase protection"
+      ]
+    },
+    "Capital One VentureOne": {
+      "fee": "$0",
+      "base": "1.25x on all other purchases",
+      "perks": [
+        "No annual fee",
+        "No foreign transaction fees",
+        "Transfer to 15+ airline and hotel partners",
+        "Travel accident insurance",
+        "Extended warranty"
+      ]
+    },
+    "Capital One Quicksilver": {
+      "fee": "$0",
+      "base": "1.5% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "No foreign transaction fees",
+        "Extended warranty",
+        "Travel accident insurance",
+        "Purchase protection"
+      ]
+    },
+    "Capital One SavorOne": {
+      "fee": "$0",
+      "base": "1% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "No foreign transaction fees",
+        "Extended warranty",
+        "Travel accident insurance",
+        "Purchase protection"
+      ]
+    },
+    "Capital One Savor": {
+      "fee": "$95/year (discontinued)",
+      "base": "1% on all other purchases",
+      "perks": [
+        "No foreign transaction fees",
+        "Extended warranty",
+        "Travel accident insurance",
+        "Purchase protection"
+      ]
+    },
+    "Capital One Spark Miles": {
+      "fee": "$0 first year, then $95/year",
+      "base": "2x on all other purchases",
+      "perks": [
+        "Global Entry or TSA PreCheck credit",
+        "Transfer to 15+ airline and hotel partners",
+        "No foreign transaction fees",
+        "Extended warranty",
+        "Purchase protection",
+        "Employee cards at no additional cost"
+      ]
+    },
+    "Capital One Spark Cash Plus": {
+      "fee": "$150/year",
+      "base": "2% on all other purchases",
+      "perks": [
+        "No preset spending limit",
+        "$200 annual cash bonus after $200k spend/year",
+        "No foreign transaction fees",
+        "Extended warranty",
+        "Purchase protection",
+        "Employee cards at no additional cost"
+      ]
+    },
+    "Citi Double Cash": {
+      "fee": "$0",
+      "base": "2% on all other purchases (1% when you buy + 1% when you pay)",
+      "perks": [
+        "No annual fee",
+        "0% intro APR on balance transfers for 18 months",
+        "Late fee waiver first time",
+        "Citi Entertainment access",
+        "Identity theft protection"
+      ]
+    },
+    "Citi Premier": {
+      "fee": "$95/year (rebranded as Citi Strata Premier)",
+      "base": "1x on all other purchases",
+      "perks": [
+        "$100 annual hotel benefit on $500+ hotel bookings",
+        "Transfer to 15+ airline partners",
+        "No foreign transaction fees",
+        "Citi Entertainment access",
+        "Trip cancellation protection"
+      ]
+    },
+    "Citi Custom Cash": {
+      "fee": "$0",
+      "base": "1% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "5% automatically applied to top eligible spend category each billing cycle (up to $500)",
+        "0% intro APR for 15 months",
+        "Citi Entertainment access",
+        "Identity theft protection"
+      ]
+    },
+    "Citi Strata Premier": {
+      "fee": "$95/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "$100 annual hotel benefit on $500+ hotel bookings via CitiTravel.com",
+        "10x on hotels and car rentals via CitiTravel.com",
+        "Transfer to 15+ airline partners",
+        "No foreign transaction fees",
+        "Citi Entertainment access",
+        "Trip cancellation and interruption insurance"
+      ]
+    },
+    "Citi Rewards+": {
+      "fee": "$0",
+      "base": "1x (rounded up to nearest 10 points)",
+      "perks": [
+        "No annual fee",
+        "Points rounded up to nearest 10 on every purchase",
+        "10% points back on first 100,000 points redeemed per year",
+        "0% intro APR for 15 months",
+        "Citi Entertainment access"
+      ]
+    },
+    "Citi Best Buy Card": {
+      "fee": "$0",
+      "base": "1% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "Deferred financing promotions at Best Buy",
+        "Free shipping on Best Buy purchases",
+        "Early access to sales events",
+        "0% promotional financing offers available"
+      ]
+    },
+    "Costco Anywhere Visa by Citi": {
+      "fee": "$0 (requires Costco membership)",
+      "base": "1% on all other purchases",
+      "perks": [
+        "No annual fee (Costco membership required ~$65-$130/year)",
+        "Rewards paid annually as a certificate redeemable at Costco",
+        "No foreign transaction fees",
+        "Damage and theft purchase protection",
+        "Extended warranty",
+        "Travel accident insurance"
+      ]
+    },
+    "BofA Travel Rewards": {
+      "fee": "$0",
+      "base": "1.5x on all other purchases",
+      "perks": [
+        "No annual fee",
+        "No foreign transaction fees",
+        "Points never expire",
+        "Preferred Rewards members earn 25-75% more points",
+        "Chip and travel insurance",
+        "Lost luggage reimbursement"
+      ]
+    },
+    "BofA Premium Rewards": {
+      "fee": "$95/year",
+      "base": "1.5x on all other purchases",
+      "perks": [
+        "$100 airline incidental credit",
+        "$100 Global Entry or TSA PreCheck credit",
+        "No foreign transaction fees",
+        "Preferred Rewards members earn up to 75% more points",
+        "Trip delay insurance",
+        "Lost luggage reimbursement"
+      ]
+    },
+    "BofA Customized Cash Rewards": {
+      "fee": "$0",
+      "base": "1% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "Choose your 3% category (gas, online shopping, dining, travel, drug stores, or home improvement)",
+        "Can change category once per calendar month",
+        "Preferred Rewards members earn 25-75% more cash back",
+        "0% intro APR for 18 billing cycles",
+        "No expiration on rewards"
+      ]
+    },
+    "BofA Unlimited Cash Rewards": {
+      "fee": "$0",
+      "base": "1.5% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "No foreign transaction fees",
+        "Preferred Rewards members earn up to 2.62% on all purchases",
+        "0% intro APR for 18 billing cycles",
+        "No expiration on rewards"
+      ]
+    },
+    "Alaska Airlines Visa Signature": {
+      "fee": "$75/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "Companion Fare each year from $122 ($99 + taxes/fees)",
+        "Free checked bag for you and up to 6 companions",
+        "20% back on Alaska purchases",
+        "No foreign transaction fees",
+        "Alaska Lounge+ membership discount"
+      ]
+    },
+    "Wells Fargo Active Cash": {
+      "fee": "$0",
+      "base": "2% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "0% intro APR for 15 months",
+        "Cell phone protection (up to $600, $25 deductible)",
+        "Visa Signature concierge service",
+        "No foreign transaction fees"
+      ]
+    },
+    "Wells Fargo Autograph": {
+      "fee": "$0",
+      "base": "1x on all other purchases",
+      "perks": [
+        "No annual fee",
+        "0% intro APR for 12 months",
+        "Cell phone protection (up to $600, $25 deductible)",
+        "Auto rental collision damage waiver",
+        "No foreign transaction fees",
+        "Roadside dispatch"
+      ]
+    },
+    "Wells Fargo Autograph Journey": {
+      "fee": "$95/year",
+      "base": "1x on all other purchases",
+      "perks": [
+        "$50 annual airline credit",
+        "Transfer to airline partners",
+        "Cell phone protection",
+        "No foreign transaction fees",
+        "Auto rental collision damage waiver",
+        "Trip cancellation and interruption protection"
+      ]
+    },
+    "Discover it Cash Back": {
+      "fee": "$0",
+      "base": "1% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "No foreign transaction fees",
+        "Free Social Security number alerts",
+        "Free FICO credit score",
+        "Freeze account in app",
+        "No late fee on first late payment"
+      ]
+    },
+    "Discover it Miles": {
+      "fee": "$0",
+      "base": "1.5x on all other purchases",
+      "perks": [
+        "No annual fee",
+        "No foreign transaction fees",
+        "Redeem miles for travel statement credits or cash",
+        "Free FICO credit score",
+        "Freeze account in app",
+        "No late fee on first late payment"
+      ]
+    },
+    "Discover it Chrome": {
+      "fee": "$0",
+      "base": "1% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "No foreign transaction fees",
+        "Free FICO credit score",
+        "Freeze account in app",
+        "No late fee on first late payment"
+      ]
+    },
+    "Bilt Mastercard": {
+      "fee": "$0",
+      "base": "1x on all other purchases (must make 5 transactions/month)",
+      "perks": [
+        "No annual fee",
+        "No transaction fees on rent payments",
+        "Transfer to 14 airline and hotel partners at 1:1",
+        "Double points on first day of each month (Rent Day)",
+        "Cell phone protection",
+        "Purchase protection",
+        "No foreign transaction fees",
+        "Trip cancellation insurance"
+      ]
+    },
+    "Apple Card": {
+      "fee": "$0",
+      "base": "1% with physical card; 2% via Apple Pay",
+      "perks": [
+        "No annual fee",
+        "No late fees, no foreign transaction fees, no over-limit fees",
+        "Daily Cash deposited to Apple Cash the next day",
+        "0% financing on Apple purchases with monthly installments",
+        "Titanium physical card",
+        "No card number (stored in Wallet app for security)",
+        "Weekly and monthly spending summaries in Wallet app"
+      ]
+    },
+    "PayPal Cashback Mastercard": {
+      "fee": "$0",
+      "base": "1.5% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "No foreign transaction fees",
+        "Cash back deposited directly to PayPal balance",
+        "No minimum redemption",
+        "Visa/Mastercard purchase protections"
+      ]
+    },
+    "Synchrony Premier Mastercard": {
+      "fee": "$0",
+      "base": "2% on all other purchases",
+      "perks": [
+        "No annual fee",
+        "No foreign transaction fees",
+        "Cash back deposited as statement credit",
+        "No category restrictions",
+        "Mastercard ID Theft Protection"
+      ]
+    }
+  },
+  "lastUpdated": "May 18, 2026"
+}

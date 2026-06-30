@@ -1,0 +1,8 @@
+name = "rewards-sync"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+
+# After running `wrangler kv namespace create REWARDS_KV`, paste the returned id below.
+[[kv_namespaces]]
+binding = "REWARDS_KV"
+id = "f5eddd8a2d5d440895621f119f7ca477"

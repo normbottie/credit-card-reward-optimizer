@@ -1,0 +1,20 @@
+{
+  "name": "Card Rewards Optimizer",
+  "short_name": "Rewards",
+  "description": "Find which credit card earns the most rewards for each spending category.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#8b929e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='80' fill='%232aaa9c'/><rect x='64' y='128' width='384' height='240' rx='48' fill='%230d4a44'/><rect x='64' y='128' width='384' height='88' rx='48' fill='%23C8920A'/><rect x='64' y='184' width='384' height='32' fill='%23C8920A'/><rect x='112' y='292' width='96' height='32' rx='16' fill='white' opacity='0.7'/><rect x='240' y='292' width='64' height='32' rx='16' fill='white' opacity='0.45'/><rect x='336' y='292' width='80' height='32' rx='16' fill='white' opacity='0.45'/></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "utilities"],
+  "lang": "en-US"
+}

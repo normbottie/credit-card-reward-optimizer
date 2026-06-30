@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#8b929e">
+
+<!-- PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Rewards">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+
+<!-- Apple touch icon (inline SVG as data URI) -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='80' fill='%232aaa9c'/><rect x='64' y='128' width='384' height='240' rx='48' fill='%230d4a44'/><rect x='64' y='128' width='384' height='88' rx='48' fill='%23C8920A'/><rect x='64' y='184' width='384' height='32' fill='%23C8920A'/><rect x='112' y='292' width='96' height='32' rx='16' fill='white' opacity='0.7'/><rect x='240' y='292' width='64' height='32' rx='16' fill='white' opacity='0.45'/><rect x='336' y='292' width='80' height='32' rx='16' fill='white' opacity='0.45'/></svg>">
+
+<title>Card Rewards Optimizer</title>
+<script>
+// Must run before CSS renders to prevent flash
+try{
+  if(localStorage.getItem('cc_dark')==='1'){
+    document.documentElement.setAttribute('data-theme','dark');
+  }
+}catch(e){}
+try{
+  var _cs=JSON.parse(localStorage.getItem('cc_collapse')||'{}');
+  // Inject a style tag that instantly hides collapsed sections before paint
+  var _css='';
+  if(_cs.step2!==false) _css+='#step2-body{display:none!important;}#step2-summary{display:block!important;}';
+  if(_css){var _st=document.createElement('style');_st.id='collapse-fouc';_st.textContent=_css;document.head.appendChild(_st);}
+}catch(e){}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%232aaa9c'/><rect x='8' y='16' width='48' height='30' rx='6' fill='%230d4a44'/><rect x='8' y='16' width='48' height='11' rx='6' fill='%23C8920A'/><rect x='8' y='22' width='48' height='5' fill='%23C8920A'/><rect x='14' y='36' width='12' height='4' rx='2' fill='white' opacity='0.7'/><rect x='30' y='36' width='8' height='4' rx='2' fill='white' opacity='0.45'/><rect x='42' y='36' width='10' height='4' rx='2' fill='white' opacity='0.45'/></svg>">
+<style>
+:root {
+  --bg:#f8fafc; --surface:#ffffff; --border:#e5e7eb; --border2:#d1d5db;
+  --text:#111111; --text2:#6b7280;
+  --chip-bg:#eff6ff; --chip-border:#bfdbfe; --chip-text:#1e40af; --chip-rm:#93c5fd;
+  --cat-bg:#ffffff; --cat-hover:#eff6ff; --cat-hover-b:#93c5fd;
+  --cat-on:#eff6ff; --cat-on-b:#3b82f6; --cat-on-t:#1d4ed8;
+  --btn:#111111; --btn-t:#ffffff; --btn-h:#333333;
+  --res-bg:#f9fafb; --res-b:#e5e7eb; --res-div:#f3f4f6;
+  --green:#16a34a; --badge-bg:#dcfce7; --badge-t:#15803d;
+  --dis:#9ca3af; --gold:#d97706; --rank:#9ca3af;
+  --tog:#e5e7eb;
+}
+[data-theme="dark"] {
+  --bg:#0f1117; --surface:#1a1d27; --border:#2d3148; --border2:#3d4160;
+  --text:#f0f2f8; --text2:#8b92b3;
+  --chip-bg:#1e2540; --chip-border:#3b4a7a; --chip-text:#93aff5; --chip-rm:#4a63b5;
+  --cat-bg:#1a1d27; --cat-hover:#1e2540; --cat-hover-b:#4a63b5;
+  --cat-on:#1e2540; --cat-on-b:#6080e0; --cat-on-t:#93aff5;
+  --btn:#6080e0; --btn-t:#ffffff; --btn-h:#4a63b5;
+  --res-bg:#151821; --res-b:#2d3148; --res-div:#222536;
+  --green:#4ade80; --badge-bg:#14301e; --badge-t:#4ade80;
+  --dis:#4a4f6a; --gold:#fbbf24; --rank:#555c82;
+  --tog:#4b5563;
+}
+*{box-sizing:border-box;margin:0;padding:0;transition:background-color .3s ease,border-color .3s ease,color .3s ease}
+button,select,input{transition:background-color .3s ease,border-color .3s ease,color .3s ease,opacity .3s ease}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:24px 16px;padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom));padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));max-width:700px;margin:0 auto;background:var(--bg);color:var(--text)}
+h1{font-size:22px;margin-bottom:8px;color:var(--text);transition:color .3s ease}
+.hint{font-size:14px;color:var(--text2);margin-bottom:8px}
+.section{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:14px;overflow:hidden}
+.sec-header{display:flex;align-items:center;justify-content:space-between;padding:16px;cursor:pointer;user-select:none;-webkit-user-select:none;transition:padding .3s cubic-bezier(0.4,0,1,1)}
+#sec1.sec1-collapsed .sec-header{padding-bottom:6px}
+.sec-header h2{font-size:15px;color:var(--text);margin:0;pointer-events:none;user-select:none;-webkit-user-select:none}
+.sec-header .toggle-icon{color:var(--text2);transition:transform .3s ease,color .3s ease;pointer-events:none;user-select:none;-webkit-user-select:none;display:block;flex-shrink:0;transform-origin:center center}
+.sec-header .toggle-icon.open{transform:rotate(180deg)}
+.sec-body{padding:0 16px;overflow:hidden;max-height:3000px;transition:max-height .4s cubic-bezier(0.0,0,0.2,1),padding .4s cubic-bezier(0.0,0,0.2,1),opacity .25s ease;opacity:1;padding-bottom:8px}
+.sec-body.collapsed{max-height:0;padding-top:0;padding-bottom:0;opacity:0;transition:max-height .3s cubic-bezier(0.4,0,1,1),padding .3s cubic-bezier(0.4,0,1,1),opacity .2s ease}
+.sec-summary{font-size:13px;color:var(--text2);padding:0 16px 14px;overflow:hidden;max-height:0;transition:max-height .3s ease,opacity .3s ease;opacity:0}
+.sec-summary.visible{max-height:200px;opacity:1}
+select{padding:8px 10px;font-size:14px;border:1px solid var(--border2);border-radius:8px;width:100%;margin-bottom:8px;background:var(--surface);color:var(--text);-webkit-tap-highlight-color:transparent;outline:none}
+button{padding:8px 16px;margin:2px;cursor:pointer;border:1px solid var(--border2);border-radius:8px;background:var(--surface);font-size:14px;color:var(--text);transition:background .15s}
+button:hover{background:var(--res-bg)}
+.add-btn{background:var(--btn);color:var(--btn-t);border:none;border-radius:8px;padding:11px 20px;font-size:14px;cursor:pointer;width:100%;margin-top:4px;font-weight:500;display:block;transition:background-color .3s ease,color .3s ease}
+.add-btn:hover{background:var(--btn-h)}
+.add-btn:disabled{background:var(--dis);cursor:default}
+#cards-list{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:4px 0;flex-wrap:nowrap;-webkit-mask-image:linear-gradient(to right,transparent 0,black 20px,black calc(100% - 20px),transparent 100%);mask-image:linear-gradient(to right,transparent 0,black 20px,black calc(100% - 20px),transparent 100%)}
+#cards-list::-webkit-scrollbar{display:none}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--chip-bg);border:1px solid var(--chip-border);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--chip-text);white-space:nowrap;flex-shrink:0;cursor:default;transition:opacity .15s,transform .15s;user-select:none;-webkit-user-select:none;line-height:1}
+.chip.dragging{opacity:.4;transform:scale(.95)}
+.chip.drag-over{border-color:var(--cat-on-b)}
+.chip-handle{cursor:grab;color:var(--chip-rm);font-size:14px;padding:0 2px;user-select:none;-webkit-user-select:none;line-height:1;touch-action:none;display:flex;align-items:center;transform:translateY(-1px)}
+.chip-handle:active{cursor:grabbing}
+.rm{background:none!important;border:none!important;color:var(--chip-rm);cursor:pointer;font-size:14px;padding:0;margin:0;line-height:1;transition:color .3s ease;display:flex;align-items:center}
+.rm:hover{color:var(--chip-text)!important}
+.bank-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;justify-content:center}
+.bank-btn{padding:8px 6px;font-size:12px;border:1px solid var(--border);border-radius:8px;background:var(--cat-bg);color:var(--text2);cursor:pointer;text-align:center;line-height:1.3;transition:background-color .3s ease,border-color .3s ease,color .3s ease;display:flex;align-items:center;justify-content:center;width:130px;height:52px;flex-grow:0;flex-shrink:0}
+
+.bank-btn:hover{background:var(--cat-hover);border-color:var(--cat-hover-b);color:var(--text)}
+.bank-btn.on{background:var(--cat-on);border-color:var(--cat-on-b);color:var(--cat-on-t);font-weight:500}
+.card-msg{font-size:12px;color:var(--text2);padding:6px 0 2px;opacity:0;transition:opacity .2s ease;text-align:center}
+.card-pick{margin-top:0;overflow:hidden;max-height:0;opacity:0;transition:max-height .35s cubic-bezier(0.4,0,0.2,1),opacity .3s ease,margin-top .35s ease}
+.card-pick.open{max-height:200px;opacity:1;margin-top:10px}
+.card-pick-btns{display:flex;gap:8px;margin-top:4px}
+.card-pick-btns .add-btn{flex:1;margin:0}
+.card-pick-btns .preview-btn-inline{flex:1;margin:0;background:none;border:0.5px solid var(--border2);color:var(--text);border-radius:8px;padding:11px 20px;font-size:14px;cursor:pointer;font-weight:500;text-align:center}
+.card-pick-btns .preview-btn-inline:hover{background:var(--res-bg)}
+.card-pick-btns .preview-btn-inline:disabled{opacity:.4;cursor:default}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.cat-btn{padding:10px 4px;font-size:13px;border:1px solid var(--border);border-radius:8px;background:var(--cat-bg);color:var(--text2);cursor:pointer;text-align:center;line-height:1.4;transition:background-color .3s ease,border-color .3s ease,color .3s ease}
+.cat-btn:hover{background:var(--cat-hover);border-color:var(--cat-hover-b);color:var(--text)}
+.cat-btn.on{background:var(--cat-on);border-color:var(--cat-on-b);color:var(--cat-on-t);font-weight:500}
+.go-btn{background:var(--btn);color:var(--btn-t);border:none;border-radius:8px;padding:11px 20px;font-size:14px;cursor:pointer;width:100%;margin-top:4px;font-weight:500;transition:background-color .3s ease,color .3s ease,border-color .3s ease}
+.go-btn:hover{background:var(--btn-h)}
+.go-btn:disabled{background:var(--dis);cursor:default}
+.res-box{margin-top:12px;background:var(--res-bg);border:1px solid var(--res-b);border-radius:8px;padding:14px;overflow:hidden}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.res-box.animate{animation:slideDown .35s cubic-bezier(0.4,0,0.2,1) both}
+.res-box.animate-fade{animation:fadeIn .3s ease both}
+.res-box.animate-out{animation:slideUp .25s cubic-bezier(0.4,0,1,1) forwards}
+.ri{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--res-div)}
+.ri:last-child{border-bottom:none;padding-bottom:0}
+.ri:first-child{padding-top:0}
+.rank{font-size:18px;font-weight:700;min-width:28px;color:var(--rank)}
+.rank.gold{color:var(--gold)}
+.rinfo{flex:1}
+.rname{font-weight:600;font-size:14px;margin-bottom:2px;color:var(--text)}
+.rrate{color:var(--green);font-weight:600;font-size:13px;margin-bottom:2px}
+.rnote{font-size:12px;color:var(--text2)}
+.badge{display:inline-block;background:var(--badge-bg);color:var(--badge-t);font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;margin-left:6px;vertical-align:middle}
+/* ── Settings modal ───────────────────────────────────────── */
+.settings-btn{background:none;border:none;cursor:pointer;color:var(--text2);font-size:20px;padding:4px;line-height:1;margin-top:2px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;transition:color .3s ease}
+.settings-btn:hover{color:var(--text)}
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.toggle-wrap{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);cursor:pointer;user-select:none;margin-top:4px}
+.tog{position:relative;width:40px;height:22px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.sl{position:absolute;inset:0;background:var(--tog);border-radius:22px;transition:background-color .3s ease}
+.sl:before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s}
+input:checked+.sl{background:var(--btn)}
+input:checked+.sl:before{transform:translateX(18px)}
+#data-error{display:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 16px;font-size:13px;color:#1e40af;margin-bottom:16px;line-height:1.6}
+#data-error.error{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+[data-theme="dark"] #data-error{background:#1e3a5f;border-color:#3b82f6;color:#93c5fd}
+[data-theme="dark"] #data-error.error{background:#450a0a;border-color:#7f1d1d;color:#fca5a5}
+
+/* ── Toast notification ───────────────────────────────────── */
+.toast{position:fixed;bottom:max(24px,calc(env(safe-area-inset-bottom) + 12px));left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1.5px solid var(--border2);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--text);box-shadow:0 4px 24px rgba(0,0,0,.18);opacity:0;transition:opacity .4s ease,transform .4s ease;z-index:200;width:420px;max-width:calc(100% - 48px);display:flex;align-items:center;gap:8px;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all}
+.toast-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
+.toast-icon{font-size:15px;flex-shrink:0}
+.toast-text{flex:1;line-height:1.4}
+.toast-close{background:none;border:none;color:var(--text2);font-size:16px;cursor:pointer;padding:0;line-height:1;flex-shrink:0}
+.toast-close:hover{color:var(--text)}
+.toast-actions{display:flex;gap:8px;justify-content:flex-end}
+.toast-btn{background:none;border:none;font-size:13px;font-weight:500;cursor:pointer;padding:4px 6px;border-radius:6px;line-height:1;white-space:nowrap}
+.toast-btn.primary{color:var(--cat-on-t)}
+.toast-btn.secondary{color:var(--text2)}
+.toast-btn:hover{opacity:.7}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.modal-backdrop.open{opacity:1;pointer-events:all}
+/* ── User modal ───────────────────────────────────────────── */
+#user-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:300;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;transition:background .35s ease}
+#user-modal-backdrop.open{background:rgba(0,0,0,.5);pointer-events:all}
+#user-modal{background:var(--surface);border-radius:20px 20px 0 0;padding:32px 24px 48px;width:100%;max-width:700px;box-shadow:0 -4px 24px rgba(0,0,0,.15);position:relative;z-index:301;transform:translateY(100%);transition:transform .4s cubic-bezier(0.0,0,0.2,1)}
+#user-modal-backdrop.open #user-modal{transform:translateY(0)}
+#user-modal h2{font-size:20px;font-weight:600;color:var(--text);margin:0 0 8px}
+#user-modal p{font-size:14px;color:var(--text2);margin:0 0 20px;line-height:1.5}
+#user-name-input{width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);margin-bottom:12px;box-sizing:border-box;outline:none;font-family:inherit}
+@keyframes wiggle{0%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}100%{transform:translateX(0)}}
+.wiggle{animation:wiggle .35s ease both}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+#user-modal-content.slide-right{animation:slideInRight .25s cubic-bezier(0.4,0,0.2,1) both}
+#user-modal-content.slide-left{animation:slideInLeft .25s cubic-bezier(0.4,0,0.2,1) both}
+.user-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;font-size:13px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;transition:background-color .2s,border-color .2s,color .2s,max-width .3s ease,padding .3s ease;white-space:nowrap;overflow:hidden;max-width:300px}
+.user-pill.active{background:var(--btn);color:var(--btn-t);border-color:var(--btn)}
+.user-pill-rm{background:none;border:none;color:inherit;cursor:pointer;padding:0;font-size:14px;line-height:1;opacity:0.6;flex-shrink:0;transition:opacity .2s;-webkit-appearance:none;appearance:none;outline:none;box-shadow:none;-webkit-tap-highlight-color:transparent}
+.user-pill-rm:hover,.user-pill-rm:focus,.user-pill-rm:active,.user-pill-rm:focus-visible{opacity:1;outline:none;box-shadow:none;background:none}
+.pill-confirm{display:flex;align-items:center;gap:6px;overflow:hidden;transition:max-width .3s ease,opacity .25s ease;max-width:0;opacity:0}
+.pill-confirm.show{max-width:200px;opacity:1}
+.modal-sheet{position:fixed;bottom:0;left:0;right:0;max-width:700px;margin:0 auto;background:var(--surface);border-radius:20px 20px 0 0;border-top:0.5px solid var(--border);z-index:101;transform:translateY(100%);transition:transform .4s cubic-bezier(0.0,0,0.2,1),background-color .3s ease,border-color .3s ease;max-height:90vh;display:flex;flex-direction:column;position:fixed}
+#settings-sheet{transition:transform .4s cubic-bezier(0.0,0,0.2,1),background-color .3s ease,border-color .3s ease;max-height:90vh;height:90vh}
+.modal-sheet.open{transform:translateY(0)}
+.drag-zone{position:relative;flex-shrink:0;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.drag-zone:active{cursor:grabbing}
+.modal-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:12px auto 0;flex-shrink:0}
+.modal-header{display:flex;align-items:center;padding:12px 52px 12px 20px;user-select:none;-webkit-user-select:none}
+.modal-header h3{font-size:16px;font-weight:600;color:var(--text);margin:0;pointer-events:none;user-select:none;-webkit-user-select:none}
+.modal-close{position:absolute;top:50%;right:16px;transform:translateY(-50%);background:none;border:none;font-size:22px;color:var(--text2);cursor:pointer;padding:0;line-height:1;margin:0;z-index:1;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:color .3s ease,background-color .3s ease}
+.modal-close:hover{color:var(--text);background:var(--res-bg)}
+.modal-tabs{display:flex;gap:4px;padding:12px 20px 0;overflow-x:auto;flex-shrink:0;scrollbar-width:none;-webkit-mask-image:linear-gradient(to right,transparent 0,black 20px,black calc(100% - 20px),transparent 100%);mask-image:linear-gradient(to right,transparent 0,black 20px,black calc(100% - 20px),transparent 100%)}
+.modal-tabs::-webkit-scrollbar{display:none}
+.modal-tab{padding:6px 14px;font-size:12px;border:0.5px solid var(--border);border-radius:20px;background:var(--surface);color:var(--text2);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background-color .3s ease,border-color .3s ease,color .3s ease}
+.modal-tab.on,.modal-tab.active{background:var(--btn);color:var(--btn-t);border-color:var(--btn)}
+.modal-body{overflow-y:auto;padding:16px 20px 32px;flex:1}
+.perk-section{margin-bottom:20px}
+.perk-section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:8px}
+.perk-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:7px 0;border-bottom:0.5px solid var(--border);font-size:13px}
+.perk-row:last-child{border-bottom:none}
+.perk-label{color:var(--text2);flex-shrink:0}
+.perk-val{color:var(--text);text-align:right;font-weight:500}
+.perk-val.green{color:var(--green)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.info-card{background:var(--res-bg);border:0.5px solid var(--border);border-radius:10px;padding:10px 12px}
+.info-card-label{font-size:11px;color:var(--text2);margin-bottom:3px}
+.info-card-val{font-size:13px;font-weight:500;color:var(--text)}
+.benefits-btn{width:100%;padding:11px;background:var(--btn);border:none;border-radius:8px;font-size:14px;color:var(--btn-t);cursor:pointer;margin-top:10px;font-weight:500;transition:background-color .3s ease,border-color .3s ease,color .3s ease}
+.benefits-btn:hover{background:var(--btn-h)}
+@media(max-width:480px){
+  body{padding:16px 12px}
+  h1{font-size:19px}
+  .hdr{flex-direction:row;align-items:center}
+  .bank-grid{gap:5px;display:grid;grid-template-columns:repeat(3,1fr);justify-content:unset}
+  .bank-btn{width:100%;height:46px;font-size:10px}
+  .cat-grid{grid-template-columns:repeat(3,1fr)}
+  .cat-btn{font-size:11px;padding:8px 2px}
+  .ri{gap:8px}
+  .rname{font-size:13px}
+  .hint{font-size:13px}
+  .sec-header h2{font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <h1>&#x1F4B3; Card Rewards Optimizer</h1>
+    <p class="hint">Add your cards, pick a spending category, and see which earns the most!</p>
+  </div>
+  <div style="margin-top:4px;display:flex;align-items:center;gap:8px">
+    <button class="settings-btn" onclick="openSettings()" title="Settings">&#x2699;&#xFE0E;</button>
+  </div>
+</div>
+
+<div id="data-error">⚠️ Unable to load card data. Make sure <strong>cards.json</strong> is in the same folder as <strong>index.html</strong>.</div>
+
+<!-- Step 1 -->
+<div class="section" id="sec1" style="display:none">
+  <div class="sec-header" onclick="toggleSection('sec1')">
+    <h2>Add your cards</h2>
+    <svg class="toggle-icon open" id="sec1-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="11,17 4,5 18,5" fill="currentColor"/></svg>
+  </div>
+  <div class="sec-body" id="sec1-body">
+    <div class="bank-grid" id="bank-grid"></div>
+    <div class="card-pick" id="card-pick">
+      <select id="csel">
+        <option value="">Choose a card</option>
+      </select>
+      <div class="card-pick-btns">
+        <button class="add-btn" id="add-btn" onclick="addCard()" disabled><span>Add card</span></button>
+      <div class="card-msg" id="card-msg"></div>
+        <button class="preview-btn-inline" id="preview-btn" onclick="previewCard()" disabled>View benefits</button>
+      </div>
+    </div>
+  </div>
+  <div id="cards-list" style="padding:0 16px"></div>
+  <div style="padding:0 16px 14px;display:flex;gap:8px;flex-wrap:wrap" id="action-btns">
+    <button class="benefits-btn" id="benefits-btn" onclick="openBenefits()" style="flex:1;display:none">&#x1F50D; View my card benefits</button>
+  </div>
+</div>
+
+<!-- Step 2 -->
+<div class="section" id="step2" style="display:none">
+  <div class="sec-header" onclick="toggleSection('step2')">
+    <h2>Pick a spending category</h2>
+    <svg class="toggle-icon open" id="step2-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="11,17 4,5 18,5" fill="currentColor"/></svg>
+  </div>
+  <div class="sec-body" id="step2-body">
+    <div class="cat-grid">
+      <button class="cat-btn" onclick="pickCat(this,'Dining')">&#x1F37D;&#xFE0F; Dining</button>
+      <button class="cat-btn" onclick="pickCat(this,'Travel')">&#x2708;&#xFE0F; Travel</button>
+      <button class="cat-btn" onclick="pickCat(this,'Groceries')">&#x1F6D2; Groceries</button>
+      <button class="cat-btn" onclick="pickCat(this,'Gas')">&#x26FD; Gas</button>
+      <button class="cat-btn" onclick="pickCat(this,'Streaming')">&#x1F4FA; Streaming</button>
+      <button class="cat-btn" onclick="pickCat(this,'Online Shopping')">&#x1F4E6; Online</button>
+      <button class="cat-btn" onclick="pickCat(this,'Hotels')">&#x1F3E8; Hotels</button>
+      <button class="cat-btn" onclick="pickCat(this,'Drugstore')">&#x1F48A; Drugstore</button>
+      <button class="cat-btn" onclick="pickCat(this,'Transit')">&#x1F68C; Transit</button>
+      <button class="cat-btn" onclick="pickCat(this,'Entertainment')">&#x1F3B5; Entertainment</button>
+      <button class="cat-btn" onclick="pickCat(this,'Home Improvement')">&#x1F528; Home Improvement</button>
+      <button class="cat-btn" onclick="pickCat(this,'General')">&#x1F4B0; Everything else</button>
+    </div>
+    <div id="results"></div>
+  </div>
+</div>
+
+<!-- First-launch user modal -->
+<div id="user-modal-backdrop">
+  <div id="user-modal">
+    <div id="user-modal-content"></div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div class="modal-backdrop" id="settings-backdrop"></div>
+<div class="modal-sheet" id="settings-sheet">
+  <div class="drag-zone">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <h3>&#x2699;&#xFE0E; Settings</h3>
+    </div>
+    <button class="modal-close" onclick="closeSettings()">&#x00D7;</button>
+  </div>
+  <div class="modal-tabs" id="settings-tabs">
+    <button class="modal-tab active" id="tab-general" onclick="switchSettingsTab('general')">General</button>
+    <button class="modal-tab" id="tab-account" onclick="switchSettingsTab('account')">Users</button>
+  </div>
+  <div class="modal-body" id="settings-body" style="padding:16px 20px 40px;flex:1;overflow-y:auto"></div>
+</div>
+
+<!-- Benefits modal -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeBenefits()"></div>
+<div class="modal-sheet" id="modal-sheet">
+  <div class="drag-zone">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <h3 id="modal-title">Card benefits</h3>
+    </div>
+    <button class="modal-close" onclick="closeBenefits()">&#x00D7;</button>
+  </div>
+  <div class="modal-tabs" id="modal-tabs"></div>
+  <div class="modal-body" id="modal-body"></div>
+</div>
+
+<div class="toast" id="quarter-toast">
+  <span class="toast-icon">&#x1F4C5;</span>
+  <span class="toast-text" id="toast-text"></span>
+  <div style="display:flex;gap:4px;flex-shrink:0;align-items:center">
+    <button class="toast-btn secondary" onclick="snoozeToast()">Later</button>
+    <button class="toast-btn primary" onclick="openSettingsFromToast()">Update</button>
+  </div>
+  <button class="toast-close" onclick="dismissToast()">&#x00D7;</button>
+</div>
+
+<script>
+var myCards=[], selCat=null, selBank=null;
+
+// ── Card data (loaded from cards.json) ───────────────────────
+var BANKS={}, R={}, PERKS={};
+var cardsLastUpdated=null;
+
+function showDataError(){
+  var el=document.getElementById('data-error');
+  if(el){
+    el.classList.add('error');
+    el.innerHTML='&#x26A0;&#xFE0F; Unable to load card data. Make sure <strong>cards.json</strong> is deployed alongside <strong>index.html</strong>.';
+    el.style.display='block';
+  }
+  var sec=document.getElementById('sec1');
+  if(sec) sec.style.opacity='0.4';
+  var sec2=document.getElementById('step2');
+  if(sec2) sec2.style.display='none';
+}
+
+function loadCardsData(callback){
+  fetch('cards.json?v='+Date.now())
+    .then(function(r){
+      if(!r.ok) throw new Error('Not OK');
+      return r.json();
+    })
+    .then(function(data){
+      BANKS=data.banks||{};
+      R=data.rewards||{};
+      PERKS=data.perks||{};
+      cardsLastUpdated=data.lastUpdated||null;
+      if(callback) callback();
+    })
+    .catch(function(){
+      showDataError();
+      // Still run the callback so sync server can load user's cards
+      if(callback) callback();
+    });
+}
+// ── Cloudflare Worker sync ─────────────────────────────────────
+// After deploying worker.js, set these two values:
+//   WORKER_URL  — your Worker URL, e.g. https://rewards-sync.YOUR-SUBDOMAIN.workers.dev/sync
+//   SYNC_SECRET — the same secret you set with `wrangler secret put SYNC_SECRET`
+var WORKER_URL='https://rewards-sync.normbottie.workers.dev/sync';
+var SYNC_SECRET='n5map8tsDKeEx6T5akTHkzIyoHC0QIc2';
+
+var syncEnabled=true;
+var syncRetryTimer=null;
+var _syncState={};  // Full merged state kept in memory and written to KV on each change
+
+// Restore any cached state from a previous session (used when offline)
+try{var _ss=localStorage.getItem('cc_sync_state');if(_ss)_syncState=JSON.parse(_ss);}catch(e){}
+
+function _saveSyncState(){
+  try{localStorage.setItem('cc_sync_state',JSON.stringify(_syncState));}catch(e){}
+}
+
+function _deepMerge(target,source){
+  for(var k in source){
+    if(k==='users'&&typeof source[k]==='object'&&source[k]!==null){
+      target.users=target.users||{};
+      for(var u in source[k]){
+        target.users[u]=Object.assign({},target.users[u]||{},source[k][u]);
+      }
+    } else {
+      target[k]=source[k];
+    }
+  }
+}
+
+function _syncHeaders(){
+  return{'Content-Type':'application/json','Authorization':'Bearer '+SYNC_SECRET};
+}
+
+function _isConfigured(){
+  return WORKER_URL.indexOf('YOUR-SUBDOMAIN')===-1&&SYNC_SECRET!=='REPLACE_WITH_YOUR_SECRET';
+}
+
+function syncToServer(data){
+  _deepMerge(_syncState,data);
+  _saveSyncState();
+  flush();
+}
+
+function flush(){
+  if(!Object.keys(_syncState).length||!_isConfigured()) return;
+  fetch(WORKER_URL,{
+    method:'PUT',
+    headers:_syncHeaders(),
+    body:JSON.stringify(_syncState)
+  }).then(function(){
+    syncEnabled=true;
+    if(syncRetryTimer){clearInterval(syncRetryTimer);syncRetryTimer=null;}
+  }).catch(function(){
+    syncEnabled=false;
+    if(!syncRetryTimer){
+      syncRetryTimer=setInterval(function(){flush();},30000);
+    }
+  });
+}
+
+function loadFromServer(callback){
+  if(!_isConfigured()){syncEnabled=false;callback(null);return;}
+  fetch(WORKER_URL,{headers:_syncHeaders()})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(data&&typeof data==='object'){_deepMerge(_syncState,data);_saveSyncState();}
+      syncEnabled=true;
+      callback(data||null);
+    })
+    .catch(function(){syncEnabled=false;callback(null);});
+}
+
+// On load, flush any pending writes from a previous offline session
+setTimeout(flush,2000);
+
+// ── User management ───────────────────────────────────────────
+var activeUser=null;
+var allUsers=[];
+
+function loadUsers(){
+  try{
+    var u=localStorage.getItem('cc_users');
+    if(u) allUsers=JSON.parse(u);
+    var a=localStorage.getItem('cc_active_user');
+    if(a) activeUser=a;
+  }catch(e){}
+}
+
+function saveUsers(){
+  try{
+    localStorage.setItem('cc_users',JSON.stringify(allUsers));
+    localStorage.setItem('cc_active_user',activeUser);
+  }catch(e){}
+}
+
+function getUserKey(field){
+  return 'cc_'+activeUser+'_'+field;
+}
+
+function confirmUserName(){
+  var name=document.getElementById('user-name-input').value.trim();
+  if(!name) return;
+  if(allUsers.indexOf(name)<0) allUsers.push(name);
+  activeUser=name;
+  saveUsers();
+  document.getElementById('user-name-input').value='';
+  document.getElementById('user-modal-backdrop').classList.remove('open');
+  document.body.style.overflow='';
+  updateUserLabel();
+  loadUserData();
+  var _nu={};_nu[activeUser]={cards:[],quarterly:{},prime:null};syncToServer({users:_nu});
+}
+
+function switchUser(name){
+  if(name===activeUser){
+    // Already this user — wiggle the pill
+    var pill=document.querySelector('.user-pill.active');
+    if(pill){
+      pill.classList.remove('wiggle');
+      void pill.offsetWidth; // reflow to restart animation
+      pill.classList.add('wiggle');
+    }
+    return;
+  }
+  activeUser=name;
+  saveUsers();
+  closeSettings();
+  updateUserLabel();
+  loadUserData();
+  selCat=null;
+  document.getElementById('results').innerHTML='';
+  document.querySelectorAll('.cat-btn').forEach(function(b){b.classList.remove('on');});
+}
+
+function logOut(){
+  activeUser=null;
+  myCards=[];
+  quarterlyData={"Chase Freedom Flex":[],"Discover it Cash Back":[]};
+  primeActive=false;
+  selCat=null;
+  try{localStorage.removeItem('cc_active_user');}catch(e){}
+  closeSettings();
+  renderCards();
+  document.getElementById('results').innerHTML='';
+  document.querySelectorAll('.cat-btn').forEach(function(b){b.classList.remove('on');});
+  showPickState();
+  document.getElementById('user-modal-backdrop').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function showRegisterModal(){
+  renderExistingUserPills();
+  showRegisterState(true);
+  document.getElementById('user-modal-backdrop').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function renameUser(){
+  // Replace active pill with an inline input
+  var pill=document.querySelector('.user-pill.active');
+  if(!pill) return;
+  var oldName=activeUser;
+  var inp=document.createElement('input');
+  inp.type='text';
+  inp.value=oldName;
+  inp.maxLength=30;
+  inp.style.cssText='width:100%;border:none;background:transparent;color:inherit;font-size:13px;font-family:inherit;outline:none;padding:0;min-width:60px';
+  pill.innerHTML='';
+  pill.appendChild(inp);
+  inp.focus();
+  inp.select();
+
+  function commit(){
+    var newName=inp.value.trim();
+    if(!newName||newName===oldName){switchSettingsTab('account');return;}
+    var idx=allUsers.indexOf(oldName);
+    if(idx>=0) allUsers[idx]=newName;
+    ['cards','quarterly','prime','dark','email'].forEach(function(k){
+      var val=localStorage.getItem('cc_'+oldName+'_'+k);
+      if(val!==null) try{localStorage.setItem('cc_'+newName+'_'+k,val);}catch(e){}
+      try{localStorage.removeItem('cc_'+oldName+'_'+k);}catch(e){}
+    });
+    var _ru={};_ru[newName]={cards:myCards,quarterly:quarterlyData,prime:primeActive?'1':'0',email:loadUserEmail()};
+    _ru[oldName]=null;
+    syncToServer({users:_ru,admin:adminUser===oldName?newName:adminUser});
+    if(adminUser===oldName) adminUser=newName;
+    activeUser=newName;
+    saveUsers();
+    switchSettingsTab('account');
+  }
+
+  inp.addEventListener('blur', commit);
+  inp.addEventListener('keydown', function(e){
+    if(e.key==='Enter'){inp.blur();}
+    if(e.key==='Escape'){switchSettingsTab('account');}
+  });
+}
+
+function initRemoveUser(trashBtn){
+  var name=trashBtn.getAttribute('data-name');
+  var confirmEl=document.getElementById('confirm-'+name.replace(/\s/g,'_'));
+  if(!confirmEl) return;
+  // Hide trash, show confirm
+  trashBtn.style.transition='opacity .2s';
+  trashBtn.style.opacity='0';
+  setTimeout(function(){
+    trashBtn.style.display='none';
+    confirmEl.classList.add('show');
+  },200);
+}
+
+function cancelRemoveUser(btn){
+  switchSettingsTab('account');
+}
+
+function confirmRemoveUser(name){
+  allUsers=allUsers.filter(function(u){return u!==name;});
+  saveUsers();
+  var _del={};_del[name]=null;
+  syncToServer({users:_del});
+  ['cards','quarterly','prime','dark','email'].forEach(function(k){
+    try{localStorage.removeItem('cc_'+name+'_'+k);}catch(e){}
+  });
+  switchSettingsTab('account');
+}
+
+function updateUserLabel(){
+  var el=document.getElementById('active-user-label');
+  if(el) el.textContent=activeUser||'';
+}
+
+function renderUserPills(){
+  var el=document.getElementById('user-pills');
+  if(!el) return;
+  el.innerHTML=allUsers.map(function(u){
+    var active=u===activeUser?' active':'';
+    var rm=u===activeUser?'':'<button class="user-pill-rm" onclick="removeUser(\''+u.replace(/'/g,"\\'")+'\')" title="Remove">&#x00D7;</button>';
+    return '<div class="user-pill'+active+'" onclick="switchUser(\''+u.replace(/'/g,"\\'")+'\')">'+u+rm+'</div>';
+  }).join('');
+}
+
+// Per-user data load/save
+function loadUserData(){
+  // Cards
+  try{
+    var c=localStorage.getItem(getUserKey('cards'));
+    myCards=c?JSON.parse(c):[];
+  }catch(e){myCards=[];}
+  // Quarterly
+  try{
+    var q=localStorage.getItem(getUserKey('quarterly'));
+    quarterlyData=q?JSON.parse(q):{"Chase Freedom Flex":[],"Discover it Cash Back":[]};
+  }catch(e){quarterlyData={"Chase Freedom Flex":[],"Discover it Cash Back":[]};}
+  // Prime
+  try{
+    var p=localStorage.getItem(getUserKey('prime'));
+    primeActive=p==='1';
+    var ptog=document.getElementById('prime-tog');
+    if(ptog) ptog.checked=primeActive;
+  }catch(e){primeActive=false;}
+  // Dark mode per-user
+  try{
+    var dk=localStorage.getItem(getUserKey('dark'));
+    if(dk!==null) setDark(dk==='1');
+  }catch(e){}
+  renderCards();
+  updateBenefitsBtn();
+}
+
+function saveUserData(){
+  try{localStorage.setItem(getUserKey('cards'),JSON.stringify(myCards));}catch(e){}
+}
+
+function syncAllUsersToServer(){
+  syncToServer({users:allUsers});
+}
+
+
+var primeActive=false;
+
+// ── Admin & email ─────────────────────────────────────────────
+var adminUser=null;
+
+function loadAdmin(){
+  try{var a=localStorage.getItem('cc_admin');if(a) adminUser=a;}catch(e){}
+}
+
+function setAdmin(on){
+  adminUser=on?activeUser:null;
+  try{localStorage.setItem('cc_admin',adminUser||'');}catch(e){}
+  syncToServer({admin:adminUser});
+}
+
+function loadUserEmail(){
+  try{return localStorage.getItem(getUserKey('email'))||'';}catch(e){return '';}
+}
+
+function saveUserEmail(){
+  var email=document.getElementById('user-email-input');
+  if(!email) return;
+  var val=email.value.trim();
+  try{localStorage.setItem(getUserKey('email'),val);}catch(e){}
+  var _eu={};_eu[activeUser]={email:val};syncToServer({users:_eu});
+}
+
+function setPrime(on){
+  primeActive=on;
+  try{localStorage.setItem(getUserKey('prime'),on?'1':'0');}catch(e){}
+  var _pu={};_pu[activeUser]={prime:on?'1':'0'};syncToServer({users:_pu});
+}
+
+function loadPrime(){
+  try{
+    var saved=localStorage.getItem(getUserKey('prime'));
+    primeActive=saved==='1';
+    var tog=document.getElementById('prime-tog');
+    if(tog) tog.checked=primeActive;
+  }catch(e){}
+}
+
+
+function setDark(on){
+  document.documentElement.setAttribute('data-theme',on?'dark':'light');
+  var cs=document.querySelector('meta[name="color-scheme"]');
+  if(cs) cs.content=on?'dark':'light';
+  var tc=document.getElementById('theme-color-meta');
+  if(tc) tc.content=on?'#0f1117':'#f8fafc';
+  // Save globally for FOUC script, and per-user if logged in
+  try{localStorage.setItem('cc_dark',on?'1':'0');}catch(e){}
+  if(activeUser){
+    try{localStorage.setItem(getUserKey('dark'),on?'1':'0');}catch(e){}
+    var _du={};_du[activeUser]={dark:on?'1':'0'};syncToServer({users:_du});
+  }
+}
+(function(){
+  try{
+    var d=localStorage.getItem('cc_dark');
+    if(d==='1'){setDark(true);var _dt=document.getElementById('dtog');if(_dt)_dt.checked=true;}
+    else if(d===null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+      setDark(true);var _dt=document.getElementById('dtog');if(_dt)_dt.checked=true;
+    }
+  }catch(e){
+    if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches){
+      setDark(true);var _dt=document.getElementById('dtog');if(_dt)_dt.checked=true;
+    }
+  }
+})();
+
+// ── Section collapse ─────────────────────────────────────────
+function saveCollapseState(){
+  try{
+    var state={sec1:document.getElementById('sec1-body').classList.contains('collapsed'),step2:document.getElementById('step2-body').classList.contains('collapsed')};
+    localStorage.setItem('cc_collapse',JSON.stringify(state));
+  }catch(e){}
+}
+
+function toggleSection(id){
+  var section=document.getElementById(id);
+  var body=document.getElementById(id+'-body');
+  var icon=document.getElementById(id+'-icon');
+  var collapsed=body.classList.contains('collapsed');
+  if(collapsed){
+    body.style.display='';
+    body.classList.remove('collapsed');
+    if(icon) icon.classList.add('open');
+    if(section) section.classList.remove('sec1-collapsed');
+  } else {
+    body.classList.add('collapsed');
+    if(icon) icon.classList.remove('open');
+    if(section) section.classList.add('sec1-collapsed');
+  }
+  saveCollapseState();
+}
+
+function collapseStep1(){
+  var body=document.getElementById('sec1-body');
+  var icon=document.getElementById('sec1-icon');
+  var section=document.getElementById('sec1');
+  body.classList.add('collapsed');
+  if(icon) icon.classList.remove('open');
+  if(section) section.classList.add('sec1-collapsed');
+  saveCollapseState();
+}
+
+// ── Bank → Cards map ─────────────────────────────────────────
+
+function renderBanks(){
+  document.getElementById('sec1').style.display='block';
+  var g=document.getElementById('bank-grid');
+  g.innerHTML=Object.keys(BANKS).map(function(b){
+    var on=b===selBank?' on':'';
+    return '<button class="bank-btn'+on+'" onclick="pickBank(this,\''+b+'\')">'+b+'</button>';
+  }).join('');
+}
+
+function pickBank(btn,bank){
+  var cardPick=document.getElementById('card-pick');
+  var sel=document.getElementById('csel');
+  // Toggle off if same bank clicked again
+  if(selBank===bank){
+    btn.classList.remove('on');
+    selBank=null;
+    cardPick.classList.remove('open');
+    document.getElementById('add-btn').disabled=true;
+    sel.value='';
+    return;
+  }
+  document.querySelectorAll('.bank-btn').forEach(function(b){b.classList.remove('on')});
+  btn.classList.add('on');
+  selBank=bank;
+  sel.innerHTML='<option value="">Choose a card</option>'+
+    BANKS[bank].map(function(c){return'<option>'+c+'</option>'}).join('');
+  sel.value='';
+  document.getElementById('add-btn').disabled=true;
+  cardPick.classList.add('open');
+}
+
+document.getElementById('csel').addEventListener('change',function(){
+  var has=!!this.value;
+  document.getElementById('add-btn').disabled=!has;
+  document.getElementById('preview-btn').disabled=!has;
+});
+
+var cardMsgTimer=null;
+function showCardMsg(text){
+  var btn=document.getElementById('add-btn');
+  var span=btn.querySelector('span')||btn;
+  span.style.transition='opacity .2s ease';
+  span.style.opacity='0';
+  if(cardMsgTimer) clearTimeout(cardMsgTimer);
+  setTimeout(function(){
+    span.textContent=text;
+    span.style.opacity='1';
+    cardMsgTimer=setTimeout(function(){
+      span.style.opacity='0';
+      setTimeout(function(){
+        span.textContent='Add card';
+        span.style.opacity='1';
+      },200);
+    },2000);
+  },200);
+}
+
+function previewCard(){
+  var card=document.getElementById('csel').value;
+  if(!card) return;
+  document.getElementById('modal-title').textContent='Card benefits';
+  document.getElementById('modal-tabs').style.display='none';
+  document.getElementById('modal-backdrop').classList.add('open');
+  document.getElementById('modal-sheet').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('quarter-toast').style.opacity='0';document.getElementById('quarter-toast').style.pointerEvents='none';
+  renderModalBody(card);
+}
+
+// ── Persistence ──────────────────────────────────────────────
+function saveCards(){
+  try{localStorage.setItem(getUserKey('cards'),JSON.stringify(myCards));}catch(e){}
+  var _cu={};_cu[activeUser]={cards:myCards};syncToServer({users:_cu});
+}
+
+function loadCards(){
+  try{
+    var saved=localStorage.getItem(getUserKey('cards'));
+    if(saved){myCards=JSON.parse(saved);}
+    else{myCards=[];}
+  }catch(e){myCards=[];}
+}
+
+// ── Add / remove cards ───────────────────────────────────────
+function addCard(){
+  var name=document.getElementById('csel').value;
+  if(!name) return;
+  if(myCards.indexOf(name)>=0){showCardMsg('Already added!');return;}
+  myCards.push(name);
+  document.getElementById('csel').value='';
+  document.getElementById('add-btn').disabled=true;
+  saveCards();
+  renderCards();
+}
+
+function removeCard(i){
+  myCards.splice(i,1);
+  saveCards();
+  renderCards();
+  document.getElementById('results').innerHTML='';
+  updateSummary();
+}
+
+function renderCards(){
+  var el=document.getElementById('cards-list');
+  el.innerHTML=myCards.map(function(c,i){
+    return '<div class="chip" data-index="'+i+'">'
+      +'<span class="chip-handle" title="Drag to reorder">&#x2630;</span>'
+      +c
+      +' <button class="rm" onclick="removeCard('+i+')" title="Remove">&#x00D7;</button>'
+      +'</div>';
+  }).join('');
+  el.style.paddingTop=myCards.length?'4px':'0';
+  el.style.paddingBottom=myCards.length?'4px':'0';
+  document.getElementById('step2').style.display=myCards.length?'block':'none';
+  updateBenefitsBtn();
+  initChipDrag();
+}
+
+// ── Chip drag to reorder (touch + mouse) ─────────────────────
+var dragSrcIndex=null;
+
+function initChipDrag(){
+  var el=document.getElementById('cards-list');
+  var chips=Array.from(el.querySelectorAll('.chip'));
+  var draggingChip=null, ghost=null, offsetX=0;
+
+  function getTargetIndex(clientX){
+    var best=null, bestDist=Infinity;
+    chips.forEach(function(chip,i){
+      if(chip===draggingChip) return;
+      var r=chip.getBoundingClientRect();
+      var center=r.left+r.width/2;
+      var dist=Math.abs(clientX-center);
+      if(dist<bestDist){bestDist=dist;best=i;}
+    });
+    return best;
+  }
+
+  function onDragStart(chip, clientX){
+    draggingChip=chip;
+    dragSrcIndex=parseInt(chip.getAttribute('data-index'));
+    offsetX=clientX-chip.getBoundingClientRect().left;
+    chip.classList.add('dragging');
+
+    ghost=chip.cloneNode(true);
+    var r=chip.getBoundingClientRect();
+    ghost.style.cssText='position:fixed;top:'+r.top+'px;left:'+r.left+'px;width:'+r.width+'px;opacity:.9;pointer-events:none;z-index:500;transition:none;border-radius:20px;background:var(--chip-bg);border:1.5px solid var(--cat-on-b);padding:6px 12px;font-size:12px;color:var(--chip-text);display:inline-flex;align-items:center;gap:6px;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.25)';
+    document.body.appendChild(ghost);
+  }
+
+  var scrollInterval=null;
+
+  function onDragMove(clientX){
+    if(!ghost||!draggingChip) return;
+    ghost.style.left=(clientX-offsetX)+'px';
+    var ti=getTargetIndex(clientX);
+    chips.forEach(function(c){c.classList.remove('drag-over');});
+    if(ti!==null&&ti!==dragSrcIndex) chips[ti].classList.add('drag-over');
+
+    // Auto-scroll the cards-list when dragging near edges
+    var r=el.getBoundingClientRect();
+    var edgeSize=60;
+    if(scrollInterval) clearInterval(scrollInterval);
+    if(clientX<r.left+edgeSize){
+      var speed=Math.round((r.left+edgeSize-clientX)/edgeSize*12);
+      scrollInterval=setInterval(function(){el.scrollLeft-=speed;},16);
+    } else if(clientX>r.right-edgeSize){
+      var speed=Math.round((clientX-(r.right-edgeSize))/edgeSize*12);
+      scrollInterval=setInterval(function(){el.scrollLeft+=speed;},16);
+    }
+  }
+
+  function onDragEnd(clientX){
+    if(scrollInterval){clearInterval(scrollInterval);scrollInterval=null;}
+    if(!draggingChip) return;
+    var ti=getTargetIndex(clientX);
+    chips.forEach(function(c){c.classList.remove('drag-over');});
+    if(ti!==null&&ti!==dragSrcIndex){
+      var moved=myCards.splice(dragSrcIndex,1)[0];
+      myCards.splice(ti,0,moved);
+      saveCards();
+      if(selCat&&document.getElementById('results').querySelector('.res-box')) compare();
+    }
+    if(ghost&&ghost.parentNode) ghost.parentNode.removeChild(ghost);
+    ghost=null; draggingChip=null; dragSrcIndex=null;
+    renderCards();
+  }
+
+  chips.forEach(function(chip){
+    var handle=chip.querySelector('.chip-handle');
+
+    // Mouse
+    handle.addEventListener('mousedown',function(e){
+      e.preventDefault();
+      onDragStart(chip,e.clientX);
+      function onMove(e){onDragMove(e.clientX);}
+      function onUp(e){onDragEnd(e.clientX);document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseup',onUp);}
+      document.addEventListener('mousemove',onMove);
+      document.addEventListener('mouseup',onUp);
+    });
+
+    // Touch - press and hold to drag on iOS
+    handle.addEventListener('touchstart',function(e){
+      var t=e.touches[0];
+      var holdTimer=setTimeout(function(){
+        e.preventDefault();
+        onDragStart(chip,t.clientX);
+
+        function onMove(ev){
+          ev.preventDefault();
+          onDragMove(ev.touches[0].clientX);
+        }
+        function onEnd(ev){
+          onDragEnd(ev.changedTouches[0].clientX);
+          handle.removeEventListener('touchmove',onMove);
+          handle.removeEventListener('touchend',onEnd);
+        }
+        handle.addEventListener('touchmove',onMove,{passive:false});
+        handle.addEventListener('touchend',onEnd);
+      },350);
+
+      function cancelHold(){
+        clearTimeout(holdTimer);
+        handle.removeEventListener('touchend',cancelHold);
+        handle.removeEventListener('touchmove',cancelHold);
+      }
+      handle.addEventListener('touchend',cancelHold,{once:true});
+      handle.addEventListener('touchmove',cancelHold,{once:true});
+    },{passive:true});
+  });
+}
+
+
+function pickCat(btn,cat){
+  if(selCat===cat){
+    btn.classList.remove('on');
+    selCat=null;
+    var box=document.getElementById('results').querySelector('.res-box');
+    if(box){
+      box.classList.add('animate-out');
+      setTimeout(function(){document.getElementById('results').innerHTML='';},250);
+    }
+    return;
+  }
+  document.querySelectorAll('.cat-btn').forEach(function(b){b.classList.remove('on')});
+  btn.classList.add('on');
+  selCat=cat;
+  compare();
+}
+
+// ── Rewards data ─────────────────────────────────────────────
+
+var SM={"14x points":14,"12x points":12,"10x points":10,"10x miles":10,"7x points":7,"6% cash back":6,"6x points":6,"5x points":5,"5% cash back":5,"5x miles":5,"4x points":4,"4% cash back":4,"4x miles":4,"3x points":3,"3% cash back":3,"3x miles":3,"2x points":2,"2% cash back":2,"2x miles":2,"1.5x points":1.5,"1.5% cash back":1.5,"1.5x miles":1.5,"1.25x miles":1.25,"1x points":1,"1% cash back":1,"1x miles":1};
+function sc(r){var n=parseFloat(r);return isNaN(n)?SM[r]||1:n}
+
+// ── Quarterly settings ────────────────────────────────────────
+var CATS_LIST=['Dining','Travel','Groceries','Gas','Streaming','Online Shopping','Hotels','Drugstore','Transit','Entertainment','Home Improvement'];
+
+var quarterlyData={
+  "Chase Freedom Flex":[],
+  "Discover it Cash Back":[]
+};
+
+function loadQuarterly(){
+  try{
+    var saved=localStorage.getItem(getUserKey('quarterly'));
+    if(saved) quarterlyData=JSON.parse(saved);
+  }catch(e){}
+}
+
+function saveQuarterly(){
+  try{localStorage.setItem(getUserKey('quarterly'),JSON.stringify(quarterlyData));}catch(e){}
+  var _qu={};_qu[activeUser]={quarterly:quarterlyData};syncToServer({users:_qu});
+}
+
+function getCardRate(card,cat){
+  var base=R[card]&&R[card][cat];
+  if(!base) return{r:'1x points',n:'No specific bonus data available.'};
+
+  // Amazon Prime override
+  if(card==='Chase Amazon Prime Rewards Visa'){
+    var primeCategories=['Online Shopping','Groceries'];
+    if(primeCategories.indexOf(cat)>=0){
+      if(primeActive){
+        return{r:'5% cash back',n:'\u2705 5% with active Amazon Prime membership'};
+      } else {
+        return{r:'3% cash back',n:'3% without an active Prime membership \u2014 enable Prime in Settings for 5%'};
+      }
+    }
+  }
+
+  // Quarterly override
+  if(quarterlyData.hasOwnProperty(card)&&quarterlyData[card].length){
+    if(quarterlyData[card].indexOf(cat)>=0){
+      return{r:'5% cash back',n:'\u2705 Active quarterly 5% category \u2014 remember to activate in your app'};
+    } else {
+      return{r:'1% cash back',n:'Not an active quarterly bonus category \u2014 earns 1% this quarter'};
+    }
+  }
+  return base;
+}
+
+// ── Drag to close modals ──────────────────────────────────────
+function initDragToClose(sheetId, closeFn){
+  var sheet=document.getElementById(sheetId);
+  var startY=0, currentY=0, dragging=false;
+
+  function onStart(y){
+    startY=y; currentY=y; dragging=true;
+    sheet.style.transition='none';
+  }
+  function onMove(y){
+    if(!dragging) return;
+    currentY=y;
+    var dy=Math.max(0,y-startY);
+    sheet.style.transform='translateY('+dy+'px)';
+  }
+  function onEnd(){
+    if(!dragging) return;
+    dragging=false;
+    sheet.style.transition='';
+    var dy=currentY-startY;
+    if(dy>80){
+      sheet.style.transform='';
+      closeFn();
+    } else {
+      sheet.style.transform='';
+    }
+  }
+
+  // Touch
+  sheet.addEventListener('touchstart',function(e){
+    var touch=e.touches[0];
+    if(e.target.closest('.drag-zone')) onStart(touch.clientY);
+  },{passive:true});
+  sheet.addEventListener('touchmove',function(e){
+    if(!dragging) return;
+    onMove(e.touches[0].clientY);
+  },{passive:true});
+  sheet.addEventListener('touchend',onEnd);
+
+  // Mouse
+  sheet.addEventListener('mousedown',function(e){
+    if(e.target.closest('.drag-zone')&&!e.target.closest('.modal-close')) onStart(e.clientY);
+  });
+  document.addEventListener('mousemove',function(e){if(dragging) onMove(e.clientY);});
+  document.addEventListener('mouseup',onEnd);
+}
+
+
+// ── Quarterly toast reminder ──────────────────────────────────
+var debugQuarterOverride=null;
+
+function getCurrentQuarterKey(){
+  if(debugQuarterOverride) return debugQuarterOverride;
+  var d=new Date();
+  return Math.floor(d.getMonth()/3)+1+'_'+d.getFullYear();
+}
+
+function checkQuarterChange(){
+  try{
+    var key=getCurrentQuarterKey();
+    var q=parseInt(key.split('_')[0]);
+    document.getElementById('toast-text').textContent='It\'s Q'+q+'! Be sure to update your quarterly 5% categories.';
+    var stored=localStorage.getItem('cc_last_quarter');
+    if(stored!==key){
+      var t=document.getElementById('quarter-toast');
+      t.style.opacity='';t.style.pointerEvents='';t.style.display='';
+      t.classList.remove('show');
+      setTimeout(function(){t.classList.add('show');},1200);
+    }
+  }catch(e){}
+}
+
+function dismissToast(){
+  var toast=document.getElementById('quarter-toast');
+  toast.classList.remove('show');
+  try{localStorage.setItem('cc_last_quarter',getCurrentQuarterKey());}catch(e){}
+  syncToServer({last_quarter:getCurrentQuarterKey()});
+}
+
+function snoozeToast(){
+  var t=document.getElementById('quarter-toast');
+  t.classList.remove('show');
+  t.style.opacity='';
+  t.style.pointerEvents='';
+}
+
+function openSettingsFromToast(){
+  dismissToast();
+  openSettings();
+}
+
+function debugResetQuarter(){
+  var year=new Date().getFullYear();
+  var curQ=debugQuarterOverride?parseInt(debugQuarterOverride.split('_')[0]):(Math.floor(new Date().getMonth()/3)+1);
+  var nextQ=curQ%4+1;
+  debugQuarterOverride=nextQ+'_'+year;
+  try{localStorage.removeItem('cc_last_quarter');}catch(e){}
+  syncToServer({last_quarter:null});
+  var t=document.getElementById('quarter-toast');
+  t.classList.remove('show');
+  t.style.opacity='';t.style.pointerEvents='';
+  document.getElementById('toast-text').textContent='It\'s Q'+nextQ+'! Be sure to update your quarterly 5% categories.';
+  setTimeout(function(){t.classList.add('show');},400);
+}
+
+function getSettingsTabHtml(tab){
+  if(tab==='general'){
+    var flexActive=(quarterlyData['Chase Freedom Flex']||[]);
+    var discActive=(quarterlyData['Discover it Cash Back']||[]);
+    var flexBtns=CATS_LIST.map(function(cat){
+      var on=flexActive.indexOf(cat)>=0;
+      return '<button class="cat-btn'+(on?' on':'')+'" style="font-size:12px;padding:7px 10px" onclick="toggleQCat(this,\'Chase Freedom Flex\',\''+cat+'\')">'+cat+'</button>';
+    }).join('');
+    var discBtns=CATS_LIST.map(function(cat){
+      var on=discActive.indexOf(cat)>=0;
+      return '<button class="cat-btn'+(on?' on':'')+'" style="font-size:12px;padding:7px 10px" onclick="toggleQCat(this,\'Discover it Cash Back\',\''+cat+'\')">'+cat+'</button>';
+    }).join('');
+    var dark=document.documentElement.getAttribute('data-theme')==='dark';
+    return '<div class="perk-section-title" style="margin-bottom:12px">Appearance</div>'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">'+
+        '<span style="font-size:13px;color:var(--text)">Dark mode</span>'+
+        '<label class="toggle-wrap" style="margin-top:0"><div class="tog">'+
+          '<input type="checkbox" id="dtog" '+(dark?'checked':'')+' onchange="setDark(this.checked)">'+
+          '<span class="sl"></span></div></label></div>'+
+      '<div class="perk-section-title" style="margin-bottom:12px">Quarterly 5% categories</div>'+
+      '<p style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.5">Select which categories are active this quarter for your rotating-category cards.</p>'+
+      '<div style="margin-bottom:20px"><div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px">Chase Freedom Flex</div>'+
+        '<div style="display:flex;flex-wrap:wrap;gap:6px">'+flexBtns+'</div></div>'+
+      '<div style="margin-bottom:24px"><div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px">Discover it Cash Back</div>'+
+        '<div style="display:flex;flex-wrap:wrap;gap:6px">'+discBtns+'</div></div>'+
+      '<button class="go-btn" onclick="saveSettings()">Save</button>'+
+      '<button class="go-btn" onclick="window.location.reload()" style="margin-top:8px;background:none;border:0.5px solid var(--border2);color:var(--text)">&#x21BB; Reload app</button>';
+  } else {
+    var pillsHtml=allUsers.map(function(u){
+      var active=u===activeUser?' active':'';
+      var rename=u===activeUser?'<button class="user-pill-rm" onclick="event.stopPropagation();renameUser()" title="Rename" style="opacity:0.6;font-size:12px;margin-left:2px">✏️</button>':'';
+      var trash=u===activeUser?'':'<button class="user-pill-rm" onclick="event.stopPropagation();initRemoveUser(this)" data-name="'+u.replace(/"/g,'&quot;')+'" title="Remove" style="font-size:13px">🗑️</button>'+
+        '<span class="pill-confirm" id="confirm-'+u.replace(/\s/g,'_')+'">'+ 
+          '<button onclick="event.stopPropagation();confirmRemoveUser(\''+u.replace(/'/g,"\\'")+'\',this)" style="background:none;border:none;cursor:pointer;font-size:15px;padding:0;line-height:1" title="Confirm">✅</button>'+
+          '<button onclick="event.stopPropagation();cancelRemoveUser(this)" style="background:none;border:none;cursor:pointer;font-size:15px;padding:0;line-height:1" title="Cancel">❌</button>'+
+        '</span>';
+      return '<div class="user-pill'+active+'" onclick="switchUser(\''+u.replace(/'/g,"\\'")+'\')">'+u+rename+trash+'</div>';
+    }).join('');
+    var email=loadUserEmail();
+    var isAdmin=adminUser===activeUser;
+    return '<div class="perk-section-title" style="margin-bottom:12px">Users</div>'+
+      '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">'+pillsHtml+'</div>'+
+      '<div style="display:flex;justify-content:flex-end;margin-bottom:16px">'+
+        '<button onclick="closeSettings();setTimeout(showRegisterModal,450);" style="background:none;border:none;font-size:13px;color:var(--text2);cursor:pointer;text-decoration:underline;font-family:inherit;padding:0">Register new user</button></div>'+
+      '<div class="perk-section-title" style="margin-bottom:12px">Your details</div>'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">'+
+        '<div><div style="font-size:13px;color:var(--text)">Amazon Prime active</div>'+
+        '<div style="font-size:11px;color:var(--text2);margin-top:2px">Enables 5% back on Amazon &amp; Whole Foods</div></div>'+
+        '<label class="toggle-wrap" style="margin-top:0"><div class="tog">'+
+          '<input type="checkbox" id="prime-tog" '+(primeActive?'checked':'')+' onchange="setPrime(this.checked)">'+
+          '<span class="sl"></span></div></label></div>'+
+      '<div style="margin-bottom:16px">'+
+        '<div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:6px">Email</div>'+
+        '<input type="email" id="user-email-input" placeholder="you@example.com" value="'+email+'" autocomplete="off" style="width:100%;padding:9px 12px;font-size:13px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-family:inherit;outline:none;box-sizing:border-box">'+
+        '<div style="font-size:11px;color:var(--text2);margin-top:4px">Used for benefit change notifications</div></div>'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">'+
+        '<div><div style="font-size:13px;color:var(--text)">Admin account</div>'+
+        '<div style="font-size:11px;color:var(--text2);margin-top:2px">Receives full review email for all changes</div></div>'+
+        '<label class="toggle-wrap" style="margin-top:0"><div class="tog">'+
+          '<input type="checkbox" id="admin-tog" '+(isAdmin?'checked':'')+' onchange="setAdmin(this.checked)">'+
+          '<span class="sl"></span></div></label></div>'+
+      '<button class="go-btn" onclick="logOut()" style="margin-top:8px;background:none;border:0.5px solid var(--border2);color:var(--text)">Log out</button>';
+  }
+}
+
+function switchSettingsTab(tab){
+  var body=document.getElementById('settings-body');
+
+  ['general','account'].forEach(function(t){
+    document.getElementById('tab-'+t).classList.toggle('active',t===tab);
+  });
+
+  body.style.transition='opacity .15s ease';
+  body.style.opacity='0';
+
+  setTimeout(function(){
+    body.innerHTML=getSettingsTabHtml(tab);
+    var emailInp=document.getElementById('user-email-input');
+    if(emailInp) emailInp.onblur=saveUserEmail;
+    body.style.opacity='1';
+  },160);
+}
+
+function openSettings(){
+  var body=document.getElementById('settings-body');
+  body.style.opacity='1';
+  body.innerHTML=getSettingsTabHtml('general');
+  var emailInp=document.getElementById('user-email-input');
+  if(emailInp) emailInp.onblur=saveUserEmail;
+  document.getElementById('tab-general').classList.add('active');
+  document.getElementById('tab-account').classList.remove('active');
+  document.getElementById('settings-backdrop').classList.add('open');
+  document.getElementById('settings-sheet').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('quarter-toast').style.opacity='0';
+  document.getElementById('quarter-toast').style.pointerEvents='none';
+}
+
+function closeBenefits(){
+  document.getElementById('modal-backdrop').classList.remove('open');
+  document.getElementById('modal-sheet').classList.remove('open');
+  document.body.style.overflow='';
+  setTimeout(function(){
+    var t=document.getElementById('quarter-toast');
+    t.style.transition='opacity .25s ease,transform .4s ease';
+    t.style.opacity='';
+    t.style.pointerEvents='';
+  },400);
+}
+
+function closeSettings(){
+  document.getElementById('settings-backdrop').classList.remove('open');
+  document.getElementById('settings-sheet').classList.remove('open');
+  if(!document.getElementById('user-modal-backdrop').classList.contains('open')){
+    document.body.style.overflow='';
+  }
+  setTimeout(function(){
+    var t=document.getElementById('quarter-toast');
+    t.style.transition='opacity .25s ease,transform .4s ease';
+    t.style.opacity='';
+    t.style.pointerEvents='';
+  },400);
+}
+
+function renderSettingsCatGrid(gridId,card){
+  var grid=document.getElementById(gridId);
+  var active=quarterlyData[card]||[];
+  grid.innerHTML=CATS_LIST.map(function(cat){
+    var on=active.indexOf(cat)>=0;
+    return '<button class="cat-btn'+(on?' on':'')+'" style="font-size:12px;padding:7px 10px" onclick="toggleQCat(this,\''+card+'\',\''+cat+'\')">'+cat+'</button>';
+  }).join('');
+}
+
+function toggleQCat(btn,card,cat){
+  var arr=quarterlyData[card]||[];
+  var idx=arr.indexOf(cat);
+  if(idx>=0){ arr.splice(idx,1); btn.classList.remove('on'); }
+  else{ arr.push(cat); btn.classList.add('on'); }
+  quarterlyData[card]=arr;
+}
+
+function saveSettings(){
+  saveQuarterly();
+  closeSettings();
+  if(selCat&&document.getElementById('results').querySelector('.res-box')) compare();
+}
+
+function compare(){
+  if(!selCat||!myCards.length) return;
+  collapseStep1();
+  var hasResults=!!document.getElementById('results').querySelector('.res-box');
+  var ranked=myCards.map(function(card){
+    var d=getCardRate(card,selCat);
+    return{card:card,rate:d.r,note:d.n,sc:sc(d.r)};
+  }).sort(function(a,b){return b.sc-a.sc});
+  var animClass=hasResults?'animate-fade':'animate';
+  document.getElementById('results').innerHTML='<div class="res-box '+animClass+'">'+
+    ranked.map(function(r,i){
+      return '<div class="ri">'+
+        '<div class="rank'+(i===0?' gold':'')+'">'+( i===0?'&#x2605;':i+1)+'</div>'+
+        '<div class="rinfo">'+
+          '<div class="rname">'+r.card+(i===0?'<span class="badge">Best choice</span>':'')+'</div>'+
+          '<div class="rrate">'+r.rate+'</div>'+
+          '<div class="rnote">'+r.note+'</div>'+
+        '</div></div>';
+    }).join('')+'</div>';
+}
+
+// ── Card perks database ──────────────────────────────────────
+
+// ── Benefits modal ────────────────────────────────────────────
+var activeBenefitsCard=null;
+
+function openBenefits(){
+  if(!myCards.length) return;
+  document.getElementById('modal-title').textContent='My card benefits';
+  document.getElementById('modal-tabs').style.display='flex';
+  document.getElementById('modal-backdrop').classList.add('open');
+  document.getElementById('modal-sheet').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('quarter-toast').style.opacity='0';document.getElementById('quarter-toast').style.pointerEvents='none';
+  renderModalTabs(myCards[0]);
+}
+
+
+function renderModalTabs(selectedCard){
+  activeBenefitsCard=selectedCard;
+  var tabs=document.getElementById('modal-tabs');
+  tabs.innerHTML=myCards.map(function(c){
+    var on=c===selectedCard?' on':'';
+    return '<button class="modal-tab'+on+'" onclick="renderModalTabs(\''+c.replace(/'/g,"\\'")+'\')">'+(c.split(' ').slice(0,3).join(' '))+'</button>';
+  }).join('');
+  renderModalBody(selectedCard);
+}
+
+function renderModalBody(card){
+  var p=PERKS[card];
+  var rates=R[card];
+  var body=document.getElementById('modal-body');
+  if(!p||!rates){body.innerHTML='<p style="color:var(--text2);font-size:14px">No data available for this card.</p>';return;}
+
+  // Use getCardRate so quarterly overrides are applied
+  var effectiveRates=Object.keys(rates).map(function(cat){
+    var d=getCardRate(card,cat);
+    return{cat:cat,rate:d.r,note:d.n,sc:sc(d.r)};
+  });
+  var topCats=effectiveRates.slice().sort(function(a,b){return b.sc-a.sc}).slice(0,5);
+
+  body.innerHTML=
+    '<div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:14px">'+card+'</div>'+
+    (cardsLastUpdated?'<div style="font-size:11px;color:var(--text2);margin-bottom:14px">Data last updated: '+cardsLastUpdated+'</div>':'')+
+    '<div class="info-grid">'+
+      '<div class="info-card"><div class="info-card-label">Annual fee</div><div class="info-card-val">'+(p.fee||'N/A')+'</div></div>'+
+      '<div class="info-card"><div class="info-card-label">Base reward</div><div class="info-card-val">'+(p.base||'N/A')+'</div></div>'+
+    '</div>'+
+    '<div class="perk-section" style="margin-top:16px">'+
+      '<div class="perk-section-title">Top earning categories</div>'+
+      topCats.map(function(c){
+        return '<div class="perk-row"><span class="perk-label">'+c.cat+'</span><div style="text-align:right"><span class="perk-val green">'+c.rate+'</span>'+(c.note?'<div style="font-size:11px;color:var(--text2);margin-top:2px">'+c.note+'</div>':'')+'</div></div>';
+      }).join('')+
+    '</div>'+
+    '<div class="perk-section" style="margin-top:16px">'+
+      '<div class="perk-section-title">All category rates</div>'+
+      effectiveRates.map(function(c){
+        return '<div class="perk-row"><span class="perk-label">'+c.cat+'</span><div style="text-align:right"><span class="perk-val green">'+c.rate+'</span>'+(c.note?'<div style="font-size:11px;color:var(--text2);margin-top:2px">'+c.note+'</div>':'')+'</div></div>';
+      }).join('')+
+    '</div>'+
+    '<div class="perk-section" style="margin-top:16px">'+
+      '<div class="perk-section-title">Card perks</div>'+
+      (p.perks||[]).map(function(pk){
+        return '<div class="perk-row"><span style="color:var(--green);margin-right:8px">&#x2713;</span><span style="font-size:13px;color:var(--text)">'+pk+'</span></div>';
+      }).join('')+
+    '</div>';
+}
+
+function updateBenefitsBtn(){
+  var btn=document.getElementById('benefits-btn');
+  if(btn) btn.style.display=myCards.length?'block':'none';
+}
+
+// ── Init ─────────────────────────────────────────────────────
+// Load from localStorage first for instant display
+loadUsers();
+updateUserLabel();
+
+loadCardsData(function(){
+  loadCards();
+  loadQuarterly();
+  loadPrime();
+  loadAdmin();
+  renderBanks();
+  renderCards();
+
+  // Show first-launch modal if no user set
+  if(!activeUser){
+    loadFromServer(function(serverData){
+      var serverUsers=serverData&&serverData.users?Object.keys(serverData.users):[];
+      serverUsers.forEach(function(u){if(allUsers.indexOf(u)<0) allUsers.push(u);});
+      if(allUsers.length>0){
+        renderExistingUserPills();
+        showPickState();
+      } else {
+        showRegisterState(false);
+      }
+      document.getElementById('user-modal-backdrop').classList.add('open');
+      document.body.style.overflow='hidden';
+    });
+  } else {
+    // Already have a user — do the normal server sync
+    loadFromServer(function(serverData){applyServerData(serverData);});
+  }
+
+// Then fetch from server and update if newer/different
+function applyServerData(serverData){
+  if(!serverData) return;
+  var changed=false;
+  if(serverData.users&&typeof serverData.users==='object'){
+    Object.keys(serverData.users).forEach(function(u){
+      if(allUsers.indexOf(u)<0) allUsers.push(u);
+    });
+    saveUsers();
+    var userData=serverData.users[activeUser];
+    if(userData){
+      if(userData.cards&&JSON.stringify(userData.cards)!==JSON.stringify(myCards)){
+        myCards=userData.cards;
+        try{localStorage.setItem(getUserKey('cards'),JSON.stringify(myCards));}catch(e){}
+        changed=true;
+      }
+      if(userData.quarterly&&JSON.stringify(userData.quarterly)!==JSON.stringify(quarterlyData)){
+        quarterlyData=userData.quarterly;
+        try{localStorage.setItem(getUserKey('quarterly'),JSON.stringify(quarterlyData));}catch(e){}
+        changed=true;
+      }
+      if(userData.email!==undefined&&userData.email!==null){
+        try{localStorage.setItem(getUserKey('email'),userData.email);}catch(e){}
+      }
+      if(userData.prime!==null&&userData.prime!==undefined){
+        var sp=userData.prime==='1';
+        if(sp!==primeActive){
+          primeActive=sp;
+          try{localStorage.setItem(getUserKey('prime'),sp?'1':'0');}catch(e){}
+          var ptog=document.getElementById('prime-tog');
+          if(ptog) ptog.checked=sp;
+        }
+      }
+      if(userData.dark!==null&&userData.dark!==undefined){
+        var sd=userData.dark==='1';
+        var ld=localStorage.getItem(getUserKey('dark'))==='1';
+        if(sd!==ld){
+          setDark(sd);
+          var _dt=document.getElementById('dtog');
+          if(_dt) _dt.checked=sd;
+        }
+      }
+    }
+  }
+  if(serverData.last_quarter){
+    if(serverData.last_quarter===getCurrentQuarterKey()){
+      try{localStorage.setItem('cc_last_quarter',serverData.last_quarter);}catch(e){}
+      var t=document.getElementById('quarter-toast');
+      if(t) t.classList.remove('show');
+    } else if(!localStorage.getItem('cc_last_quarter')){
+      try{localStorage.setItem('cc_last_quarter',serverData.last_quarter);}catch(e){}
+    }
+  }
+  if(serverData.admin!==undefined){
+    adminUser=serverData.admin||null;
+    try{localStorage.setItem('cc_admin',adminUser||'');}catch(e){}
+  }
+  if(changed){renderCards();if(selCat) compare();}
+  checkQuarterChange();
+}
+
+}); // end loadCardsData
+
+function setModalContent(html, direction){
+  var el=document.getElementById('user-modal-content');
+  el.classList.remove('slide-left','slide-right');
+  el.innerHTML=html;
+  void el.offsetWidth; // force reflow
+  el.classList.add(direction==='right'?'slide-right':'slide-left');
+}
+
+function showPickState(){
+  var pillsHtml=allUsers.map(function(u){
+    return '<div class="user-pill" style="font-size:14px;padding:10px 18px" id="pill-'+u.replace(/\s/g,'_')+'">'+u+'</div>';
+  }).join('');
+  setModalContent(
+    '<h2>👋 Welcome back!</h2>'+
+    '<p style="font-size:14px;color:var(--text2);margin:0 0 20px;line-height:1.5">Select your profile to continue.</p>'+
+    '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">'+pillsHtml+'</div>'+
+    '<div style="text-align:center"><button id="register-link" style="background:none;border:none;font-size:13px;color:var(--text2);cursor:pointer;text-decoration:underline;font-family:inherit;padding:0">Register a new user</button></div>',
+    'left'
+  );
+  allUsers.forEach(function(u){
+    var pill=document.getElementById('pill-'+u.replace(/\s/g,'_'));
+    if(pill) pill.addEventListener('click',function(){selectExistingUser(u);});
+  });
+  var regLink=document.getElementById('register-link');
+  if(regLink) regLink.addEventListener('click',function(){showRegisterState(false);});
+}
+
+function showRegisterState(fromSettings){
+  var hasUsers=allUsers.length>0;
+  var backBtn=fromSettings
+    ? '<div style="text-align:center;margin-top:12px"><button id="back-link" style="background:none;border:none;font-size:13px;color:var(--text2);cursor:pointer;text-decoration:underline;font-family:inherit;padding:0">Cancel</button></div>'
+    : (hasUsers?'<div style="text-align:center;margin-top:12px"><button id="back-link" style="background:none;border:none;font-size:13px;color:var(--text2);cursor:pointer;text-decoration:underline;font-family:inherit;padding:0">← Back</button></div>':'');
+  setModalContent(
+    '<h2>✏️ New user</h2>'+
+    '<p style="font-size:14px;color:var(--text2);margin:0 0 20px;line-height:1.5">What\'s your name?</p>'+
+    '<input type="text" id="user-name-input" placeholder="Enter your name" maxlength="30" autocomplete="off" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);margin-bottom:12px;box-sizing:border-box;outline:none;font-family:inherit">'+
+    '<button class="go-btn" id="continue-btn">Continue</button>'+
+    backBtn,
+    'right'
+  );
+  document.getElementById('continue-btn').addEventListener('click',confirmUserName);
+  document.getElementById('user-name-input').addEventListener('keydown',function(e){if(e.key==='Enter') confirmUserName();});
+  if(document.getElementById('back-link')){
+    document.getElementById('back-link').addEventListener('click', fromSettings
+      ? function(){
+          document.getElementById('user-modal-backdrop').classList.remove('open');
+          document.body.style.overflow='';
+        }
+      : showPickState
+    );
+  }
+  setTimeout(function(){
+    var inp=document.getElementById('user-name-input');
+    if(inp) inp.focus();
+  },100);
+}
+
+function renderExistingUserPills(){
+  // Pills are now rendered directly by showPickState
+}
+
+
+function selectExistingUser(name){
+  activeUser=name;
+  if(allUsers.indexOf(name)<0) allUsers.push(name);
+  saveUsers();
+  document.getElementById('user-modal-backdrop').classList.remove('open');
+  document.body.style.overflow='';
+  updateUserLabel();
+  loadUserData();
+  loadFromServer(function(serverData){applyServerData(serverData);});
+}
+
+// Event listeners that need DOM to be ready
+document.getElementById('settings-backdrop').addEventListener('click',function(e){
+  if(e.target===this) closeSettings();
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){closeBenefits();closeSettings();}
+});
+initDragToClose('settings-sheet', closeSettings);
+initDragToClose('modal-sheet', closeBenefits);
+
+// Apply collapse classes and remove FOUC style
+(function(){
+  try{
+    var state=JSON.parse(localStorage.getItem('cc_collapse')||'{}');
+    document.documentElement.classList.add('no-transition');
+    ['sec1','step2'].forEach(function(id){
+      var collapsed=state[id]!==false;
+      var body=document.getElementById(id+'-body');
+      var icon=document.getElementById(id+'-icon');
+      var section=document.getElementById(id);
+      var summary=document.getElementById(id+'-summary');
+      if(collapsed){
+        if(body){body.style.display='';body.classList.add('collapsed');}
+        if(icon) icon.classList.remove('open');
+        if(section) section.classList.add('sec1-collapsed');
+        if(summary) summary.classList.add('visible');
+      } else {
+        if(section) section.style.display='block';
+        if(body){body.style.display='';body.classList.remove('collapsed');}
+        if(icon) icon.classList.add('open');
+        if(section) section.classList.remove('sec1-collapsed');
+        if(summary) summary.classList.remove('visible');
+      }
+    });
+    // Remove the FOUC prevention style
+    var fouc=document.getElementById('collapse-fouc');
+    if(fouc) fouc.parentNode.removeChild(fouc);
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        document.documentElement.classList.remove('no-transition');
+      });
+    });
+  }catch(e){}
+})();
+
+// ── Service worker registration ───────────────────────────────
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('service-worker.js').catch(function(){});
+  });
+}
+</script>
+
+<div style="text-align:center;padding:24px 0 8px;font-size:12px;color:var(--text2);opacity:0.5;user-select:none">
+  Made with Claude
+  &nbsp;&nbsp;
+  <button onclick="debugResetQuarter()" style="background:none;border:none;font-size:11px;color:var(--text2);cursor:pointer;padding:0;opacity:0.5;font-family:inherit">&#x1F41B;</button>
+</div>
+</body>
+</html>
