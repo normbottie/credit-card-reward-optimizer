@@ -216,7 +216,7 @@ async function callClaudeBatch(env, cardSnapshot) {
 }
 
 // Returns array of normalized change objects (no ids/tokens yet).
-async function detectChanges(env) {
+async function detectChanges(env, opts = {}) {
   const cardsUrl = env.CARDS_URL || 'https://rewards.norm.network/cards.json';
   const baseRes = await fetch(cardsUrl, { cf: { cacheTtl: 0 } });
   if (!baseRes.ok) throw new Error(`Failed to fetch cards.json (${baseRes.status})`);
@@ -224,7 +224,29 @@ async function detectChanges(env) {
   const overrides = await getOverrides(env);
   const current = applyOverrides(base, overrides);
 
-  const allCards = Object.keys(current.rewards);
+  let allCards = Object.keys(current.rewards);
+
+  // Test mode: skip Claude, synthesize one change so the email + approval path
+  // can be verified deterministically. Triggered by /run-check?test=1.
+  if (opts.test) {
+    const card = allCards[0];
+    const curP = current.perks[card] || {};
+    return {
+      detected: [{
+        card,
+        type: 'fee',
+        category: null,
+        old: curP.fee || '(unknown)',
+        new: 'TEST $0/year',
+        note: 'Synthetic test change — safe to dismiss.',
+        source: 'https://example.com/test',
+        sourceTitle: 'test source',
+      }],
+      totalCards: allCards.length,
+    };
+  }
+
+  if (opts.limit && opts.limit > 0) allCards = allCards.slice(0, opts.limit); // testing: cap card count
   const batchSize = parseInt(env.BATCH_SIZE, 10) || 8;
   const detected = [];
 
@@ -402,12 +424,12 @@ async function sendMail(env, toEmail, toName, subject, htmlPart, textPart) {
 }
 
 // ── The weekly job ────────────────────────────────────────────────
-async function runCheck(env) {
+async function runCheck(env, opts = {}) {
   const runId = 'run_' + Date.now();
   let detected = [];
   let totalCards = 0;
   try {
-    const r = await detectChanges(env);
+    const r = await detectChanges(env, opts);
     detected = r.detected;
     totalCards = r.totalCards;
   } catch (e) {
@@ -548,7 +570,7 @@ export default {
     ctx.waitUntil(runCheck(env).catch((e) => console.log('runCheck failed:', e.message)));
   },
 
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: CORS_HEADERS });
     }
@@ -608,21 +630,31 @@ export default {
       return json(await getOverrides(env));
     }
 
-    // GET /run-check — manual trigger for the weekly job (testing)
+    // GET /run-check — manual trigger; runs in the background, returns immediately.
+    // Optional ?limit=N caps the number of cards checked (fast/cheap smoke test).
     if (pathname === '/run-check') {
       if (!authed) return json({ error: 'Unauthorized' }, 401);
-      try {
-        const result = await runCheck(env);
-        return json({ ok: true, ...result });
-      } catch (e) {
-        return json({ error: 'Check failed', detail: e.message }, 500);
-      }
+      const limit = parseInt(url.searchParams.get('limit'), 10) || 0;
+      const test = url.searchParams.get('test') === '1';
+      ctx.waitUntil(runCheck(env, { limit, test }).catch((e) => console.log('run-check failed:', e.message)));
+      return json({
+        ok: true, started: true, test, limit: limit || 'all',
+        note: test
+          ? 'Test run started — a synthetic change will be emailed to admins. Poll /checklog in ~30s.'
+          : 'Check started in background. Poll /checklog (and /pending) in 1-3 min for results.',
+      });
     }
 
     // GET /pending — inspect current pending changes (testing)
     if (pathname === '/pending') {
       if (!authed) return json({ error: 'Unauthorized' }, 401);
       return json((await getPending(env)) || { changes: [] });
+    }
+
+    // GET /checklog — recent run summaries: detected counts, emails sent, errors (testing)
+    if (pathname === '/checklog') {
+      if (!authed) return json({ error: 'Unauthorized' }, 401);
+      return json((await env.REWARDS_KV.get('checklog', 'json')) || []);
     }
 
     // GET/PUT /sync
