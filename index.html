@@ -68,7 +68,8 @@ h1{font-size:22px;margin-bottom:8px;color:var(--text);transition:color .3s ease}
 #sec1.sec1-collapsed .sec-header{padding-bottom:6px}
 .sec-header h2{font-size:15px;color:var(--text);margin:0;pointer-events:none;user-select:none;-webkit-user-select:none}
 .sec-header .toggle-icon{color:var(--text2);transition:transform .3s ease,color .3s ease;pointer-events:none;user-select:none;-webkit-user-select:none;display:block;flex-shrink:0;transform-origin:center center}
-.sec-header .toggle-icon.open{transform:rotate(180deg)}
+.sec-header .toggle-icon{transform:rotate(90deg)}
+.sec-header .toggle-icon.open{transform:rotate(0deg)}
 .sec-body{padding:0 16px;overflow:hidden;max-height:3000px;transition:max-height .4s cubic-bezier(0.0,0,0.2,1),padding .4s cubic-bezier(0.0,0,0.2,1),opacity .25s ease;opacity:1;padding-bottom:8px}
 .sec-body.collapsed{max-height:0;padding-top:0;padding-bottom:0;opacity:0;transition:max-height .3s cubic-bezier(0.4,0,1,1),padding .3s cubic-bezier(0.4,0,1,1),opacity .2s ease}
 .sec-summary{font-size:13px;color:var(--text2);padding:0 16px 14px;overflow:hidden;max-height:0;transition:max-height .3s ease,opacity .3s ease;opacity:0}
@@ -236,7 +237,7 @@ input:checked+.sl:before{transform:translateX(18px)}
 <div class="section" id="sec1" style="display:none">
   <div class="sec-header" onclick="toggleSection('sec1')">
     <h2>Add your cards</h2>
-    <svg class="toggle-icon open" id="sec1-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="11,17 4,5 18,5" fill="currentColor"/></svg>
+    <svg class="toggle-icon open" id="sec1-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h14M4 11h14M4 16h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   </div>
   <div class="sec-body" id="sec1-body">
     <div class="bank-grid" id="bank-grid"></div>
@@ -261,7 +262,7 @@ input:checked+.sl:before{transform:translateX(18px)}
 <div class="section" id="step2" style="display:none">
   <div class="sec-header" onclick="toggleSection('step2')">
     <h2>Pick a spending category</h2>
-    <svg class="toggle-icon open" id="step2-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon points="11,17 4,5 18,5" fill="currentColor"/></svg>
+    <svg class="toggle-icon open" id="step2-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h14M4 11h14M4 16h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
   </div>
   <div class="sec-body" id="step2-body">
     <div class="cat-grid">
@@ -495,9 +496,19 @@ function getUserKey(field){
 function confirmUserName(){
   var name=document.getElementById('user-name-input').value.trim();
   if(!name) return;
+  var emailInp=document.getElementById('user-email-reg-input');
+  var regEmail=emailInp?emailInp.value.trim():'';
+  if(regEmail&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(regEmail)){
+    emailInp.classList.remove('wiggle');
+    void emailInp.offsetWidth;
+    emailInp.classList.add('wiggle');
+    return;
+  }
   if(allUsers.indexOf(name)<0) allUsers.push(name);
   activeUser=name;
   saveUsers();
+  if(regEmail){try{localStorage.setItem(getUserKey('email'),regEmail);}catch(e){}}
+  if(emailInp) emailInp.value='';
   document.getElementById('user-name-input').value='';
   document.getElementById('user-modal-backdrop').classList.remove('open');
   document.body.style.overflow='';
@@ -507,7 +518,9 @@ function confirmUserName(){
   // Otherwise we'd overwrite their synced cards with empty arrays.
   var existsOnServer=_syncState.users&&_syncState.users[activeUser];
   if(!existsOnServer){
-    var _nu={};_nu[activeUser]={cards:[],quarterly:{},prime:null};syncToServer({users:_nu});
+    var _nu={};_nu[activeUser]={cards:[],quarterly:{},prime:null,email:regEmail};syncToServer({users:_nu});
+  } else if(regEmail){
+    var _ne={};_ne[activeUser]={email:regEmail};syncToServer({users:_ne});
   }
   // Pull this user's data from the server (adopts cards if the profile exists elsewhere).
   loadFromServer(function(serverData){applyServerData(serverData);});
@@ -740,6 +753,70 @@ function confirmSubscription(){
     btn.disabled=false;btn.textContent=oldLabel;
     if(status){status.style.color='var(--bad,#d33)';status.textContent='Could not send. Try again.';}
   });
+}
+
+// ── Admin tools: manual benefit search + approve all ─────────
+var manualCheckRunning=false;
+
+function runManualCheck(){
+  if(manualCheckRunning) return;
+  var btn=document.getElementById('run-check-btn');
+  var status=document.getElementById('run-check-status');
+  if(!_isConfigured()){if(status)status.textContent='Sync server not configured.';return;}
+  manualCheckRunning=true;
+  if(btn){btn.disabled=true;btn.textContent='Searching…';}
+  if(status){status.style.color='var(--text2)';status.textContent='Starting search…';}
+  var base=WORKER_URL.replace(/\/sync\/?$/,'');
+  function step(first){
+    fetch(base+'/run-check'+(first?'?start=1':''),{headers:_syncHeaders()})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        // Re-grab refs — settings body may have re-rendered mid-run
+        btn=document.getElementById('run-check-btn');
+        status=document.getElementById('run-check-status');
+        if(d.error) throw new Error(d.detail||d.error);
+        if(!d.done){
+          if(status)status.textContent='Checked '+d.processed+' of '+d.totalCards+' cards — '+d.detectedSoFar+' change(s) so far…';
+          step(false);
+          return;
+        }
+        manualCheckRunning=false;
+        if(btn){btn.disabled=false;btn.textContent='🔎 Search for benefit changes now';}
+        if(status){status.style.color='var(--green,#16a34a)';status.textContent='Done — '+(d.detected||0)+' change(s) detected'+(d.emailsSent?', '+d.emailsSent+' email(s) sent':'')+'.';}
+      })
+      .catch(function(e){
+        manualCheckRunning=false;
+        btn=document.getElementById('run-check-btn');
+        status=document.getElementById('run-check-status');
+        if(btn){btn.disabled=false;btn.textContent='🔎 Search for benefit changes now';}
+        if(status){status.style.color='var(--bad,#d33)';status.textContent='Search failed: '+e.message;}
+      });
+  }
+  step(true);
+}
+
+function approveAllChanges(){
+  var btn=document.getElementById('approve-all-btn');
+  var status=document.getElementById('approve-all-status');
+  if(!_isConfigured()){if(status)status.textContent='Sync server not configured.';return;}
+  if(btn) btn.disabled=true;
+  var base=WORKER_URL.replace(/\/sync\/?$/,'');
+  fetch(base+'/approve-all',{method:'POST',headers:_syncHeaders()})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.error) throw new Error(d.detail||d.error);
+      if(btn) btn.disabled=false;
+      if(status){
+        status.style.color=d.accepted?'var(--green,#16a34a)':'var(--text2)';
+        status.textContent=d.accepted
+          ?('Accepted '+d.accepted+' change(s). Reload the app to see updated card data.')
+          :'No pending changes to approve.';
+      }
+    })
+    .catch(function(e){
+      if(btn) btn.disabled=false;
+      if(status){status.style.color='var(--bad,#d33)';status.textContent='Failed: '+e.message;}
+    });
 }
 
 function setPrime(on){
@@ -1294,6 +1371,14 @@ function getSettingsTabHtml(tab){
         '<label class="toggle-wrap" style="margin-top:0"><div class="tog">'+
           '<input type="checkbox" id="admin-tog" '+(isAdmin?'checked':'')+' onchange="setAdmin(this.checked)">'+
           '<span class="sl"></span></div></label></div>'+
+      (isAdmin?
+        '<div class="perk-section-title" style="margin-bottom:12px">Admin tools</div>'+
+        '<div style="margin-bottom:24px">'+
+          '<button id="run-check-btn" class="go-btn" onclick="runManualCheck()" style="margin-top:0">&#x1F50E; Search for benefit changes now</button>'+
+          '<div id="run-check-status" style="font-size:11px;color:var(--text2);margin-top:6px;min-height:14px"></div>'+
+          '<button id="approve-all-btn" class="go-btn" onclick="approveAllChanges()" style="margin-top:10px;background:none;border:0.5px solid var(--border2);color:var(--text)">&#x2713; Approve all pending changes</button>'+
+          '<div id="approve-all-status" style="font-size:11px;color:var(--text2);margin-top:6px;min-height:14px"></div>'+
+        '</div>':'')+
       '<button class="go-btn" onclick="logOut()" style="margin-top:8px;background:none;border:0.5px solid var(--border2);color:var(--text)">Log out</button>';
   }
 }
@@ -1608,12 +1693,14 @@ function showRegisterState(fromSettings){
     '<h2>✏️ New user</h2>'+
     '<p style="font-size:14px;color:var(--text2);margin:0 0 20px;line-height:1.5">What\'s your name?</p>'+
     '<input type="text" id="user-name-input" placeholder="Enter your name" maxlength="30" autocomplete="off" style="width:100%;padding:12px 14px;font-size:16px;border:1.5px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);margin-bottom:12px;box-sizing:border-box;outline:none;font-family:inherit">'+
+    '<input type="email" id="user-email-reg-input" placeholder="Email (optional — for benefit change notifications)" autocomplete="off" style="width:100%;padding:12px 14px;font-size:14px;border:1.5px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);margin-bottom:12px;box-sizing:border-box;outline:none;font-family:inherit">'+
     '<button class="go-btn" id="continue-btn">Continue</button>'+
     backBtn,
     'right'
   );
   document.getElementById('continue-btn').addEventListener('click',confirmUserName);
   document.getElementById('user-name-input').addEventListener('keydown',function(e){if(e.key==='Enter') confirmUserName();});
+  document.getElementById('user-email-reg-input').addEventListener('keydown',function(e){if(e.key==='Enter') confirmUserName();});
   if(document.getElementById('back-link')){
     document.getElementById('back-link').addEventListener('click', fromSettings
       ? function(){

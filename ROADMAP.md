@@ -9,7 +9,8 @@ This file tracks planned features and improvements for the Card Rewards Optimize
 ========================
 
 - [x] Automated benefit change detection & approval  (built on the Cloudflare Worker)
-  - Cloudflare Worker cron runs the check weekly — Mondays 14:00 UTC (`crons` in wrangler.toml)
+  - Cloudflare Worker cron runs the check monthly — 1st of the month 14:00 UTC (`crons` in wrangler.toml)
+  - Only cards in at least one user's wallet are audited
   - Worker fetches cards.json + current overrides, calls Claude API (claude-sonnet-5) with the
     web_search tool in batches, detecting benefit changes per card
   - Detected changes stored in KV under `pending` with source URLs; runs logged in KV `checklog`
@@ -63,6 +64,25 @@ This file tracks planned features and improvements for the Card Rewards Optimize
   - Phone/laptop use Unraid as exit node when away from home
   - AdGuard DNS routed through Tailscale for ad blocking away from home
   - All subdomains (rewards.norm.network etc.) work via Tailscale
+
+---
+
+## TODO
+
+- [x] Add email field when onboarding a new user
+  - Optional email input on the register screen; validated, saved per-user, and synced
+- [x] Change triangles for minimizing steps to hamburgers
+  - Section collapse icons are now hamburgers (horizontal when open, rotated 90° when collapsed)
+- [x] Only search for changes on cards that are in user wallets
+  - Worker audits only the union of all users' wallet cards (cron + /run-check)
+- [x] Change benefit-change search from weekly to monthly
+  - Cron is now `0 14 1 * *` (1st of month, 14:00 UTC); email copy updated
+- [x] Add a button to start the search manually
+  - Admin-only "Search for benefit changes now" in Settings → Users, drives the
+    resumable /run-check loop with live progress
+- [x] Add a button to approve all benefit changes at once instead of one by one
+  - Admin email has an HMAC-signed "Accept all" link (with confirmation page), and
+    Settings → Users has an admin "Approve all pending changes" button (POST /approve-all)
 
 ---
 

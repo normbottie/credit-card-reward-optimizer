@@ -6,7 +6,7 @@
  *   1. Cross-device sync          — GET/PUT /sync
  *   2. Subscription confirmation  — POST /subscribe
  *   3. Card-data overlay          — GET /overrides   (app merges over cards.json)
- *   4. Weekly benefit check       — scheduled() cron + GET /run-check (manual)
+ *   4. Monthly benefit check      — scheduled() cron + GET /run-check (manual)
  *   5. Admin approve / dismiss    — GET/POST /review  (HMAC-token gated)
  *
  * Secrets (set via `wrangler secret put`):
@@ -186,7 +186,7 @@ async function callClaudeBatch(env, cardSnapshot) {
     '\n```';
 
   const messages = [{ role: 'user', content: userMsg }];
-  const tools = [{ type: 'web_search_20250305', name: 'web_search', max_uses: 12 }];
+  const tools = [{ type: 'web_search_20250305', name: 'web_search', max_uses: 6 }];
 
   // Server-side tool loop: keep re-sending while stop_reason === 'pause_turn'.
   let text = '';
@@ -216,73 +216,94 @@ async function callClaudeBatch(env, cardSnapshot) {
 }
 
 // Returns array of normalized change objects (no ids/tokens yet).
-async function detectChanges(env, opts = {}) {
+// Load base cards.json + approved overrides, merged into current known values.
+async function loadCurrent(env) {
   const cardsUrl = env.CARDS_URL || 'https://rewards.norm.network/cards.json';
   const baseRes = await fetch(cardsUrl, { cf: { cacheTtl: 0 } });
   if (!baseRes.ok) throw new Error(`Failed to fetch cards.json (${baseRes.status})`);
   const base = await baseRes.json();
   const overrides = await getOverrides(env);
-  const current = applyOverrides(base, overrides);
+  return applyOverrides(base, overrides);
+}
 
-  let allCards = Object.keys(current.rewards);
-
-  // Test mode: skip Claude, synthesize one change so the email + approval path
-  // can be verified deterministically. Triggered by /run-check?test=1.
-  if (opts.test) {
-    const card = allCards[0];
-    const curP = current.perks[card] || {};
-    return {
-      detected: [{
-        card,
-        type: 'fee',
-        category: null,
-        old: curP.fee || '(unknown)',
-        new: 'TEST $0/year',
-        note: 'Synthetic test change — safe to dismiss.',
-        source: 'https://example.com/test',
-        sourceTitle: 'test source',
-      }],
-      totalCards: allCards.length,
-    };
+// Cards that are in at least one user's wallet (the only ones worth auditing).
+// Falls back to nothing if no user has cards — an empty run is logged.
+async function walletCards(env, current) {
+  const state = await getState(env);
+  const users = (state && state.users) || {};
+  const inWallet = new Set();
+  for (const name in users) {
+    const cards = Array.isArray((users[name] || {}).cards) ? users[name].cards : [];
+    cards.forEach((c) => inWallet.add(c));
   }
+  return Object.keys(current.rewards).filter((c) => inWallet.has(c));
+}
 
-  if (opts.limit && opts.limit > 0) allCards = allCards.slice(0, opts.limit); // testing: cap card count
-  const batchSize = parseInt(env.BATCH_SIZE, 10) || 8;
+// A deterministic synthetic change for /run-check?test=1.
+function synthChange(current, allCards) {
+  const card = allCards[0];
+  const curP = current.perks[card] || {};
+  return {
+    card, type: 'fee', category: null,
+    old: curP.fee || '(unknown)', new: 'TEST $0/year',
+    note: 'Synthetic test change — safe to dismiss.',
+    source: 'https://example.com/test', sourceTitle: 'test source',
+  };
+}
+
+// Audit a single group of cards via Claude; returns normalized changes for them.
+// Kept small so one call fits within a Worker request's time budget.
+async function detectBatch(env, current, grp) {
+  const snap = snapshotCards(grp, current);
+  let raw;
+  try {
+    raw = await callClaudeBatch(env, snap);
+  } catch (e) {
+    console.log('batch error:', e.message);
+    return { detected: [], error: e.message };
+  }
   const detected = [];
+  for (const c of raw) {
+    if (!c || !c.card || !c.type || !c.new) continue;
+    if (!current.rewards[c.card] && !current.perks[c.card]) continue; // unknown card
+    if (c.type === 'rate' && !c.category) continue;
+    // Drop if recorded value already equals the proposed value (no real change).
+    const cur = current.rewards[c.card] || {};
+    const curP = current.perks[c.card] || {};
+    let oldVal = c.old;
+    if (c.type === 'rate') oldVal = (cur[c.category] && cur[c.category].r) || c.old;
+    else if (c.type === 'fee') oldVal = curP.fee || c.old;
+    else if (c.type === 'base') oldVal = curP.base || c.old;
+    if (String(oldVal).trim() === String(c.new).trim()) continue;
+    detected.push({
+      card: c.card,
+      type: c.type,
+      category: c.type === 'rate' ? c.category : null,
+      old: oldVal || '(unknown)',
+      new: String(c.new).trim(),
+      note: c.note || '',
+      source: c.source_url || '',
+      sourceTitle: c.source_title || (c.source_url ? c.source_url.replace(/^https?:\/\//, '').split('/')[0] : ''),
+    });
+  }
+  return { detected };
+}
 
+// Full detection in one pass. Used by the monthly cron (long duration budget).
+// Only audits cards that are in at least one user's wallet.
+async function detectChanges(env, opts = {}) {
+  const current = await loadCurrent(env);
+  if (opts.test) {
+    const all = Object.keys(current.rewards);
+    return { detected: [synthChange(current, all)], totalCards: all.length };
+  }
+  let allCards = await walletCards(env, current);
+  if (opts.limit && opts.limit > 0) allCards = allCards.slice(0, opts.limit);
+  const batchSize = parseInt(env.BATCH_SIZE, 10) || 5;
+  const detected = [];
   for (const grp of chunk(allCards, batchSize)) {
-    const snap = snapshotCards(grp, current);
-    let raw;
-    try {
-      raw = await callClaudeBatch(env, snap);
-    } catch (e) {
-      // Skip this batch on error but keep going with the rest.
-      console.log('batch error:', e.message);
-      continue;
-    }
-    for (const c of raw) {
-      if (!c || !c.card || !c.type || !c.new) continue;
-      if (!current.rewards[c.card] && !current.perks[c.card]) continue; // unknown card
-      if (c.type === 'rate' && !c.category) continue;
-      // Drop if recorded value already equals the proposed value (no real change).
-      const cur = current.rewards[c.card] || {};
-      const curP = current.perks[c.card] || {};
-      let oldVal = c.old;
-      if (c.type === 'rate') oldVal = (cur[c.category] && cur[c.category].r) || c.old;
-      else if (c.type === 'fee') oldVal = curP.fee || c.old;
-      else if (c.type === 'base') oldVal = curP.base || c.old;
-      if (String(oldVal).trim() === String(c.new).trim()) continue;
-      detected.push({
-        card: c.card,
-        type: c.type,
-        category: c.type === 'rate' ? c.category : null,
-        old: oldVal || '(unknown)',
-        new: String(c.new).trim(),
-        note: c.note || '',
-        source: c.source_url || '',
-        sourceTitle: c.source_title || (c.source_url ? c.source_url.replace(/^https?:\/\//, '').split('/')[0] : ''),
-      });
-    }
+    const r = await detectBatch(env, current, grp);
+    detected.push(...r.detected);
   }
   return { detected, totalCards: allCards.length };
 }
@@ -373,15 +394,22 @@ async function adminEmailHtml(env, pending, wallet, totalCards) {
     return changeCard(ch, wallet.includes(ch.card), controls);
   }));
   const cardsWithChanges = new Set(pending.changes.map((c) => c.card)).size;
+  const allTok = await signChange(env, pending.runId, 'all', 'accept');
+  const allUrl = `${base}/review?run=${encodeURIComponent(pending.runId)}&id=all&action=accept&token=${allTok}`;
+  const n = pending.changes.length;
+  const acceptAllBtn =
+    '<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;"><tr><td align="right">' +
+    `<a href="${allUrl}" style="display:inline-block;background:${TEAL};color:#fff;font-size:13px;font-weight:600;text-decoration:none;padding:9px 20px;border-radius:6px;">✓ Accept all ${n} change${n === 1 ? '' : 's'}</a>` +
+    '</td></tr></table>';
   const inner =
     '<p style="margin:0 0 6px;font-size:20px;font-weight:600;color:#111111;letter-spacing:-0.3px;">Benefit changes detected</p>' +
-    '<p style="margin:0 0 24px;font-size:14px;color:#6b7280;line-height:1.5;">You are an admin. Review each change below and click <strong>Accept</strong> to apply it to the shared card data, or <strong>Dismiss</strong> to discard it.</p>' +
-    items.join('') + noChangesSummary(totalCards - cardsWithChanges);
+    '<p style="margin:0 0 24px;font-size:14px;color:#6b7280;line-height:1.5;">You are an admin. Review each change below and click <strong>Accept</strong> to apply it to the shared card data, or <strong>Dismiss</strong> to discard it. You can also accept everything at once.</p>' +
+    acceptAllBtn + items.join('') + noChangesSummary(totalCards - cardsWithChanges);
   const cta =
     '<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">' +
     `<a href="${esc(env.APP_URL || 'https://rewards.norm.network')}" style="display:inline-block;background:#111111;color:#ffffff;font-size:14px;font-weight:500;text-decoration:none;padding:12px 28px;border-radius:8px;">Open app</a>` +
     '</td></tr></table>';
-  return shell(inner, 'Weekly benefit check', cta);
+  return shell(inner, 'Monthly benefit check', cta);
 }
 
 function userEmailHtml(env, changes, wallet, totalCards) {
@@ -389,13 +417,13 @@ function userEmailHtml(env, changes, wallet, totalCards) {
   const cardsWithChanges = new Set(changes.map((c) => c.card)).size;
   const inner =
     '<p style="margin:0 0 6px;font-size:20px;font-weight:600;color:#111111;letter-spacing:-0.3px;">Benefit changes for your cards</p>' +
-    '<p style="margin:0 0 24px;font-size:14px;color:#6b7280;line-height:1.5;">The following changes were found for cards in your wallet during this week\'s automated check. An admin reviews and applies updates.</p>' +
+    '<p style="margin:0 0 24px;font-size:14px;color:#6b7280;line-height:1.5;">The following changes were found for cards in your wallet during this month\'s automated check. An admin reviews and applies updates.</p>' +
     items + noChangesSummary(Math.max(0, wallet.length - cardsWithChanges));
   const cta =
     '<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">' +
     `<a href="${esc(env.APP_URL || 'https://rewards.norm.network')}" style="display:inline-block;background:#111111;color:#ffffff;font-size:14px;font-weight:500;text-decoration:none;padding:12px 28px;border-radius:8px;">Open app</a>` +
     '</td></tr></table>';
-  return shell(inner, 'Weekly benefit check', cta);
+  return shell(inner, 'Monthly benefit check', cta);
 }
 
 async function sendMail(env, toEmail, toName, subject, htmlPart, textPart) {
@@ -417,13 +445,23 @@ async function sendMail(env, toEmail, toName, subject, htmlPart, textPart) {
     headers: { 'Content-Type': 'application/json', Authorization: `Basic ${auth}` },
     body: JSON.stringify(payload),
   });
+  const text = await res.text().catch(() => '');
   if (!res.ok) {
-    const detail = await res.text().catch(() => '');
-    throw new Error(`Mailjet ${res.status}: ${detail.slice(0, 200)}`);
+    throw new Error(`Mailjet HTTP ${res.status}: ${text.slice(0, 300)}`);
+  }
+  // Mailjet v3.1 can return HTTP 200 while the message itself failed — check Status.
+  let data;
+  try { data = JSON.parse(text); } catch { data = null; }
+  const msg = data && data.Messages && data.Messages[0];
+  if (!msg || msg.Status !== 'success') {
+    const errs = msg && msg.Errors
+      ? msg.Errors.map((e) => `${e.ErrorMessage}${e.ErrorRelatedTo ? ' [' + e.ErrorRelatedTo + ']' : ''}`).join('; ')
+      : text.slice(0, 300);
+    throw new Error(`Mailjet not delivered (Status=${msg ? msg.Status : 'none'}): ${errs}`);
   }
 }
 
-// ── The weekly job ────────────────────────────────────────────────
+// ── The monthly job ───────────────────────────────────────────────
 async function runCheck(env, opts = {}) {
   const runId = 'run_' + Date.now();
   let detected = [];
@@ -436,7 +474,11 @@ async function runCheck(env, opts = {}) {
     await logRun(env, { runId, at: new Date().toISOString(), detected: 0, error: e.message });
     throw e;
   }
+  return finalizeRun(env, runId, detected, totalCards);
+}
 
+// Persist detected changes as pending and send admin/user emails.
+async function finalizeRun(env, runId, detected, totalCards) {
   if (!detected.length) {
     await logRun(env, { runId, at: new Date().toISOString(), detected: 0 });
     return { runId, detected: 0, emailsSent: 0 };
@@ -447,18 +489,27 @@ async function runCheck(env, opts = {}) {
   const pending = { runId, generatedAt: new Date().toISOString(), changes };
   await env.REWARDS_KV.put('pending', JSON.stringify(pending));
 
-  // Recipients from sync state.
+  // Recipients from sync state. The app marks the admin with a top-level
+  // `admin` field naming the user (state.admin === userName); we also accept a
+  // per-user `admin:true` flag for forward-compat.
   const state = await getState(env);
   const users = (state && state.users) || {};
+  const adminName = state && state.admin;
   let emailsSent = 0;
+  let admins = 0;
+  let withEmail = 0;
+  const errors = [];
 
   for (const name in users) {
     const u = users[name] || {};
+    const isAdmin = u.admin === true || name === adminName;
     const email = (u.email || '').trim();
+    if (isAdmin) admins++;
     if (!email) continue;
+    withEmail++;
     const wallet = Array.isArray(u.cards) ? u.cards : [];
     try {
-      if (u.admin) {
+      if (isAdmin) {
         const body = await adminEmailHtml(env, pending, wallet, totalCards);
         await sendMail(env, email, name, 'Benefit changes — review & approve', body,
           'Benefit changes were detected. Open the app to review and approve.');
@@ -472,15 +523,56 @@ async function runCheck(env, opts = {}) {
         emailsSent++;
       }
     } catch (e) {
-      console.log('email error for', name, e.message);
+      errors.push(`${name}: ${e.message}`);
     }
   }
 
-  await logRun(env, { runId, at: new Date().toISOString(), detected: changes.length, emailsSent });
-  return { runId, detected: changes.length, emailsSent };
+  const summary = {
+    runId, at: new Date().toISOString(), detected: changes.length,
+    emailsSent, recipients: { total: Object.keys(users).length, admins, withEmail },
+  };
+  if (errors.length) summary.errors = errors;
+  await logRun(env, summary);
+  return summary;
 }
 
 // ── Approve / dismiss ─────────────────────────────────────────────
+// Write one accepted change into the overrides object (does not persist).
+function applyChangeToOverrides(ov, ch) {
+  ov.rewards = ov.rewards || {};
+  ov.perks = ov.perks || {};
+  if (ch.type === 'rate') {
+    ov.rewards[ch.card] = ov.rewards[ch.card] || {};
+    ov.rewards[ch.card][ch.category] = { r: ch.new, n: ch.note || ('Updated ' + todayISO()) };
+  } else if (ch.type === 'fee') {
+    ov.perks[ch.card] = ov.perks[ch.card] || {};
+    ov.perks[ch.card].fee = ch.new;
+  } else if (ch.type === 'base') {
+    ov.perks[ch.card] = ov.perks[ch.card] || {};
+    ov.perks[ch.card].base = ch.new;
+  }
+}
+
+// Accept every still-pending change in the current pending run.
+async function acceptAllPending(env) {
+  const pending = await getPending(env);
+  if (!pending) return { accepted: 0 };
+  const ov = await getOverrides(env);
+  let accepted = 0;
+  for (const ch of pending.changes) {
+    if (ch.status !== 'pending') continue;
+    applyChangeToOverrides(ov, ch);
+    ch.status = 'accepted';
+    accepted++;
+  }
+  if (accepted) {
+    ov.lastUpdated = todayISO();
+    await env.REWARDS_KV.put('overrides', JSON.stringify(ov));
+    await env.REWARDS_KV.put('pending', JSON.stringify(pending));
+  }
+  return { accepted, runId: pending.runId };
+}
+
 function reviewResultPage(title, msg, env) {
   const inner =
     `<p style="margin:0 0 8px;font-size:20px;font-weight:600;color:#111;">${esc(title)}</p>` +
@@ -497,6 +589,21 @@ async function reviewConfirmPage(env, runId, id, action, token) {
   const pending = await getPending(env);
   if (!pending || pending.runId !== runId) {
     return html(reviewResultPage('Link expired', 'This review link is no longer valid — a newer check has run or the change was already handled.', env), 410);
+  }
+  if (id === 'all') {
+    const n = pending.changes.filter((c) => c.status === 'pending').length;
+    if (!n) return html(reviewResultPage('Already handled', 'All changes in this run were already reviewed.', env), 200);
+    const innerAll =
+      '<p style="margin:0 0 8px;font-size:20px;font-weight:600;color:#111;">Accept all changes?</p>' +
+      `<p style="margin:0 0 20px;font-size:14px;color:#374151;line-height:1.5;">This will apply all <strong>${n}</strong> remaining pending change${n === 1 ? '' : 's'} from this run to the shared card data.</p>` +
+      `<form method="POST" action="${(env.PUBLIC_BASE || '').replace(/\/$/, '')}/review" style="margin:0;">` +
+      `<input type="hidden" name="run" value="${esc(runId)}">` +
+      '<input type="hidden" name="id" value="all">' +
+      '<input type="hidden" name="action" value="accept">' +
+      `<input type="hidden" name="token" value="${esc(token)}">` +
+      `<button type="submit" style="display:inline-block;background:${TEAL};color:#fff;font-size:14px;font-weight:600;border:none;padding:12px 28px;border-radius:8px;cursor:pointer;">Confirm Accept all</button>` +
+      '</form>';
+    return html(shell(innerAll, 'Admin review', ''));
   }
   const ch = pending.changes.find((c) => c.id === id);
   if (!ch) return html(reviewResultPage('Not found', 'That change could not be found.', env), 404);
@@ -525,6 +632,16 @@ async function reviewApply(env, runId, id, action) {
   if (!pending || pending.runId !== runId) {
     return html(reviewResultPage('Link expired', 'This review link is no longer valid.', env), 410);
   }
+  if (id === 'all') {
+    const r = await acceptAllPending(env);
+    return html(reviewResultPage(
+      r.accepted ? 'All changes accepted' : 'Nothing to accept',
+      r.accepted
+        ? `Applied ${r.accepted} change${r.accepted === 1 ? '' : 's'}. The app will pick them up on next load.`
+        : 'All changes in this run were already reviewed.',
+      env,
+    ));
+  }
   const ch = pending.changes.find((c) => c.id === id);
   if (!ch) return html(reviewResultPage('Not found', 'That change could not be found.', env), 404);
   if (ch.status !== 'pending') {
@@ -533,18 +650,7 @@ async function reviewApply(env, runId, id, action) {
 
   if (action === 'accept') {
     const ov = await getOverrides(env);
-    ov.rewards = ov.rewards || {};
-    ov.perks = ov.perks || {};
-    if (ch.type === 'rate') {
-      ov.rewards[ch.card] = ov.rewards[ch.card] || {};
-      ov.rewards[ch.card][ch.category] = { r: ch.new, n: ch.note || ('Updated ' + todayISO()) };
-    } else if (ch.type === 'fee') {
-      ov.perks[ch.card] = ov.perks[ch.card] || {};
-      ov.perks[ch.card].fee = ch.new;
-    } else if (ch.type === 'base') {
-      ov.perks[ch.card] = ov.perks[ch.card] || {};
-      ov.perks[ch.card].base = ch.new;
-    }
+    applyChangeToOverrides(ov, ch);
     ov.lastUpdated = todayISO();
     await env.REWARDS_KV.put('overrides', JSON.stringify(ov));
     ch.status = 'accepted';
@@ -630,19 +736,73 @@ export default {
       return json(await getOverrides(env));
     }
 
-    // GET /run-check — manual trigger; runs in the background, returns immediately.
-    // Optional ?limit=N caps the number of cards checked (fast/cheap smoke test).
+    // GET /run-check — RESUMABLE manual trigger. Processes ONE batch of cards
+    // per call (inline, so each response returns within the request time limit),
+    // persisting progress in KV between calls.
+    //   ?test=1   → synthetic change, emails immediately (no Claude call)
+    //   ?start=1  → begin a fresh run (optionally with ?limit=N)
+    //   (no args) → continue the in-progress run; finalizes + emails when done
     if (pathname === '/run-check') {
       if (!authed) return json({ error: 'Unauthorized' }, 401);
-      const limit = parseInt(url.searchParams.get('limit'), 10) || 0;
-      const test = url.searchParams.get('test') === '1';
-      ctx.waitUntil(runCheck(env, { limit, test }).catch((e) => console.log('run-check failed:', e.message)));
-      return json({
-        ok: true, started: true, test, limit: limit || 'all',
-        note: test
-          ? 'Test run started — a synthetic change will be emailed to admins. Poll /checklog in ~30s.'
-          : 'Check started in background. Poll /checklog (and /pending) in 1-3 min for results.',
-      });
+
+      // Test mode: synthesize one change and finalize right away.
+      if (url.searchParams.get('test') === '1') {
+        try {
+          const current = await loadCurrent(env);
+          const allCards = Object.keys(current.rewards);
+          const summary = await finalizeRun(env, 'run_' + Date.now(), [synthChange(current, allCards)], allCards.length);
+          return json({ ok: true, done: true, test: true, ...summary });
+        } catch (e) {
+          return json({ error: 'Test run failed', detail: e.message }, 500);
+        }
+      }
+
+      try {
+        const start = url.searchParams.get('start') === '1';
+        const limit = parseInt(url.searchParams.get('limit'), 10) || 0;
+        const current = await loadCurrent(env);
+        let rs = await env.REWARDS_KV.get('runstate', 'json');
+
+        if (start || !rs) {
+          let cards = await walletCards(env, current);
+          if (limit > 0) cards = cards.slice(0, limit);
+          rs = { runId: 'run_' + Date.now(), cards, cursor: 0, detected: [], totalCards: cards.length };
+        }
+
+        const batchSize = parseInt(env.BATCH_SIZE, 10) || 5;
+        const grp = rs.cards.slice(rs.cursor, rs.cursor + batchSize);
+        const r = await detectBatch(env, current, grp);
+        rs.detected = rs.detected.concat(r.detected);
+        rs.cursor += grp.length;
+
+        if (rs.cursor < rs.cards.length) {
+          await env.REWARDS_KV.put('runstate', JSON.stringify(rs));
+          return json({
+            ok: true, done: false,
+            processed: rs.cursor, totalCards: rs.totalCards,
+            detectedSoFar: rs.detected.length,
+            batchError: r.error || undefined,
+            note: 'Call /run-check again (no params) to process the next batch.',
+          });
+        }
+
+        const summary = await finalizeRun(env, rs.runId, rs.detected, rs.totalCards);
+        await env.REWARDS_KV.delete('runstate');
+        return json({ ok: true, done: true, batchError: r.error || undefined, ...summary });
+      } catch (e) {
+        return json({ error: 'Run failed', detail: e.message }, 500);
+      }
+    }
+
+    // POST /approve-all — accept every pending change (app admin button)
+    if (pathname === '/approve-all') {
+      if (!authed) return json({ error: 'Unauthorized' }, 401);
+      if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
+      try {
+        return json({ ok: true, ...(await acceptAllPending(env)) });
+      } catch (e) {
+        return json({ error: 'Approve-all failed', detail: e.message }, 500);
+      }
     }
 
     // GET /pending — inspect current pending changes (testing)
